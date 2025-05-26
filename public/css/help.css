@@ -1,0 +1,215 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: white;
+    flex-direction: column;
+}
+
+.container1 {
+    position: relative;
+    margin-top: 3%;
+    max-width: 700px;
+    width: 100%;
+    background: white;
+    padding: 25px;
+
+}
+
+.container2 {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    background: white;
+    padding: 25px;
+
+}
+
+.contact-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    /* Space between form and image */
+    justify-content: space-between;
+}
+
+.form-content {
+    flex: 1;
+    /* Form takes remaining space */
+    width: 100%;
+}
+
+.contact-image {
+    margin-top: 60px;
+    width: 300px;
+    /* Adjust image size */
+    height: auto;
+    flex-shrink: 0;
+    /* Prevent image from shrinking */
+    border-radius: 8px;
+    /* Optional for rounded corners */
+}
+
+.contact-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.container1 header {
+    font-size: 3.3vh;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 5px;
+    box-shadow: 0 1px 0 rgba(215, 198, 10, 0.8);
+
+}
+
+.container2 header {
+    font-size: 3.2vh;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 10px;
+    box-shadow: 0 1px 0 rgba(215, 198, 10, 0.8);
+}
+
+.container1 .form {
+    margin-top: 20px;
+}
+
+.container2 .form {
+    margin-top: 40px;
+}
+
+.form .info {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.info label {
+    color: #333;
+}
+
+.form :where(.info input, .select-box) {
+    position: relative;
+    height: 40px;
+    width: 100%;
+    outline: none;
+    font-size: 2.5vh;
+    color: #272727;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0 15px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px rgba(215, 198, 10, 0.8)
+}
+
+.info input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.form .column {
+    display: flex;
+    column-gap: 15px;
+}
+
+#SendQ {
+    padding: 5px 15px;
+    width: 50%;
+    color: #fff;
+    font-size: 2.5dvh;
+    font-weight: 500;
+    margin-top: 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 250ms ease;
+    background: rgb(130, 106, 251);
+}
+
+#SendQ:hover {
+    background: rgb(88, 56, 250);
+}
+
+.Centerbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.accordian {
+    background-color: white;
+    padding: 8px 16px;
+    margin: 25px 0;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px rgba(215, 198, 10, 0.8);
+    cursor: pointer;
+}
+
+.question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 2.5vh;
+    font-weight: 400;
+    color: #333;
+
+}
+
+.icon {
+    margin-right: 16px;
+    transition: transform 0.2s;
+}
+
+.icon.active {
+    transform: rotate(-180deg);
+}
+
+.answer {
+    padding: 0;
+    color: #666;
+    max-height: 0;
+    overflow: hidden;
+    transition: 250ms all;
+}
+
+/*Responsive*/
+@media screen and (max-width: 750px) {
+    .form .column {
+        flex-wrap: wrap;
+    }
+
+    .contact-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-image {
+        width: 100%;
+        /* Image takes full width on small screens */
+        max-width: 300px;
+        /* Prevent it from getting too large */
+        margin-top: 0px;
+        /* Adds space between form and image */
+    }
+
+    .form .info {
+        width: 100%;
+        /* Ensure form inputs take full width */
+    }
+}

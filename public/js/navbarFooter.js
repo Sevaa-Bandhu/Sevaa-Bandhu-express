@@ -1,20 +1,20 @@
 let topNavbar = `<div class="navbar">
             <div class="nav-item" id="logo-menu" href="index.html">
-                <a href="../index.html">
-                    <img src="../images/logo.png" class="logo-img" alt="logo">
+                <a href="/">
+                    <img src="/images/logo.png" class="logo-img" alt="logo">
                 </a>
                 <span class="fa-solid fa-bars" id="menu"></span>
             </div>
             <div class="nav-item log-sign-in" id="log-sign-in">
-                <button class="login" id="login" type="button" onclick="window.open('../src/login.html', '_self')">Login</button>
-                <button class="reg" id="reg" type="button" onclick="window.open('../src/RegistrationForm.html', '_self')">Register</button>
+                <button class="login" id="login" type="button" onclick="window.open('/auth/login', '_self')">Login</button>
+                <button class="reg" id="reg" type="button" onclick="window.open('/auth/register', '_self')">Register</button>
             </div>
             <div class="nav-links-container" id="nav-links-container">
                 <a class="nav-item nav-links" id="google_translate_element"></a>
-                <a class="nav-item nav-links" id="nav-home" href="../index.html" target="_self">Home</a>
-                <a class="nav-item nav-links" id="nav-profile" href="../src/profile.html" target="_self">Profile</a>
-                <a class="nav-item nav-links" id="nav-help" href="../src/Help.html" target="_self">Help</a>
-                <a class="nav-item nav-links" id="nav-about" href="../src/AboutUs.html" target="_self">About</a>
+                <a class="nav-item nav-links" id="nav-home" href="/" target="_self">Home</a>
+                <a class="nav-item nav-links" id="nav-profile" href="/profile" target="_self">Profile</a>
+                <a class="nav-item nav-links" id="nav-help" href="/help" target="_self">Help</a>
+                <a class="nav-item nav-links" id="nav-about" href="aboutUs" target="_self">About</a>
             </div>
         </div>`;
 let bottomFooter = `<footer class="footer" id="footer">
@@ -39,23 +39,23 @@ let bottomFooter = `<footer class="footer" id="footer">
             </div>
 
             <div class="logo-tag element">
-                <img src="../images/logo.png" alt="logo footer">
+                <img src="/images/logo.png" alt="logo footer">
                 <p class="tag-foot">Connecting Communities, Empowering Workers</p>
             </div>
             <div class="quick-link element">
                 <p class="sub-title">Quick Links</p>
                 <div class="link-container">
-                    <a href="../index.html" id="quick-home" target="_self">
+                    <a href="/index" id="quick-home" target="_self">
                         Home</a>
-                    <a href="../src/profile.html" id="quick-profile" target="_self">
+                    <a href="/profile" id="quick-profile" target="_self">
                         Profile</a>
-                    <a href="../src/AboutUs.html" id="quick-about" target="_self">
+                    <a href="/aboutUs" id="quick-about" target="_self">
                         About Us</a>
-                    <a href="../src/Help.html" id="quick-help" target="_self">
+                    <a href="/help" id="quick-help" target="_self">
                         Help</a>
-                    <a href="../src/Policy.html" id="quick-Policy" target="_self">
+                    <a href="/policy" id="quick-Policy" target="_self">
                         Policy</a>
-                    <a href="../src/TermCondition.html" id="quick-TandC" target="_self">
+                    <a href="/termCondition" id="quick-TandC" target="_self">
                         Term & Condition</a>
                 </div>
             </div>

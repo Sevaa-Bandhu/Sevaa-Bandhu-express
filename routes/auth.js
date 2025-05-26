@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Registration = require("../models/Registration");
+
 //const Worker = require('../models/Worker');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
@@ -45,7 +47,7 @@ router.post('/login', async (req, res) => {
 
 // Protected dashboard route
 router.get('/dashboard', async (req, res) => {
-    if (!req.session.user) { 
+    if (!req.session.user) {
         return res.redirect('/login');
     }
 
@@ -75,7 +77,7 @@ router.get('/register', (req, res) => {
     res.render('register', { error: null });
 });
 
-// Register logic
+// REGISTER ROUTE (for login table, not full registration)
 router.post('/register', async (req, res) => {
     const { mobile, password, confirmPassword } = req.body;
 
@@ -87,18 +89,52 @@ router.post('/register', async (req, res) => {
         return res.render('register', { error: 'Passwords do not match.' });
     }
 
-    const existingUser = await User.findOne({ mobile });
-    if (existingUser) {
-        return res.render('register', { error: 'Mobile number already exists.' });
+    try {
+        const existingUser = await User.findOne({ mobile });
+        if (existingUser) {
+            return res.render('register', { error: 'Mobile number already exists. Try loging in.' });
+        }
+
+        // hash in production
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newuser = new User({ mobile, password: hashedPassword });
+        await newuser.save();
+        res.redirect('/login');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error registering user.');
     }
+});
 
-    // hash in production
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newuser = new User({ mobile, password: hashedPassword });
-    await newuser.save();
+// FULL REGISTRATION ROUTE
+router.post("/register", async (req, res) => {
+    const {
+        firstname, lastname, email, phone, birthdate,
+        aadhar_number, gender, age,
+        address, state, city, region, role,
+    } = req.body;
 
-    req.session.user = newuser;
-    res.redirect('/login');
+    try {
+        const exists = await Registration.findOne({
+            $or: [{ aadhar_number }, { phone }]
+        });
+
+        if (exists) {
+            return res.status(400).send("A user with this Aadhar or phone already exists.");
+        }
+
+        const newReg = new Registration({
+            firstname, lastname, email, phone, birthdate,
+        aadhar_number, gender, age,
+        address, state, city, region, role,
+        });
+
+        await newReg.save();
+        res.send("Registration successful.");
+    } catch (err) {
+        console.error("Registration error:", err);
+        res.status(500).send("Error during registration.");
+    }
 });
 
 // Worker Registration Page

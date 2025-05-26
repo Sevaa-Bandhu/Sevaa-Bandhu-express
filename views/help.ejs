@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Help - Sevaa Bandhu</title>
+    <link rel="icon" type="image/x-icon" href="/images/icon.ico">
+    <link rel="stylesheet" href="/css/help.css" />
+    <link rel="stylesheet" href="/css/navbarFooter.css" />
+    <script src="https://kit.fontawesome.com/6d6955fc8f.js" crossorigin="anonymous"></script>
+    <script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+</head>
+
+<body class='help-main-content'>
+    <nav id="navbar"></nav>
+    <br>
+    <section class="container1">
+        <header>Contact Us/संपर्क करें</header>
+
+        <% if (typeof success !=='undefined' ) { %>
+            <% if (success) { %>
+                <p class="success">Message sent successfully!</p>
+                <% } else { %>
+                    <p class="error">Failed to send message. Try again later.</p>
+                    <% } %>
+                        <% } %>
+
+                            <div class="contact-wrapper">
+                                <form action="/help" method="POST" class="form form-content">
+                                    <div class="info">
+                                        <label>Full Name/पूरा नाम</label>
+                                        <input type="text" required />
+                                    </div>
+                                    <div class="info">
+                                        <label>Enter Phone Number/फ़ोन नंबर दर्ज करें</label>
+                                        <input type="tel" name="phone" pattern="[0-9]{10}" required />
+                                    </div>
+                                    <div class="info">
+                                        <label>Enter the subject of your inquiry?/<br>अपनी पूछताछ का विषय दर्ज
+                                            करें</label>
+                                        <input type="text" required />
+                                    </div>
+                                    <div class="info">
+                                        <label>Enter the Message/संदेश दर्ज करें</label>
+                                        <input type="text" required />
+                                    </div>
+                                    <button id="SendQ" class="Centerbutton">Send Message/<br>संदेश भेजें</button>
+                                </form>
+                                <div class="contact-image">
+                                    <img src="/images/enquiry_contact.svg" alt="Contact Us Image" />
+                                </div>
+                            </div>
+    </section>
+    <section class="container2">
+        <header>Frequently Asked Questions/अक्सर पूछे जाने वाले प्रश्न</header>
+        <form action="/help" method="POST" class="form">
+            <div class="accordian">
+                <div class="question">
+                    <h4>What is Sevaa Bandhu?</h4>
+                    <i class="icon fa-solid fa-caret-down"></i>
+                </div>
+                <div class="answer">
+                    <p>Sevaa Bandhu is a platform that connects workers and clients, making it easy to find and hire
+                        skilled labor for local tasks.</p>
+                </div>
+            </div>
+            <div class="accordian">
+                <div class="question">
+                    <h4>Who can use Sevaa Bandhu?</h4>
+                    <i class="icon fa-solid fa-caret-down"></i>
+                </div>
+                <div class="answer">
+                    <p>Both workers looking for jobs and clients needing workers for tasks can use this platform.</p>
+                </div>
+            </div>
+
+            <div class="accordian">
+                <div class="question">
+                    <h4>How can I register as a worker?</h4>
+                    <i class="icon fa-solid fa-caret-down"></i>
+                </div>
+                <div class="answer">
+                    <p>Visit the "Register as Worker" section on the website, fill out your details, and submit the
+                        form.</p>
+                </div>
+            </div>
+            <div class="accordian">
+                <div class="question">
+                    <h4>Is Sevaa Bandhu free to use?</h4>
+                    <i class="icon fa-solid fa-caret-down"></i>
+                </div>
+                <div class="answer">
+                    <p>Registration is free for both workers and clients.You can currently use this at free of cost.</p>
+                </div>
+            </div>
+
+            <div class="accordian">
+                <div class="question">
+                    <h4>How can I hire a worker?</h4>
+                    <i class="icon fa-solid fa-caret-down"></i>
+                </div>
+                <div class="answer">
+                    <p>Browse the "Categories" section, search for workers based on your requirements, and contact them
+                        directly.</p>
+                </div>
+            </div>
+
+            <div class="accordian">
+                <div class="question">
+                    <h4>Can I hire multiple workers for a project?</h4>
+                    <i class="icon fa-solid fa-caret-down"></i>
+                </div>
+                <div class="answer">
+                    <p>Yes, you can hire as many workers as needed for your project.</p>
+                </div>
+            </div>
+            <div class="accordian">
+                <div class="question">
+                    <h4>Are workers verified on Sevaa Bandhu?</h4>
+                    <i class="icon fa-solid fa-caret-down"></i>
+                </div>
+                <div class="answer">
+                    <p>Yes, we verify workers Id Proof documents before listing them with us on Sevaa Bandhu.</p>
+                </div>
+            </div>
+
+            <script src="/js/help.js"></script>
+        </form>
+    </section>
+    <footer class="footer" id="footer"></footer>
+    <script src="/js/navbarFooter.js"></script>
+</body>
+
+</html>

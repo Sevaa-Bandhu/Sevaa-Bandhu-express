@@ -7,6 +7,8 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const staticRoutes = require('./routes/static');
+const helpRoutes = require('./routes/help');
+
 
 // Load environment variables
 dotenv.config();
@@ -34,6 +36,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', authRoutes);
 app.use('/', staticRoutes);
+app.use('/', helpRoutes);
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
