@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" type="image/x-icon" href="/images/icon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" media="screen" href="css/style.css">
+    <title>Sevaa Bandhu</title>
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="second-nav" id="second-nav">
+            <button class="google_translate_element" id="google_translate_element"></button>
+            <button type="submit" class="fa fa-search go-search" title="GO"></button>
+            <input type="text" minlength="3" placeholder="search by name or locality" class="search-query">
+        </div>
+        <div class="navbar">
+            <div class="nav-item" id="logo-menu" href="index">
+                <a href="index"><img src="/images/logo.png" class="logo-img" alt="logo"></a>
+                <span class="fa-solid fa-bars" id="menu"></span>
+            </div>
+            <div class="nav-item log-sign-in" id="log-sign-in">
+                <button class="login" id="login" type="button" onclick="window.open('src/login', '_self')">Login</button>
+                <button class="reg" id="reg" type="button" onclick="window.open('src/RegistrationForm', '_self')">Register</button>
+            </div>
+            <div class="nav-links-container" id="nav-links-container">
+                <a class="nav-item nav-links active-nav-link" id="nav-home" href="index" target="_self">Home</a>
+                <a class="nav-item nav-links" id="nav-profile" href="src/profile" target="_self">Profile</a>
+                <a class="nav-item nav-links" id="nav-help" href="src/Help" target="_self">Help</a>
+                <a class="nav-item nav-links" id="nav-about" href="src/AboutUs" target="_self">About</a>
+            </div>
+        </div>
+
+    </nav>
+    <br>
+    <main class="main-content" id="landing-main-content">
+        <section class="intro" id="intro">
+            <div class="intro-text">
+                <p class="description">
+                    Your Employment Companion, Every Step of the Way!
+                </p>
+                <br>
+                <p class="description">
+                    <small>For a More Connected, Efficient Community.</small>
+                </p>
+            </div>
+        </section>
+        <br />
+
+        <section class="demo-steps" id="demo-steps">
+            <fieldset class="setps-title">
+                <legend> Grab the Right Professional in Just Few Clicks. </legend>
+                <div class="steps-container">
+                    <div class="step first-step">
+                        <p class="step-img">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        </p>
+                        <p class="step-text"><b>Step 1 :</b> Login Account</p>
+                    </div>
+                    <div class="step second-step">
+                        <p class="step-img">
+                            <i class="fa fa-list-ul" aria-hidden="true"></i>
+                        </p>
+                        <p class="step-text"><b>Step 2 :</b> Select Professional</p>
+                    </div>
+                    <div class="step third-step">
+                        <p class="step-img">
+                            <i class="fa fa-comments-o" aria-hidden="true"></i>
+                        </p>
+                        <p class="step-text"><b>Step 3 :</b> Contact Professional</p>
+                    </div>
+                </div>
+            </fieldset>
+        </section>
+
+        <section class="why" id="why">
+            <p class="title">
+                Why Choose Us?
+            </p>
+            <div class="why-container">
+                <div class="reason">
+                    <i class="fa fa-solid fa-headset"></i>
+                    <p class="res-desp">Support Local Workers</p>
+                </div>
+                <div class="reason">
+                    <i class="fa fa-solid fa-gears"></i>
+                    <p class="res-desp">Quick & Hassle Free Services</p>
+                </div>
+                <div class="reason">
+                    <i class="fa fa-solid fa-user-check"></i>
+                    <p class="res-desp">Verified & Reliable Workers</p>
+                </div>
+                <div class="reason">
+                    <i class="fa fa-solid fa-users"></i>
+                    <p class="res-desp">Build a Strong Community</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="category" id="category">
+            <div class="category-wrap">
+                <p class="title">Browse our Worker Categories</p>
+                <div class="container">
+                    <!--plumber, electrician, mason, carpenter, gardener, painter, maids -->
+                    <div class="element" id="plumber">
+                        <p class="cate-img">
+                            <img src="/images/Plumber.png" alt="plumber image">
+                        </p>
+                        <p class="fig-capt">Plumber</p>
+                    </div>
+                    <div class="element" id="electrician">
+                        <p class="cate-img">
+                            <img src="/images/Electrician.png" alt="electrician image">
+                        </p>
+                        <p class="fig-capt">Electrician</p>
+                    </div>
+                    <div class="element" id="mason">
+                        <p class="cate-img">
+                            <img src="/images/Mason.png" alt="mason image">
+                        </p>
+                        <p class="fig-capt">Mason</p>
+                    </div>
+                    <div class="element" id="carpenter">
+                        <p class="cate-img">
+                            <img src="/images/Carpenter.png" alt="carpenterimage">
+                        </p>
+                        <p class="fig-capt">Carpenter</p>
+                    </div>
+                    <div class="element" id="painter">
+                        <p class="cate-img">
+                            <img src="/images/Painter.png" alt="painter image">
+                        </p>
+                        <p class="fig-capt">Painter</p>
+                    </div>
+                    <div class="element" id="gardener">
+                        <p class="cate-img">
+                            <img src="/images/Gardener.png" alt="gardener image">
+                        </p>
+                        <p class="fig-capt">Gardener</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <section class="labour-cards-container" id="labour-cards">
+            <p class="title">Our Professionals</p>
+            <div class="labour-cards">
+
+                <div class="labour" id="labour">
+                    <p class="img-contain" id="img-contain">
+                        <img src="/images/labour-icon.png" alt="labour image" id="img">
+                    </p>
+                    <div class="details-contain" id="details-contain">
+                        <div class="name" id="name"><strong>Labour Professional</strong></div>
+                        <div class="gender-age" id="gender-age">
+                            <p class="gender-age-element" id="gender">
+                                Male
+                            </p>
+                            <p class="gender-age-element" id="age">
+                                xx
+                            </p>
+                        </div>
+                        <div class="locality" id="locality">
+                            Indore
+                        </div>
+                        <div class="prof-exp" id="prof-exp">
+                            Experience: xx years
+                        </div>
+                        <div class="phone" id="phone">Contact: +911234509874</div>
+                    </div>
+                </div>
+
+                <div class="labour" id="labour">
+                    <p class="img-contain" id="img-contain">
+                        <img src="/images/labour-icon.png" alt="labour image" id="img">
+                    </p>
+                    <div class="details-contain" id="details-contain">
+                        <div class="name" id="name"><strong>Labour Professional</strong></div>
+                        <div class="gender-age" id="gender-age">
+                            <p class="gender-age-element" id="gender">
+                                Male
+                            </p>
+                            <p class="gender-age-element" id="age">
+                                xx
+                            </p>
+                        </div>
+                        <div class="locality" id="locality">
+                            Indore
+                        </div>
+                        <div class="prof-exp" id="prof-exp">
+                            Experience: xx years
+                        </div>
+                        <div class="phone" id="phone">Contact: +911234509874</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" id="footer">
+        <div class="footer-container">
+            <div class="contact-foot element notranslate">
+                <p class="address merge">
+                    <i class="fa fa-map-marker"></i>
+                    <span>School of Electronics, DAVV University, Indore, Madhya Pradesh</span>
+                </p>
+                <p class="mail merge">
+                    <i class="fa fa-envelope"></i>
+                    <span>SevaaBandhu@gmail.com</span>
+                </p>
+                <p class="phone merge">
+                    <i class="fa fa-phone"></i>
+                    <span>+91 9424865699, +91 7828999263</span>
+                </p>
+                <p class="github merge">
+                    <i class="fa fa-github"></i>
+                    <span>Github.com/Sevaa-Bandu/Sevaa-Bandhu.github.io</span>
+                </p>
+            </div>
+
+            <div class="logo-tag element">
+                <img src="images/logo.png" alt="logo footer">
+                <p class="tag-foot">Connecting Communities, Empowering Workers</p>
+            </div>
+            <div class="quick-link element">
+                <p class="sub-title">Quick Links</p>
+                <div class="link-container">
+                    <a href="index" id="quick-home" onclick="location.reload()">
+                        Home</a>
+                    <a href="src/profile" id="quick-profile" target="_self">
+                        Profile</a>
+                    <a href="src/AboutUs" id="quick-about" target="_self">
+                        About Us</a>
+                    <a href="src/Help" id="quick-help" target="_self">
+                        Help</a>
+                    <a href="/policy" id="quick-Policy" target="_self">
+                        Policy</a>
+                    <a href="src/TermCondition" id="quick-TandC" target="_self">
+                        Term & Condition</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+</body>
+
+</html>

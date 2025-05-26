@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Registration-Sevaa Bandhu</title>
+    <link rel="icon" type="image/x-icon" href="/images/icon.ico">
+    <link rel="stylesheet" href="/css/register.css" />
+</head>
+
+<body>
+    <section class="container">
+        <header>Registration/ पंजीकरण</header>
+        <% if (error) { %>
+            <p class="error-message">
+                <%= error %>
+            </p>
+            <% } %>
+                <form action="/auth/register" method="POST" class="form">
+                    <div class="input-box">
+                        <label>First Name/नाम *</label>
+                        <input type="text" name="firstname" id="firstname" required />
+                    </div>
+                    <div class="input-box">
+                        <label>Last Name/उपनाम *</label>
+                        <input type="text" name="lastname" id="lastname" required />
+                    </div>
+                    <div class="input-box">
+                        <label>Email Address/ईमेल आईडी</label>
+                        <input type="email" name="email" id="email">
+                    </div>
+
+                    <div class="column">
+                        <div class="input-box">
+                            <label>Phone Number/मोबाइल नंबर *</label>
+                            <input type="number" name="phone" maxlength="10" id="phone" required />
+                        </div>
+                        <div class="input-box">
+                            <label>Birth Date/
+                                जन्म तारीख *</label>
+                            <input type="date" name="dob" id="dob" required />
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Aadhar Number/आधार नंबर *</label>
+                        <input type="number"  name="aadhar" maxlength="12" id="aadhar" required />
+                    </div>
+                    
+                    <div class="gender-box">
+                        <h3>Gender/लिंग *</h3>
+                        <div class="gender-option">
+                            <div class="gender">
+                                <input type="radio" id="check-male" name="gender" checked />
+                                <label for="check-male">Male/पुरुष</label>
+                            </div>
+                            <div class="gender">
+                                <input type="radio" id="check-female" name="gender" />
+                                <label for="check-female">Female/महिला</label>
+                            </div>
+                            <div class="gender">
+                                <input type="radio" id="check-other" name="gender" />
+                                <label for="check-other">Other/अन्य</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Age/आयु *</label>
+                        <input type="number" name="age" min="18" maxlength="2" id="age" required/>
+                    </div>
+                    <div class="input-box address">
+                        <label>Address/पता *</label>
+                        <input type="text" placeholder="Street address/आवासीय पता" name="address" id="address" required />
+                        <!--<input type="text" placeholder="Enter street address line 2/आवासीय पता पंक्ति 2 दर्ज करें" required />-->
+                        <div class="column">
+                            <div class="select-box">
+                                <select id="state" required>
+                                    <option hidden>State/राज्य</option>
+                                    <option>Madhya Pradesh/मध्य प्रदेश</option>
+                                    <option>Other/अन्य</option>
+                                </select>
+                            </div>
+                            <input type="text" placeholder="City/शहर का नाम" name="city" id="city" required />
+                        </div>
+                        <div class="column">
+                            <input type="text" placeholder="Region/क्षेत्र का नाम" name="region" id="region" required />
+                            <!--<input type="number" placeholder="Enter postal code/डाक कोड दर्ज करें" required />-->
+                        </div>
+                    </div>
+                    <div class="choice-box">
+                        <h3>Are you a Labourer or Client? / क्या आप मजदूर हैं या ग्राहक हैं? *</h3>
+                        <div class="choice-option">
+                            <div class="choice">
+                                <input type="radio" id="check-worker" name="choice" checked />
+                                <label for="check-worker">Labourer/मजदूर</label>
+                            </div>
+                            <div class="choice">
+                                <input type="radio" id="check-client" name="choice" />
+                                <label for="check-employer">Client/ग्राहक</label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="choice-box">
+                        <h3 id="password">Create Password/पासवर्ड बनाएं *</h3>
+                        <input type="password" value="" id="password_fld" minlength="8" name="password" />
+                        <h3 id="password">Confirm Password/पासवर्ड दोबारा दर्ज करें *</h3>
+                        <input type="password" value="" id="chk_password" minlength="8" name="password" />
+
+                        <div class="choice">
+                            <input type="checkbox" id="passwordcheck" name="passwordcheck" onclick="myFunction()">
+                            <label id="check-password" for="check-password">Show Password/पासवर्ड दिखाए</label>
+                        </div>
+                    </div>
+                    <button id="Send" class="Centerbutton">Send OTP / ओटीपी भेजें</button>
+                    
+                    <div class="input-box" id="otpsection" style="display: none;">
+                        <label>Enter your OTP/अपना ओटीपी दर्ज करें</label>
+                        <input id=otp type="number" name="otp" required />
+                        <button type="submit" id="Verify" class="Centerbutton">Verify and Proceed / सत्यापित करें और आगे
+                            बढ़ें</button>
+                    </div>
+                    <script src="/js/register.js"></script>
+                </form>
+    </section>
+</body>
+
+</html>

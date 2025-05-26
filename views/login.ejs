@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/images/icon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/login.css" />
+    <title>Login-Sevaa Bandhu</title>
+</head>
+
+<body>
+    <main class="login-main">
+        <section class="login-container" id="login-container">
+            <div class="login-text login-element">
+                <p>Welcome Back, <big>Bandhu!</big></p>
+                <br>
+                <p>Your Employment Companion, Every Step of the Way.</p>
+            </div>
+            <div class="login-form login-element">
+                <legend class="logo">
+                    <a href="/index" target="_self">
+                        <img src="/images/icon.ico" alt="logo" class="icon-img">
+                    </a>
+                    <br>
+                    Login to Sevaa Bandhu
+                </legend>
+
+                <form action="/auth/login" method="POST">
+                    <div class="mobile-cotainer">
+                        <i class="fa-solid fa-user"></i>
+                        <input class="mobile-input" type="number" name="mobile" id="mobile" placeholder="Mobile no."
+                            maxlength="10" required />
+                    </div>
+                    <div class="password-container" id="password-container">
+                        <i class="fa-solid fa-key"></i>
+                        <input class="password-input" type="password" name="login-password" id="login-password"
+                            placeholder="Password" minlength="10" required />
+                    </div>
+                    <div class="forget-show" id="forget-show">
+                        <p class="show-pass f-s-element">
+                            <input type="checkbox" class="show" name="show-password" id="show-password" />
+                            <label for="show-password">Show password</label>
+                        </p>
+                        <a href="#forget" class=" f-s-element" id="forget-pass">Forgot Password?</a>
+                    </div>
+
+                    <div class="submit-btn">
+                        <button type="submit" id="submit">Login</button>
+                    </div>
+                    <div class="new">
+                        Don't have an Account?&nbsp;
+                        <a id="new-user" href="RegistrationForm">Create New</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Forgot password form -->
+        <section class="forgot-pass-form" id="forgot-pass-form">
+            <a class="logo-fgt" href="../index" target="_self">
+                <img src="../images/icon.ico" alt="logo" class="icon-img">
+            </a>
+
+            <form id="forgot-form">
+                <div class="step-one step" id="step-one">
+                    <div class="fgt-mob-wrap">
+                        <label for="fgt-mob-input">Mobile Number</label>
+                        <input class="fgt-mob-input fgt-input" type="number" name="mobile" id="fgt-mob-input"
+                            maxlength="10" required />
+                    </div>
+                    <div class="fgt-otp-wrap">
+                        <label for="fgt-otp-input">Enter OTP</label>
+                        <input type="number" class="fgt-otp-input fgt-input" id="fgt-otp-input" size="6" maxlength="6"
+                            required />
+                    </div>
+                    <div class="verify-send-wrap">
+                        <button type="button" class="send-otp" id="send-otp">Send OTP</button>
+                        <button type="button" class="verify-btn" id="verify-btn" onclick="nextStep()">Verify</button>
+                    </div>
+                    <div class="new">
+                        Don't have an Account?&nbsp;
+                        <a id="new-user" href="RegistrationForm">Create New</a>
+                    </div>
+                </div>
+
+                <div class="step-two step" id="step-two">
+                    <div class="create-pass-wrap">
+                        <label for="create-pass">Create New Password</label>
+                        <input type="password" class="fgt-input" name="create-pass" id="create-pass" minlength="10"
+                            required />
+                    </div>
+                    <div class="match-pass-wrap">
+                        <label for="match-pass">Confirm Password</label>
+                        <input type="password" class="fgt-input" name="match-pass" id="match-pass" minlength="10"
+                            required />
+                    </div>
+                    <div class="fgt-show-wrap">
+                        <input type="checkbox" class="show" name="show-fgt-pass" id="show-fgt-pass" />
+                        <label for="show-fgt-pass">Show password</label>
+                    </div>
+                    <div class="submit-btn-wrap">
+                        <button type="submit" class="submit-btn-fgt" id="submit-btn-fgt">Update Password</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="forgot-container" id="forgot-container"></section>
+    </main>
+    <script src="/js/login.js"></script>
+</body>
+
+</html>

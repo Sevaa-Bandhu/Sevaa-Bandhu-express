@@ -1,0 +1,239 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    padding: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(238, 245, 243);
+    font-family: "Poppins", sans-serif;
+}
+
+::-moz-selection {
+    background-color: #90b2e2;
+    color: rgb(200, 71, 84);
+}
+
+::selection {
+    background-color: #90b2e2;
+    color: rgb(200, 71, 84);
+}
+
+.container {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    background: rgb(220, 231, 234);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(67, 67, 71, 0.4);
+}
+
+.container header {
+    font-size: 3vh;
+    color: rgb(39, 39, 39);
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 1px 0 rgb(130, 106, 251);
+}
+
+.container .form {
+    margin-top: 30px;
+}
+
+.form .input-box {
+    width: 100%;
+    margin-top: 15px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.input-box label {
+    color: rgb(39, 39, 39);
+}
+
+.form :where(.input-box input, .select-box) {
+    position: relative;
+    padding: 0 12px;
+    height: 40px;
+    width: 100%;
+    font-size: 2.2vh;
+    color: rgb(39, 39, 39);
+    margin-top: 8px;
+    border: 2px solid rgb(200, 218, 222);
+    border-radius: 6px;
+    outline: none;
+}
+
+#password_fld, #chk_password {
+    position: relative;
+    height: 40px;
+    width: 100%;
+    outline: none;
+    font-size: 2.2vh;
+    color: rgb(39, 39, 39);
+    margin-top: 6px;
+    border: 1px solid rgb(200, 218, 222);
+    border-radius: 6px;
+    padding: 0 15px;
+
+}
+
+.input-box input:focus {
+    box-shadow: 0 2px 0 rgba(67, 67, 71, 0.4);
+}
+
+.form .column {
+    display: flex;
+    column-gap: 15px;
+}
+
+.form .gender-box {
+    margin-top: 20px;
+}
+
+.form .choice-box {
+    margin-top: 20px;
+}
+
+.gender-box h3 {
+    color: rgb(39, 39, 39);
+    font-size: 2.3vh;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.choice-box h3 {
+    color: rgb(39, 39, 39);
+    font-size: 2.3vh;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+#password {
+    font-weight: 500;
+}
+
+#check-password,
+#passwordcheck {
+    margin-top: 10px;
+}
+
+#otp {
+    font-size: 2.4vh;
+}
+
+.form :where(.gender-option, .gender, .choice-option, .choice) {
+    display: flex;
+    align-items: center;
+    column-gap: 60px;
+    flex-wrap: wrap;
+}
+
+.form .gender,
+.form .choice {
+    column-gap: 5px;
+}
+
+.gender input,
+.choice input {
+    accent-color: rgb(13, 146, 167);
+}
+
+.form :where(.gender input, .gender label, .choice input, .choice label) {
+    cursor: pointer;
+}
+
+.gender label,
+.choice label {
+    color: rgb(39, 39, 39);
+}
+
+.address :where(input, .select-box) {
+    margin-top: 15px;
+}
+
+.select-box select {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    color: rgb(39, 39, 39);
+    font-size: 2.3vh;
+}
+
+#Send {
+    height: 40px;
+    width: 40%;
+    padding: 5px;
+    color: rgb(238, 245, 243);
+    font-size: 2.4vh;
+    font-weight: 500;
+    margin-top: 30px;
+    border: none;
+    cursor: pointer;
+    transition: all 250ms ease;
+    background: rgb(13, 146, 167);
+    align-items: center;
+    border-radius: 10px;
+}
+
+#Verify {
+    height: 40px;
+    width: 100%;
+    padding: 5px;
+    align-items: center;
+    color: rgb(238, 245, 243);
+    font-size: 2.4vh;
+    font-weight: 500;
+    margin-top: 30px;
+    border: none;
+    cursor: pointer;
+    transition: all 250ms ease;
+    background: rgb(13, 146, 167);
+    border-radius: 10px;
+}
+
+.Centerbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+#Send:hover,
+#Verify:hover {
+    background: rgb(2, 117, 135);
+}
+
+/*Responsive*/
+@media screen and (max-width: 500px) {
+    .form .column {
+        flex-wrap: wrap;
+    }
+
+    #Send {
+        padding: 8px;
+        font-size: 2.4vh;
+    }
+
+    .form :where(.gender-option, .gender) {
+        row-gap: 15px;
+    }
+}
