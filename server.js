@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -46,4 +46,4 @@ app.get('/', async (req, res) => {
   res.render('index', { user });
 });
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));

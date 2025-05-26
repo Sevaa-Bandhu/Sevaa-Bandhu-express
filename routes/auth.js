@@ -30,11 +30,12 @@ router.post('/login', async (req, res) => {
         }
 
         // Set session
-        req.session.user = {
-            mobile: user.mobile,
-        };
-
-        res.redirect('/dashboard');
+        if (user) {
+            req.session.user = user.mobile;
+            res.redirect('/dashboard');
+        } else {
+            res.redirect('/login');
+        }
     }
     catch (err) {
         console.error(err);
@@ -44,7 +45,9 @@ router.post('/login', async (req, res) => {
 
 // Protected dashboard route
 router.get('/dashboard', async (req, res) => {
-    if (!req.session.user) return res.redirect('/login');
+    if (!req.session.user) { 
+        return res.redirect('/login');
+    }
 
     try {
         const user = await User.findById(req.session.user.mobile).lean();
@@ -91,11 +94,11 @@ router.post('/register', async (req, res) => {
 
     // hash in production
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ mobile, password: hashedPassword });
-    await user.save();
+    const newuser = new User({ mobile, password: hashedPassword });
+    await newuser.save();
 
-    req.session.user = user;
-    res.redirect('/profile');
+    req.session.user = newuser;
+    res.redirect('/login');
 });
 
 // Worker Registration Page
@@ -122,8 +125,8 @@ router.post('/register-worker', async (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.clearCookie('connect.sid');
-        res.redirect('/auth/login');
     });
+    res.redirect('/auth/login');
 });
 
 module.exports = router;
