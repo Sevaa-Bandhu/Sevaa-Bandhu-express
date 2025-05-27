@@ -54,7 +54,7 @@ const registrationSchema = new mongoose.Schema({
     state: {
         type: String,
         required: true
-    }
+    },
 });
 
 module.exports = mongoose.model("Registration", registrationSchema);

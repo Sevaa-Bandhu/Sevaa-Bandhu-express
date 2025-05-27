@@ -99,7 +99,7 @@ document.getElementById("Verify").addEventListener("click", function (e) {
             const Workersection = document.getElementById("container-worker");
             const firstSection = document.getElementById("firstSection");
 
-            if (role === "check-worker") {  // Profession as a Worker
+            if (role === "worker") {  // Profession as a Worker
                 firstSection.style.display = "none";
                 Workersection.style.display = "block";
                 document.getElementById("skillset").setAttribute("required", "required");
@@ -109,7 +109,7 @@ document.getElementById("Verify").addEventListener("click", function (e) {
 
                 // now move forward to save the entered detsils
             }
-            else if (role === "check-client") {
+            else if (role === "client") {
                 alert("Client details saved successfully!");
 
                 // Send data to a backend

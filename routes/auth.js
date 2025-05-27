@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const Registration = require("../models/Registration");
-
-//const Worker = require('../models/Worker');
 const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 
@@ -72,90 +69,6 @@ router.get('/logout', (req, res) => {
     });
 });
 
-// Register Page
-router.get('/register', (req, res) => {
-    res.render('register', { error: null });
-});
-
-// REGISTER ROUTE (for login table, not full registration)
-router.post('/register', async (req, res) => {
-    const { mobile, password, confirmPassword } = req.body;
-
-    if (!mobile || !password || !confirmPassword) {
-        return res.render('register', { error: 'All fields are required.' });
-    }
-
-    if (password !== confirmPassword) {
-        return res.render('register', { error: 'Passwords do not match.' });
-    }
-
-    try {
-        const existingUser = await User.findOne({ mobile });
-        if (existingUser) {
-            return res.render('register', { error: 'Mobile number already exists. Try loging in.' });
-        }
-
-        // hash in production
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newuser = new User({ mobile, password: hashedPassword });
-        await newuser.save();
-        res.redirect('/login');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error registering user.');
-    }
-});
-
-// FULL REGISTRATION ROUTE
-router.post("/register", async (req, res) => {
-    const {
-        firstname, lastname, email, phone, birthdate,
-        aadhar_number, gender, age,
-        address, state, city, region, role,
-    } = req.body;
-
-    try {
-        const exists = await Registration.findOne({
-            $or: [{ aadhar_number }, { phone }]
-        });
-
-        if (exists) {
-            return res.status(400).send("A user with this Aadhar or phone already exists.");
-        }
-
-        const newReg = new Registration({
-            firstname, lastname, email, phone, birthdate,
-        aadhar_number, gender, age,
-        address, state, city, region, role,
-        });
-
-        await newReg.save();
-        res.send("Registration successful.");
-    } catch (err) {
-        console.error("Registration error:", err);
-        res.status(500).send("Error during registration.");
-    }
-});
-
-// Worker Registration Page
-router.get('/register-worker', (req, res) => {
-    res.render('regformworker', { error: null });
-});
-/*
-// Worker Registration Logic
-router.post('/register-worker', async (req, res) => {
-    const { name, phone, skills } = req.body;
-
-    if (!name || !phone || !skills) {
-        return res.render('regformworker', { error: 'All fields are required.' });
-    }
-
-    const worker = new Worker({ name, phone, skills });
-    await worker.save();
-
-    res.redirect('/');
-});
-*/
 
 // Logout
 router.get('/logout', (req, res) => {
