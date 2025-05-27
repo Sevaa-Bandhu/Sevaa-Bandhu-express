@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+.container-worker {
+    position: relative;
+    max-width: 700px;
+    width: 100%;
+    padding: 10px 25px;
+    display: none;
+}
+
+.container-worker header {
+    font-size: 3.1vh;
+    color: rgb(67, 67, 71);
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 2px 0 rgb(2, 117, 135);
+}
+
+.container-worker .input-box {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.input-box label {
+    color: rgb(67, 67, 71);
+}
+
+.container-worker :where(.input-box input) {
+    position: relative;
+    height: 40px;
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    font-size: 2vh;
+    color: rgb(67, 67, 71);
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0 15px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.input-box input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container-worker .column {
+    display: flex;
+    column-gap: 15px;
+}
+
+.container-worker .work-box {
+    margin-top: 20px;
+}
+
+.work-box h3 {
+    color: rgb(67, 67, 71);
+    font-size: 2.3vh;
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
+.container-worker :where(.work-option, .work) {
+    display: flex;
+    align-items: center;
+    column-gap: 50px;
+    flex-wrap: wrap;
+
+    select {
+        padding: 2% 0;
+        font-size: 2vh;
+        outline: none;
+    }
+}
+
+.container-worker .work {
+    column-gap: 5px;
+
+    label {
+        color: rgb(67, 67, 71);
+    }
+
+    input {
+        accent-color: rgb(2, 117, 135);
+    }
+}
+
+.container-worker :where(.work input, .work label) {
+    cursor: pointer;
+}
+
+.container-worker button {
+    height: 45px;
+    width: 100%;
+    padding: 5px;
+    color: rgb(238, 245, 243);
+    font-size: 2.5vh;
+    font-weight: 500;
+    margin-top: 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 250ms ease;
+    background: rgb(13, 146, 167);
+}
+
+.container-worker button:hover {
+    background: rgb(2, 117, 135);
+}
+
+/*Responsive*/
+@media screen and (max-width: 500px) {
+    .container-worker .column {
+        flex-wrap: wrap;
+    }
+
+    .container-worker :where(.gender-option, .gender) {
+        row-gap: 15px;
+    }
+}

@@ -58,21 +58,20 @@ document.getElementById("Send").addEventListener("click", function (e) {
             alert('Please enter a valid 10-digit phone number.');
             return false;
         }
+
+        if (!age || !dob || !fname || !lname || !aadhar || !address || !city || !state || !region) {
+            alert('All fields are mandatory.');
+            return false;
+        }
         return true;
     }
 
     if (validateForm()) {
         // Generate a 6-digit random OTP
-        generatedotp = Math.floor(100000 + Math.random() * 900000); // Example: 123456
+        generatedotp = Math.floor(100000 + Math.random() * 900000);
 
-        // Simulate sending OTP (Replace this with actual backend logic to send OTP)
         alert("Your OTP is: " + generatedotp);
-
-        // Enable the OTP input field
         document.getElementById("otpsection").style.display = "block";
-    }
-    else {
-        alert('Make sure all mandatory fields are properly filled.');
     }
 });
 
@@ -82,27 +81,33 @@ document.getElementById("Send").addEventListener("click", function (e) {
 });*/
 
 document.getElementById("Verify").addEventListener("click", function (e) {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
 
     // Get selected role (Labourer or Client)
     const selectedRole = document.querySelector('input[name="choice"]:checked');
 
-    // Check if a role is selected
     if (selectedRole) {
         const role = selectedRole.id; // Get the id of the selected radio button
-        const enteredotp = document.getElementById("otp").value.trim(); // Get the entered OTP
+        const enteredotp = document.getElementById("otp").value.trim();
 
-        // Check if OTP is entered
         if (enteredotp === "") {
             alert("Please enter the OTP before proceeding.");
             return;
         }
 
         if (enteredotp == generatedotp) {
-            // OTP matches
-            if (role === "check-worker") {
-                // Redirect to Labourer page
-                window.location.href = "../src/Regformworker.html";
+            const Workersection = document.getElementById("container-worker");
+            const firstSection = document.getElementById("firstSection");
+
+            if (role === "check-worker") {  // Profession as a Worker
+                firstSection.style.display = "none";
+                Workersection.style.display = "block";
+                document.getElementById("skillset").setAttribute("required", "required");
+                document.getElementById("experience").setAttribute("required", "required");
+                document.getElementById("certificate").setAttribute("required", "required");
+                document.getElementById("userphoto").setAttribute("required", "required");
+
+                // now move forward to save the entered detsils
             }
             else if (role === "check-client") {
                 alert("Client details saved successfully!");
