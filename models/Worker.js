@@ -6,9 +6,9 @@ const workerSchema = new mongoose.Schema({
   gender: { type: String, required: true },
   birthdate: { type: String, required: true },
   age: { type: Number, required: true },
-  phone: { type: Number, required: true },
-  email: { type: String, required: true },
-  aadhar_number: { type: Number, required: true },
+  phone: { type: String, required: true },
+  email: { type: String},
+  aadhar_number: { type: String, required: true },
   address: { type: String, required: true },
   state: { type: String, required: true },
   city: { type: String, required: true },
@@ -18,6 +18,7 @@ const workerSchema = new mongoose.Schema({
   // Worker-specific
   skillset: { type: String, required: true },
   experience: { type: Number, required: true },
+  wages: { type: Number},
   certificate: { type: String, required: true },
   userphoto: { type: String, required: true }
 });

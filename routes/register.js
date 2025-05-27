@@ -5,11 +5,8 @@ const multer = require("multer");
 const path = require("path");
 const Client = require("../models/Registration");
 const Worker = require("../models/Worker");
+const bcrypt = require("bcrypt");
 
-// Register Page
-router.get('/register', (req, res) => {
-    res.render('register', { error: null });
-});
 
 // Multer setup for certificate and photo upload
 const storage = multer.diskStorage({
@@ -26,57 +23,83 @@ const upload = multer({ storage });
 // POST /register
 router.post("/register", upload.fields([
     { name: "certificate", maxCount: 1 },
-    { name: "photo", maxCount: 1 }
+    { name: "userphoto", maxCount: 1 }
 ]), async (req, res) => {
     try {
-        const data = req.body;
+        let formData = { ...req.body };
+        const hashedPassword = await bcrypt.hash(formData.password, 8);
+        //password wiil be stored in User.js schema
 
-        if (data.role === "worker") {
+        const existing = await Client.findOne({ phone: formData.phone });
+        if (existing) {
+            return res.json({ success: false, message: "Phone number already exists." });
+        }
+        delete formData.passwordcheck;
+        delete formData.chk_password;
+        delete formData.otp;
+
+        if (formData.role === "worker") {
             const newWorker = new Worker({
-                firstname: data.firstname,
-                lastname: data.lastname,
-                gender: data.gender,
-                birthdate: data.birthdate,
-                age: parseInt(data.age),
-                phone: parseInt(data.phone),
-                email: data.email,
-                aadhar_number: parseInt(data.aadhar_number),
-                address: data.address,
-                state: data.state,
-                city: data.city,
-                region: data.region,
+                firstname: formData.firstname,
+                lastname: formData.lastname,
+                email: formData.email || undefined,
+                phone: formData.phone,
+                birthdate: formData.birthdate,
+                aadhar_number: formData.aadhar_number,
+                gender: formData.gender,
+                age: formData.age,
+                address: formData.address,
+                state: formData.state,
+                city: formData.city,
+                region: formData.region,
                 role: "worker",
-                skillset: data.skillset,
-                experience: parseInt(data.experience),
+                skillset: formData.skillset,
+                experience: formData.experience,
+                wages: formData.wages || undefined,
                 certificate: req.files["certificate"] ? req.files["certificate"][0].filename : "",
-                photo: req.files["photo"] ? req.files["photo"][0].filename : ""
+                userphoto: req.files["userphoto"] ? req.files["userphoto"][0].filename : ""
             });
-
             await newWorker.save();
-        } else {
+            console.log("Worker saved to MongoDB");
+
+        } else if (formData.role === "client") {
+            delete formData.skillset;
+            delete formData.experience;
+            delete formData.wages;
+
             const newClient = new Client({
-                firstname: data.firstname,
-                lastname: data.lastname,
-                gender: data.gender,
-                birthdate: data.birthdate,
-                age: parseInt(data.age),
-                phone: parseInt(data.phone),
-                email: data.email,
-                aadhar_number: parseInt(data.aadhar_number),
-                address: data.address,
-                state: data.state,
-                city: data.city,
-                region: data.region,
+                firstname: formData.firstname,
+                lastname: formData.lastname,
+                email: formData.email || undefined,
+                phone: formData.phone,
+                birthdate: formData.birthdate,
+                aadhar_number: formData.aadhar_number,
+                gender: formData.gender,
+                age: formData.age,
+                address: formData.address,
+                state: formData.state,
+                city: formData.city,
+                region: formData.region,
                 role: "client"
             });
 
             await newClient.save();
+            console.log("Client saved to MongoDB");
         }
+        console.log("Body: ", formData);
+        res.redirect("/auth/login");
 
-        res.redirect("/success");
-    } catch (error) {
-        console.error("Registration error:", error);
-        res.status(500).send("Something went wrong.");
+    } catch (err) {
+        if (err.code === 11000 && err.keyPattern?.phone) {
+            res.json({ success: false, message: "Phone number already registered." });
+        }
+        else if (err.code === 11000 && err.keyPattern?.aadhar_number) {
+            res.json({ success: false, message: "Aadhar number already registered." });
+        }
+        else {
+            console.error("Registration error:", err);
+            res.json({ success: false, message: "An unexpected error occured!" });
+        }
     }
 });
 

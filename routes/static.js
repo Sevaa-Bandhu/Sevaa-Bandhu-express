@@ -10,5 +10,6 @@ router.get('/help', (req, res) => res.render('help'));
 router.get("/register", (req, res) => res.render("register"));
 router.get('/profile', (req, res) => res.render('profile'));
 router.get('/termCondition', (req, res) => res.render('termCondition'));
+router.get('/register', (req, res) => {res.render('register', { error: null });});
 
 module.exports = router;

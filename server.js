@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const staticRoutes = require('./routes/static');
 const helpRoutes = require('./routes/help');
+const registerRouter = require('./routes/register');
 
 
 // Load environment variables
@@ -17,10 +18,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
+mongoose.connect(process.env.MONGODB_URI,)
+.then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
@@ -33,14 +32,15 @@ app.use(session({
 }));
 
 // Static files
-app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', authRoutes);
 app.use('/', staticRoutes);
 app.use('/', helpRoutes);
+app.use('/', registerRouter);
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // load dynamic data from MongoDB

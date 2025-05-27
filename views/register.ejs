@@ -13,7 +13,7 @@
 
 <body>
     <section class="container">
-        <% if (error) { %>
+        <% if (typeof error !== 'undefined' && error) { %>
             <p class="error-message">
                 <%= error %>
             </p>
@@ -37,32 +37,32 @@
                         <div class="column">
                             <div class="input-box">
                                 <label>Phone Number/मोबाइल नंबर *</label>
-                                <input type="number" name="phone" maxlength="10" id="phone" required />
+                                <input type="text" name="phone" maxlength="10" pattern="\d{10}" id="phone" required />
                             </div>
                             <div class="input-box">
                                 <label>Birth Date/
                                     जन्म तारीख *</label>
-                                <input type="date" name="dob" id="dob" required />
+                                <input type="date" name="birthdate" id="birthdate" required />
                             </div>
                         </div>
                         <div class="input-box">
                             <label>Aadhar Number/आधार नंबर *</label>
-                            <input type="number" name="aadhar" maxlength="12" id="aadhar" required />
+                            <input type="text" name="aadhar_number" maxlength="12" pattern="\d{12}" id="aadhar_number" required />
                         </div>
 
                         <div class="gender-box">
                             <h3>Gender/लिंग *</h3>
                             <div class="gender-option">
                                 <div class="gender">
-                                    <input type="radio" id="check-male" name="gender" checked />
+                                    <input type="radio" id="check-male" name="gender" value="Male" checked />
                                     <label for="check-male">Male/पुरुष</label>
                                 </div>
                                 <div class="gender">
-                                    <input type="radio" id="check-female" name="gender" />
+                                    <input type="radio" id="check-female" name="gender" value="Female" />
                                     <label for="check-female">Female/महिला</label>
                                 </div>
                                 <div class="gender">
-                                    <input type="radio" id="check-other" name="gender" />
+                                    <input type="radio" id="check-other" name="gender" value="Other"/>
                                     <label for="check-other">Other/अन्य</label>
                                 </div>
                             </div>
@@ -78,9 +78,9 @@
                             <!--<input type="text" placeholder="Enter street address line 2/आवासीय पता पंक्ति 2 दर्ज करें" required />-->
                             <div class="column">
                                 <div class="select-box">
-                                    <select id="state" required>
+                                    <select id="state" name="state" required>
                                         <option hidden>State/राज्य</option>
-                                        <option>Madhya Pradesh/मध्य प्रदेश</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh/मध्य प्रदेश</option>
                                         <option>Other/अन्य</option>
                                     </select>
                                 </div>
@@ -96,11 +96,11 @@
                             <h3>Are you a Labourer or Client? / क्या आप मजदूर हैं या ग्राहक हैं? *</h3>
                             <div class="choice-option">
                                 <div class="choice">
-                                    <input type="radio" id="worker" name="choice" checked />
-                                    <label for="worker">Labourer/मजदूर</label>
+                                    <input type="radio" id="worker" name="choice" value="worker" checked/>
+                                    <label for="worker">Worker/मजदूर</label>
                                 </div>
                                 <div class="choice">
-                                    <input type="radio" id="client" name="choice" />
+                                    <input type="radio" id="client" name="choice" value="client"/>
                                     <label for="client">Client/ग्राहक</label>
                                 </div>
                             </div>
@@ -109,18 +109,18 @@
                             <h3 id="password">Create Password/पासवर्ड बनाएं *</h3>
                             <input type="password" value="" id="password_fld" minlength="8" name="password" />
                             <h3 id="password">Confirm Password/पासवर्ड दोबारा दर्ज करें *</h3>
-                            <input type="password" value="" id="chk_password" minlength="8" name="password" />
+                            <input type="password" value="" id="chk_password" minlength="8" name="chk_password" />
 
                             <div class="choice">
                                 <input type="checkbox" id="passwordcheck" name="passwordcheck" onclick="myFunction()">
                                 <label id="check-password" for="check-password">Show Password/पासवर्ड दिखाए</label>
                             </div>
                         </div>
-                        <button id="Send" class="Centerbutton">Send OTP / ओटीपी भेजें</button>
+                        <button type="button" id="Send" class="Centerbutton">Send OTP / ओटीपी भेजें</button>
 
                         <div class="input-box" id="otpsection" style="display: none;">
                             <label>Enter your OTP/अपना ओटीपी दर्ज करें</label>
-                            <input id=otp type="number" name="otp" required />
+                            <input id=otp type="number" name="otp" value=""/>
                             <button type="submit" id="Verify" class="Centerbutton">Verify and Proceed / सत्यापित करें और
                                 आगे
                                 बढ़ें</button>
@@ -134,27 +134,27 @@
                             <h3>Work Field (Please select)/
                                 आपका कार्यक्षेत्र (कृपया चयन करें) *</h3>
                             <div class="work-option">
-                                <select id="skillset">
-                                    <option hidden>Choose Field/कार्यक्षेत्र चुनें</option>
-                                    <option>Mason/राजमिस्त्री</option>
-                                    <option>Domestic Help/घरेलू कामगार</option>
-                                    <option>Electrician/इलेक्ट्रीशियन</option>
-                                    <option>Carpenter/बढ़ई</option>
-                                    <option>Plumber/प्लंबर</option>
-                                    <option>Gardener/माली</option>
-                                    <option>Other/अन्य</option>
+                                <select id="skillset" name="skillset">
+                                    <option disabled selected>Choose Field/कार्यक्षेत्र चुनें</option>
+                                    <option value="Mason">Mason/राजमिस्त्री</option>
+                                    <option value="Domestic Help">Domestic Help/घरेलू कामगार</option>
+                                    <option value="Electrician">Electrician/इलेक्ट्रीशियन</option>
+                                    <option value="Carpenter">Carpenter/बढ़ई</option>
+                                    <option value="Plumber">Plumber/प्लंबर</option>
+                                    <option value="Gardener">Gardener/माली</option>
+                                    <option value="Other">Other/अन्य</option>
                                 </select>
                             </div>
                         </div>
                         <div class="input-box">
                             <label>Work Experience (in years)/कार्य अनुभव (वर्षों में) *</label>
-                            <input type="number" placeholder="Work Experience/आपका कार्य अनुभव" id="experience">
+                            <input type="number" id="experience" name="experience">
                         </div>
 
                         <div class="column">
                             <div class="input-box">
                                 <label>Expected Daily Wages(in ₹)/अपेक्षित प्रति दिन मजदूरी(₹ में)</label>
-                                <input type="number">
+                                <input type="number" name="wages">
                             </div>
                         </div>
 
@@ -167,10 +167,10 @@
                             <div class="input-box">
                                 <label>Identity Proof(Aadhar Card/Voter ID/PAN Card)/ पहचान प्रमाण (आधार कार्ड/वोटर
                                     आईडी/पैन कार्ड) *</label>
-                                <input type="file" accept="image/*" id="certificate" />
+                                <input type="file" accept="image/*" id="certificate" name="certificate"/>
                                 <br><br>
                                 <label>Passport Size Photo/पासपोर्ट साइज फोटो</label>
-                                <input type="file" accept="image/*" id="userphoto" />
+                                <input type="file" accept="image/*" id="userphoto" name="userphoto"/>
                             </div>
                         </div>
                         <button type="submit" id="next">Save Details/ विवरण सहेजें</button>
