@@ -60,9 +60,9 @@ router.post("/register", upload.fields([
                 userphoto: req.files["userphoto"] ? req.files["userphoto"][0].filename : ""
             });
             await newWorker.save();
-            console.log("Worker saved to MongoDB");
+            console.send("Worker saved to MongoDB");
 
-        } else if (formData.role === "client") {
+        } else {
             delete formData.skillset;
             delete formData.experience;
             delete formData.wages;
@@ -84,7 +84,7 @@ router.post("/register", upload.fields([
             });
 
             await newClient.save();
-            console.log("Client saved to MongoDB");
+            console.send("Client saved to MongoDB");
         }
         console.log("Body: ", formData);
         res.redirect("/auth/login");

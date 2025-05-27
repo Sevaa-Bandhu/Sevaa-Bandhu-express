@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const staticRoutes = require('./routes/static');
 const helpRoutes = require('./routes/help');
 const registerRouter = require('./routes/register');
+const sendSmsRouter = require('./utils/sendsms');
 
 
 // Load environment variables
@@ -36,6 +37,7 @@ app.use('/auth', authRoutes);
 app.use('/', staticRoutes);
 app.use('/', helpRoutes);
 app.use('/', registerRouter);
+app.use('/', sendSmsRouter);
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
