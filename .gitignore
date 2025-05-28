@@ -1,0 +1,41 @@
+# Node.js dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Binaries
+dist/
+build/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Uploaded files (optional if storing locally)
+uploads/
+
+# Coverage reports
+coverage/
+
+# OS generated files
+ehthumbs.db
+Icon?
+Desktop.ini

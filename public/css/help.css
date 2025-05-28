@@ -127,7 +127,7 @@ body {
     column-gap: 15px;
 }
 
-#SendQ {
+#submit {
     padding: 5px 15px;
     width: 50%;
     color: #fff;
@@ -141,7 +141,7 @@ body {
     background: rgb(130, 106, 251);
 }
 
-#SendQ:hover {
+#submit:hover {
     background: rgb(88, 56, 250);
 }
 

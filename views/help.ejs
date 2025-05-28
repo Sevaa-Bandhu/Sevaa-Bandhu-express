@@ -29,25 +29,25 @@
                         <% } %>
 
                             <div class="contact-wrapper">
-                                <form action="/help" method="POST" class="form form-content">
+                                <form action="/help" class="form form-content" id="helpForm">
                                     <div class="info">
                                         <label>Full Name/पूरा नाम</label>
-                                        <input type="text" required />
+                                        <input type="text" id="name" name="name" required />
                                     </div>
                                     <div class="info">
-                                        <label>Enter Phone Number/फ़ोन नंबर दर्ज करें</label>
-                                        <input type="tel" name="phone" pattern="[0-9]{10}" required />
+                                        <label>Enter email/मेल दर्ज करें</label>
+                                        <input type="email" id="email" name="email" required />
                                     </div>
                                     <div class="info">
                                         <label>Enter the subject of your inquiry?/<br>अपनी पूछताछ का विषय दर्ज
                                             करें</label>
-                                        <input type="text" required />
+                                        <input type="text" id="subject" name="subject" required />
                                     </div>
                                     <div class="info">
                                         <label>Enter the Message/संदेश दर्ज करें</label>
-                                        <input type="text" required />
+                                        <input type="text" id="message" name="message" required />
                                     </div>
-                                    <button id="SendQ" class="Centerbutton">Send Message/<br>संदेश भेजें</button>
+                                    <button type="submit" id="submit" class="Centerbutton">Submit/<br>संदेश भेजें</button>
                                 </form>
                                 <div class="contact-image">
                                     <img src="/images/enquiry_contact.svg" alt="Contact Us Image" />
@@ -127,11 +127,13 @@
                 </div>
             </div>
 
-            <script src="/js/help.js"></script>
         </form>
     </section>
+    
     <footer class="footer" id="footer"></footer>
     <script src="/js/navbarFooter.js"></script>
+    <script src="/js/help.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

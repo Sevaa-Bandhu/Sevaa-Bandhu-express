@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const registrationSchema = new mongoose.Schema({
+const clientSchema = new mongoose.Schema({
     firstname: {type: String, required: true},
     lastname: {type: String,required: true},
     email: {type: String},
@@ -15,4 +15,4 @@ const registrationSchema = new mongoose.Schema({
     region: {type: String,required: true},
     role: {type: String,required: true}
 });
-module.exports = mongoose.model("Registration", registrationSchema);
+module.exports = mongoose.model("Registration", clientSchema);

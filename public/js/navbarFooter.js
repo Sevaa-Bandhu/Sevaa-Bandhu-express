@@ -7,7 +7,7 @@ let topNavbar = `<div class="navbar">
             </div>
             <div class="nav-item log-sign-in" id="log-sign-in">
                 <button class="login" id="login" type="button" onclick="window.open('/auth/login', '_self')">Login</button>
-                <button class="reg" id="reg" type="button" onclick="window.open('/auth/register', '_self')">Register</button>
+                <button class="reg" id="reg" type="button" onclick="window.open('/register', '_self')">Register</button>
             </div>
             <div class="nav-links-container" id="nav-links-container">
                 <a class="nav-item nav-links" id="google_translate_element"></a>
