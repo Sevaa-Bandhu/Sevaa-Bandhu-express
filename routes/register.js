@@ -18,6 +18,8 @@ const storage = multer.diskStorage({
     },
 });
 
+const multer = require("multer");
+const { storage } = require("../config/cloudinary");
 const upload = multer({ storage });
 
 // POST /register
