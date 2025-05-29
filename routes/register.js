@@ -16,6 +16,10 @@ router.post('/register', upload.fields([
     { name: 'certificate', maxCount: 1 }
 ]), async (req, res) => {
     try {
+
+        console.log("BODY:", req.body);
+        console.log("FILES:", req.files);
+        console.log("Role:", req.body.choice);
         const role = req.body.choice;
         const hashedPassword = await bcrypt.hash(req.body.password, 8);
         //password will be stored in User.js schema
@@ -24,7 +28,6 @@ router.post('/register', upload.fields([
         if (existing) {
             return res.json({ success: false, message: "Phone number already exists." });
         }
-        console.log(req.body);
         /* delete formData.passwordcheck;
         delete formData.chk_password;
         delete formData.otp; */
@@ -54,7 +57,7 @@ router.post('/register', upload.fields([
             await newWorker.save();
             res.json({ success: true, redirect: '/auth/login' });
         }
-        else {
+        else if(role === "client"){
             // Handle client registration
             const newClient = new Client({
                 firstname: req.body.firstname,

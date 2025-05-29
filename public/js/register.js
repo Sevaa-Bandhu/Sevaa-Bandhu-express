@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showPopup(result.message || 'Registration failed.', false);
             } else {
                 showPopup('Registration successful! Redirecting to login...');
-                setTimeout(() => window.location.href = '/auth/login', 1500);
+                setTimeout(() => window.location.href = '/auth/login', 500);
             }
         } catch (error) {
             console.error('Registration error:', error);
