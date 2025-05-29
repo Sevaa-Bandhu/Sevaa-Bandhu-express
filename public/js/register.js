@@ -1,148 +1,245 @@
-function myFunction() {
-    var x = document.getElementById("password_fld");
-    var xCheck = document.getElementById("chk_password");
-    if (x.type === "password") {
-        x.type = "text";
-        xCheck.type = "text"
-    } else {
-        x.type = "password";
-        xCheck.type = "password";
-    }
+// Helper to show popup
+function showPopup(message, isSuccess = true) {
+    Swal.fire({
+        icon: isSuccess ? 'success' : 'error',
+        title: isSuccess ? 'Success' : 'Error',
+        text: message,
+        timer: 3050,
+        timerProgressBar: true,
+        showConfirmButton: false
+    });
 }
 
-// Global variable to store the generated OTP
-let generatedotp;
+document.addEventListener('DOMContentLoaded', () => {
+    const timerDisplay = document.getElementById('timer');
+    let countdownInterval;
 
-// Handle "Send OTP" button click
-document.getElementById("Send").addEventListener("click", function (e) {
-    console.log("sending otp");
+    // Element references
+    const form = document.getElementById('registerForm');
+    const roleToggle = document.querySelector('input[name="choice"]:checked');
+    const workerSection = document.getElementById('container-worker');
+    const userSection = document.getElementById('userSection');
+    const sendOtpBtn = document.getElementById('Send');
+    const verifyOtpBtn = document.getElementById('Verify');
+    const otpSection = document.getElementById('otpsection');
+    const phoneInput = document.getElementById('phone');
+    const otpInput = document.getElementById('otp');
+    const passwordInput = document.getElementById('password_fld');
+    const confirmPasswordInput = document.getElementById('chk_password');
+    const togglePasswordBtn = document.getElementById('passwordcheck');
+    const emailInput = document.getElementById('email');
+    const dobInput = document.getElementById('birthdate');
+    const ageInput = document.getElementById('age');
+    const aadharInput = document.getElementById('aadhar_number');
 
-    const fname = document.getElementById('firstname').value.trim();
-    const lname = document.getElementById('lastname').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const birthdate = document.getElementById('birthdate').value;
-    const age = document.getElementById('age').value;
-    const gender = document.querySelector('input[name="gender"]:checked')?.value;
-    const aadhar = document.getElementById('aadhar_number').value;
-    const password = document.getElementById('password_fld').value;
-    const confirmPassword = document.getElementById('chk_password').value;
-    const phone = document.getElementById('phone').value.trim();
-    const address = document.getElementById('address').value.trim();
-    const city = document.getElementById('city').value.trim();
-    const state = document.getElementById('state').value.trim();
-    const region = document.getElementById('region').value.trim();
+    let generatedOTP = '';
+    let isOtpVerified = false;
 
-    function validateForm() {
-        console.log("Validating details");
+    // Toggle password visibility
+    togglePasswordBtn.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type');
+        passwordInput.setAttribute('type', type === 'password' ? 'text' : 'password');
+        confirmPasswordInput.setAttribute('type', type === 'password' ? 'text' : 'password');
+    });
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email != "") {
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address.');
-                return false;
+    // Role selection handler
+    roleToggle.addEventListener('change', () => {
+        if (roleToggle.checked && isOtpVerified) {
+            workerSection.style.display = 'block';
+            userSection.style.display = 'none';
+        } else {
+            userSection.style.display = 'block';
+            workerSection.style.display = 'none';
+        }
+    });
+
+    // Send OTP handler
+    sendOtpBtn.addEventListener('click', () => {
+        let isValid = true;
+
+        // Basic required fields
+        const requiredFields = ['firstname', 'lastname', 'phone', 'birthdate', 'aadhar_number', 'gender', 'age', 'address', 'state', 'city', 'region', 'password_fld', 'chk_password'];
+        requiredFields.forEach((ids) => {
+            const field = document.getElementById(ids);
+            if (field && field.value.trim() === '') {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else if (field) {
+                field.classList.remove('is-invalid');
             }
+        });
+
+        // Email validation (optional)
+        const email = emailInput.value.trim();
+        if (email !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            emailInput.classList.add('is-invalid');
+            isValid = false;
+            showPopup('Please enter a valid email address.', false);
+        } else {
+            emailInput.classList.remove('is-invalid');
         }
 
-        if (password.length < 8) {
-            alert('Password must be at least 8 characters long.');
-            return false;
+        // Aadhar number validation
+        const aadhar = aadharInput.value.trim();
+        if (!/^\d{12}$/.test(aadhar)) {
+            aadharInput.classList.add('is-invalid');
+            isValid = false;
+            showPopup('Aadhar number must be exactly 12 digits.', false);
+        } else {
+            aadharInput.classList.remove('is-invalid');
         }
 
-        if (password !== confirmPassword) {
-            alert('Passwords do not match.');
-            return false;
+        // Password strength validation
+        const password = passwordInput.value;
+        const cmfPassword = confirmPasswordInput.value;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        if (!passwordRegex.test(password) && !passwordRegex.test(cmfPassword)) {
+            passwordInput.classList.add('is-invalid');
+            confirmPasswordInput.classList.add('is-invalid');
+            isValid = false;
+            showPopup('Password must be strong and match the confirmation.', false);
+
         }
-
-        const aadharRegex = /^\d{12}$/;
-        if (!aadharRegex.test(aadhar)) {
-            alert("Please enter a valid 12-digit Aadhar number.");
-            return false;
-        }
-
-        const phoneRegex = /^\d{10}$/;
-        if (!phoneRegex.test(phone)) {
-            alert('Please enter a valid 10-digit phone number.');
-            return false;
-        }
-
-        if (!age || !birthdate || !fname || !lname || !aadhar || !address || !city || !state || !region) {
-            alert('All fields are mandatory.');
-            return false;
-        }
-        return true;
-    }
-
-    if (validateForm()) {
-        document.getElementById("otpsection").style.display = "block";
-        document.getElementById("otp").setAttribute("required", "true");
-        // Generate a 6-digit random OTP
-        generatedotp = Math.floor(100000 + Math.random() * 900000);
-        alert("Your OTP is: " + generatedotp);
-    }
-});
-
-document.getElementById("Verify").addEventListener("click", function (e) {
-    console.log("Verify OTP");
-
-    // Get selected role (Labourer or Client)
-    const selectedRole = document.querySelector('input[name="choice"]:checked');
-
-    if (selectedRole) {
-        const role = selectedRole.id; // Get the id of the selected radio button
-        const enteredotp = document.getElementById("otp").value.trim();
-
-        if (enteredotp === "") {
-            alert("Please enter the OTP before proceeding.");
-            return;
-        }
-
-        if (enteredotp == generatedotp) {
-            console.log("OTP Verified");
-
-            const Workersection = document.getElementById("container-worker");
-            const firstSection = document.getElementById("firstSection");
-
-            if (role === "worker") {  // Profession as a Worker
-                firstSection.style.display = "none";
-                Workersection.style.display = "block";
-                document.getElementById("skillset").setAttribute("required", "required");
-                document.getElementById("experience").setAttribute("required", "required");
-                document.getElementById("certificate").setAttribute("required", "required");
-                document.getElementById("userphoto").setAttribute("required", "required");
-
-                //validations
-                if (role === 'worker' && skillset === '') {
-                    alert("Please select a valid skillset.");
-                }
-                // now move forward to save the entered detsils
-            }
-            else if (role === "client") {
-                alert("Client details saved successfully!");
-                /*
-                                // Send data to a backend
-                                const formData = new FormData(document.querySelector("form"));
-                                fetch("/save-client-details", {
-                                    method: "POST",
-                                    body: formData,
-                                })
-                                    .then((response) => response.json())
-                                    .then((data) => {
-                                        if (data.success) {
-                                            alert("Details saved successfully!");
-                                        } else {
-                                            alert("Error: " + data.message);
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        console.error("Error:", error);
-                                    }); */
-            }
+        else if (password !== cmfPassword) {
+            passwordInput.classList.add('is-invalid');
+            confirmPasswordInput.classList.add('is-invalid');
+            isValid = false;
+            showPopup('Password must match the confirmation password.', false);
         }
         else {
-            alert("Invalid OTP. Please try again.");
+            passwordInput.classList.remove('is-invalid');
+            confirmPasswordInput.classList.remove('is-invalid');
         }
+
+        // Date of birth and age consistency check
+        const dob = new Date(dobInput.value);
+        const age = parseInt(ageInput.value, 10);
+        const today = new Date();
+        let calculatedAge = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+            calculatedAge--;
+        }
+        if (calculatedAge !== age) {
+            dobInput.classList.add('is-invalid');
+            ageInput.classList.add('is-invalid');
+            isValid = false;
+            showPopup('Age does not match the date of birth.', false);
+        } else {
+            dobInput.classList.remove('is-invalid');
+            ageInput.classList.remove('is-invalid');
+        }
+
+        // Phone number validator
+        const phone = phoneInput.value.trim();
+        if (!/^\d{10}$/.test(phone)) {
+            showPopup('Please enter a valid 10-digit phone number.', false);
+            isValid = false;
+        }
+
+        // OTP generation
+        if (isValid) {
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            alert(`OTP sent: ${generatedOTP}`);     // Replace with actual SMS API integration
+
+            phoneInput.setAttribute('readonly', true);
+            aadharInput.setAttribute('readonly', true);
+            otpSection.style.display = 'block';
+
+            sendOtpBtn.disabled = true;
+            startOtpCountdown(120);
+        }
+    });
+
+    // Timer function for Resend button
+    function startOtpCountdown(duration) {
+        let timeRemaining = duration;
+
+        sendOtpBtn.disabled = true;
+        updateTimerDisplay(timeRemaining);
+
+        countdownInterval = setInterval(() => {
+            timeRemaining--;
+            updateTimerDisplay(timeRemaining);
+
+            if (timeRemaining <= 0) {
+                clearInterval(countdownInterval);
+                sendOtpBtn.disabled = false;
+                timerDisplay.textContent = '';
+                sendOtpBtn.innerText = 'Resend OTP / पुन: ओटीपी भेजें';
+            }
+        }, 1000);
     }
-    else {
-        alert("Please select whether you are a Labourer or Client.");
+    // Updating the timer every second
+    function updateTimerDisplay(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        timerDisplay.textContent = `Resend available in ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     }
+
+    // Verify OTP handler
+    verifyOtpBtn.addEventListener('click', () => {
+        const enteredOTP = otpInput.value.trim();
+        if (enteredOTP === generatedOTP) {
+            showPopup('OTP verified successfully.');
+            otpInput.setAttribute('readonly', true);
+            verifyOtpBtn.disabled = true;
+            isOtpVerified = true;
+            sendOtpBtn.disabled = true;
+
+            if (roleToggle.checked) {
+                userSection.style.display = 'none';
+                workerSection.style.display = 'block';
+            }
+        } else {
+            showPopup('Incorrect OTP. Please try again.', false);
+        }
+    });
+
+    // Form submission handler
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let isValid = true;
+        console.log("in form submit");
+
+        // Worker fields validation
+        if (roleToggle.checked) {
+            const workerFields = ['skillset', 'experience', 'certificate'];
+            workerFields.forEach((ids) => {
+                const field = document.getElementById(ids);
+                if (field && field.value.trim() === '') {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else if (field) {
+                    field.classList.remove('is-invalid');
+                }
+            });
+        }
+        if (!isValid) return;
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                body: formData
+            });
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await response.text();
+                console.error('Unexpected response:', text);
+            }
+
+            const result = await response.json();
+            if (result.success === false) {
+                showPopup(result.message || 'Registration failed.', false);
+            } else {
+                showPopup('Registration successful! Redirecting to login...');
+                setTimeout(() => window.location.href = '/auth/login', 1500);
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            showPopup('Something went wrong. Please try again later.', false);
+        }
+    });
 });

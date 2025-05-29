@@ -15,4 +15,4 @@ const clientSchema = new mongoose.Schema({
     region: {type: String,required: true},
     role: {type: String,required: true}
 });
-module.exports = mongoose.model("Registration", clientSchema);
+module.exports = mongoose.model("Client", clientSchema);

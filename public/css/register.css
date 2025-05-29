@@ -37,7 +37,7 @@ body {
     box-shadow: 0 0 10px rgba(67, 67, 71, 0.4);
 }
 
-.container .firstSection header {
+.container .userSection .userHead {
     font-size: 3vh;
     color: rgb(39, 39, 39);
     font-weight: 500;

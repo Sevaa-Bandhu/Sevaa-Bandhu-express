@@ -19,8 +19,8 @@
             </p>
             <% } %>
                 <form action="/register" method="POST" class="form" id="registerForm" enctype="multipart/form-data">
-                    <div class="firstSection" id="firstSection">
-                        <header>Registration/ पंजीकरण</header>
+                    <div class="userSection" id="userSection">
+                        <header class="userHead">Registration/ पंजीकरण</header>
                         <div class="input-box">
                             <label>First Name/नाम *</label>
                             <input type="text" name="firstname" id="firstname" required />
@@ -112,11 +112,12 @@
                             <input type="password" value="" id="chk_password" minlength="8" name="chk_password" />
 
                             <div class="choice">
-                                <input type="checkbox" id="passwordcheck" name="passwordcheck" onclick="myFunction()">
+                                <input type="checkbox" id="passwordcheck" name="passwordcheck">
                                 <label id="check-password" for="check-password">Show Password/पासवर्ड दिखाए</label>
                             </div>
                         </div>
                         <button type="button" id="Send" class="Centerbutton">Send OTP / ओटीपी भेजें</button>
+                        <span id="timer" style="margin-left: 10px; color: rgb(2, 117, 135);"></span>
 
                         <div class="input-box" id="otpsection" style="display: none;">
                             <label>Enter your OTP/अपना ओटीपी दर्ज करें</label>
@@ -167,18 +168,18 @@
                             <div class="input-box">
                                 <label>Identity Proof(Aadhar Card/Voter ID/PAN Card)/ पहचान प्रमाण (आधार कार्ड/वोटर
                                     आईडी/पैन कार्ड) *</label>
-                                <input type="file" accept="image/*" id="certificate" name="certificate"/>
+                                <input type="file" accept="image/jpeg, image/png, image/jpg" id="certificate" name="certificate"/>
                                 <br><br>
                                 <label>Passport Size Photo/पासपोर्ट साइज फोटो</label>
-                                <input type="file" accept="image/*" id="userphoto" name="userphoto"/>
+                                <input type="file" accept="image/jpeg, image/png, image/jpg" id="userphoto" name="userphoto"/>
                             </div>
                         </div>
-                        <button type="submit" id="next">Save Details/ विवरण सहेजें</button>
+                        <button type="submit" name="submit" id="submit">Save Details/ विवरण सहेजें</button>
                     </div>
-
-                    <script src="/js/register.js"></script>
                 </form>
     </section>
+    <script src="/js/register.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

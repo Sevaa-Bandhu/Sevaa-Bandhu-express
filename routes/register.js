@@ -7,91 +7,76 @@ const Client = require("../models/Client");
 const Worker = require("../models/Worker");
 const bcrypt = require("bcrypt");
 
-
-// Multer setup for certificate and photo upload
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads/");
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + "-" + file.fieldname + path.extname(file.originalname));
-    },
-});
-
-const multer = require("multer");
 const { storage } = require("../config/cloudinary");
 const upload = multer({ storage });
 
 // POST /register
-router.post("/register", upload.fields([
-    { name: "certificate", maxCount: 1 },
-    { name: "userphoto", maxCount: 1 }
+router.post('/register', upload.fields([
+    { name: 'userphoto', maxCount: 1 },
+    { name: 'certificate', maxCount: 1 }
 ]), async (req, res) => {
     try {
-        let formData = { ...req.body };
-        const hashedPassword = await bcrypt.hash(formData.password, 8);
-        //password wiil be stored in User.js schema
+        const role = req.body.choice;
+        const hashedPassword = await bcrypt.hash(req.body.password, 8);
+        //password will be stored in User.js schema
 
-        const existing = await Client.findOne({ phone: formData.phone });
+        const existing = await Client.findOne({ phone: req.body.phone });
         if (existing) {
             return res.json({ success: false, message: "Phone number already exists." });
         }
-        delete formData.passwordcheck;
+        console.log(req.body);
+        /* delete formData.passwordcheck;
         delete formData.chk_password;
-        delete formData.otp;
+        delete formData.otp; */
 
-        if (formData.role === "worker") {
+        if (role === 'worker') {
             const newWorker = new Worker({
-                firstname: formData.firstname,
-                lastname: formData.lastname,
-                email: formData.email || undefined,
-                phone: formData.phone,
-                birthdate: formData.birthdate,
-                aadhar_number: formData.aadhar_number,
-                gender: formData.gender,
-                age: formData.age,
-                address: formData.address,
-                state: formData.state,
-                city: formData.city,
-                region: formData.region,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                email: req.body.email,
+                phone: req.body.phone,
+                birthdate: req.body.birthdate,
+                aadhar_number: req.body.aadhar_number,
+                gender: req.body.gender,
+                age: parseInt(req.body.age),
+                address: req.body.address,
+                state: req.body.state,
+                city: req.body.city,
+                region: req.body.region,
                 role: "worker",
-                skillset: formData.skillset,
-                experience: formData.experience,
-                wages: formData.wages || undefined,
-                certificate: req.files["certificate"] ? req.files["certificate"][0].filename : "",
-                userphoto: req.files["userphoto"] ? req.files["userphoto"][0].filename : ""
+                skillset: req.body.skillset,
+                experience: parseInt(req.body.experience),
+                wages: parseInt(req.body.wages),
+                certificate: req.files['certificate'] ? req.files['certificate'][0].path : undefined,
+                userphoto: req.files['userphoto'] ? req.files['userphoto'][0].path : undefined
             });
+            console.log("New Worker added to MongoDB.");
             await newWorker.save();
-            console.send("Worker saved to MongoDB");
-
-        } else {
-            delete formData.skillset;
-            delete formData.experience;
-            delete formData.wages;
-
-            const newClient = new Client({
-                firstname: formData.firstname,
-                lastname: formData.lastname,
-                email: formData.email || undefined,
-                phone: formData.phone,
-                birthdate: formData.birthdate,
-                aadhar_number: formData.aadhar_number,
-                gender: formData.gender,
-                age: formData.age,
-                address: formData.address,
-                state: formData.state,
-                city: formData.city,
-                region: formData.region,
-                role: "client"
-            });
-
-            await newClient.save();
-            console.send("Client saved to MongoDB");
+            res.json({ success: true, redirect: '/auth/login' });
         }
-        console.log("Body: ", formData);
-        res.redirect("/auth/login");
-
-    } catch (err) {
+        else {
+            // Handle client registration
+            const newClient = new Client({
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                email: req.body.email,
+                phone: req.body.phone,
+                birthdate: req.body.birthdate,
+                aadhar_number: req.body.aadhar_number,
+                gender: req.body.gender,
+                age: parseInt(req.body.age),
+                address: req.body.address,
+                state: req.body.state,
+                city: req.body.city,
+                region: req.body.region,
+                role: "client",
+            });
+            console.log("New Client added to MongoDB.");
+            await newClient.save();
+            res.json({ success: true, redirect: '/auth/login' });
+        }
+    }
+    catch (err) {
         if (err.code === 11000 && err.keyPattern?.phone) {
             res.json({ success: false, message: "Phone number already registered." });
         }

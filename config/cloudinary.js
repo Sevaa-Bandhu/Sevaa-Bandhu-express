@@ -14,7 +14,7 @@ const storage = new CloudinaryStorage({
     params: async (req, file) => {
         const folder = file.fieldname === 'certificate' ? 'certificates' : 'userphotos';
         return {
-            folder: folder,
+            folder: 'sevaa-bandhu',
             allowed_formats: ['jpg', 'jpeg', 'png'],
             public_id: `${file.fieldname}-${Date.now()}`,
         };
