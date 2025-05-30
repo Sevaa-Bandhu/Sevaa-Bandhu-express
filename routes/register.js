@@ -59,6 +59,8 @@ router.post('/register', upload.fields([
         }
         else if(role === "client"){
             // Handle client registration
+                console.log("Unser user routing");
+
             const newClient = new Client({
                 firstname: req.body.firstname,
                 lastname: req.body.lastname,

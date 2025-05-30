@@ -164,46 +164,28 @@ nav div.navbar div#logo-menu {
     }
 }
 
-nav div.navbar .log-sign-in {
-    display: inline-flex;
-    justify-content: center;
-    background-color: transparent;
+nav div.navbar .log-sign-in .logout {
+    font-size: 2.5vh;
+    background-color: #e74c3c;
+    color: white;
+    padding: 1vh 2vh;
     border: none;
     border-radius: 3vh;
-    overflow-x: hidden;
-
-    .login {
-        z-index: 2;
-        font-size: 2.5vh;
-        color: var(--color4);
-        background-color: var(--color3);
-        padding: 1vh 3vh 1vh 2vh;
-        border: none;
-        border-radius: 3vh;
-        outline: none;
-        transition: 250ms all;
-    }
-
-    .login:hover {
-        background-color: var(--hover3);
-    }
-
-    .reg {
-        z-index: 1;
-        text-align: left;
-        padding: 1vh 1vh 1vh 3.2vh;
-        font-size: 2.5vh;
-        color: var(--color3);
-        border: 3px solid var(--color3);
-        border-radius: 3vh;
-        margin-left: -3vh;
-        transition: 250ms all;
-    }
-
-    .reg:hover {
-        text-shadow: 0 0 0.1vh var(--hover3);
-    }
+    margin-left: 1vh;
+    cursor: pointer;
+    transition: background-color 250ms ease;
 }
+
+.log-sign-in .logout:hover {
+    background-color: #c0392b;
+}
+
+.welcome-user {
+    font-size: 2.5vh;
+    color: var(--color3);
+    padding: 1vh 2vh;
+}
+
 
 
 /* Introduction section */
@@ -567,7 +549,8 @@ footer .footer-container .contact-foot {
                 font-size: 2.2vh;
             }
         }
-        .skiptranslate.goog-te-gadget select{
+
+        .skiptranslate.goog-te-gadget select {
             width: 30vw;
         }
 

@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Verify OTP handler
-    verifyOtpBtn.addEventListener('click', () => {
+    verifyOtpBtn.addEventListener('click', async () => {
         const enteredOTP = otpInput.value.trim();
         if (enteredOTP === generatedOTP) {
             showPopup('OTP verified successfully.');
@@ -191,6 +191,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 userSection.style.display = 'none';
                 workerSection.style.display = 'block';
             }
+            else {
+
+                //the client data storing should be handled when verify otp button is pressed
+
+                const formData = new FormData(this);
+                try {
+                    console.log(formData);
+                    const response = await fetch('/register', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+                    if (result.success && result.redirect) {
+                        showPopup('Registration successful! Redirecting to login...');
+                        setTimeout(() => window.location.href = '/auth/login', 500);
+                    } else {
+                        showPopup(result.message || 'Registration failed.', false);
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    showPopup('Something went wrong. Please try again later.', false);
+                }
+            }
+
         } else {
             showPopup('Incorrect OTP. Please try again.', false);
         }
@@ -200,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         let isValid = true;
-        console.log("in form submit");
 
         // Worker fields validation
         if (roleToggle.checked) {
@@ -217,25 +241,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (!isValid) return;
 
-        const formData = new FormData(form);
+        const formData = new FormData(this);
 
         try {
+            console.log(formData);
             const response = await fetch('/register', {
                 method: 'POST',
                 body: formData
             });
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                const text = await response.text();
-                console.error('Unexpected response:', text);
-            }
 
             const result = await response.json();
-            if (result.success === false) {
-                showPopup(result.message || 'Registration failed.', false);
-            } else {
+            if (result.success && result.redirect) {
                 showPopup('Registration successful! Redirecting to login...');
                 setTimeout(() => window.location.href = '/auth/login', 500);
+            } else {
+                showPopup(result.message || 'Registration failed.', false);
             }
         } catch (error) {
             console.error('Registration error:', error);

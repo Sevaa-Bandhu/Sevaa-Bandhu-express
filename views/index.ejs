@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,8 +25,12 @@
                 <span class="fa-solid fa-bars" id="menu"></span>
             </div>
             <div class="nav-item log-sign-in" id="log-sign-in">
-                <button class="login" id="login" type="button" onclick="window.open('/auth/login', '_self')">Login</button>
-                <button class="reg" id="reg" type="button" onclick="window.open('/register', '_self')">Register</button>
+                <% if (!user) { %> <button class="login" type="button"
+                        onclick="window.open('/auth/login', '_self')">Login</button> <button class="reg" type="button"
+                        onclick="window.open('/register', '_self')">Register</button>
+                    <% } else { %> <span class="welcome-user">Welcome, <%= user.firstname %> <%= user.lastname %>!</span>
+                    <button class="logout" type="button" onclick="window.location.href='/auth/logout'">Logout</button>
+                        <% } %>
             </div>
             <div class="nav-links-container" id="nav-links-container">
                 <a class="nav-item nav-links active-nav-link" id="nav-home" href="/index" target="_self">Home</a>
