@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (!isValid) return;
 
-        const formData = new FormData(this);
+        const formData = new FormData(form);
 
         try {
             console.log(formData);

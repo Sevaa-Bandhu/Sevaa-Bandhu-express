@@ -1,0 +1,118 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #cbe1dc;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.logo {
+    padding: 0;
+    margin: 0;
+}
+
+.logo img {
+    width: 70px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.btn {
+    font-size: 1.2rem !important;
+    padding: 8px 16px;
+    border-radius: 25px;
+    border: 2px solid rgb(0, 128, 128);
+    background-color: rgb(255, 255, 255);
+}
+.register-btn{
+    color: rgb(255, 255, 255) !important;
+    background-color: rgb(0, 128, 128);
+}
+.nav-links a {
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: rgb(0, 128, 128);
+    font-weight: 400;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    padding: 6px 10px;
+    border: 2px solid rgb(0, 128, 128);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.user-icon {
+    font-size: 1.5rem;
+    color: rgb(0, 128, 128);
+}
+
+.dropdown-content {
+    display: none;
+    padding: 2px;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 10px;
+}
+
+.dropdown-content a,
+.dropdown-content span {
+    font-size: 1.2rem;
+    color: teal;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a:hover,
+.dropdown-content span:hover{
+    border-bottom: 2px solid rgb(0, 128, 128);
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: teal;
+}
+
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .nav-links a,
+    .dropdown {
+        margin: 10px;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+}

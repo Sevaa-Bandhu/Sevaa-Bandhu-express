@@ -43,7 +43,7 @@ async function sendOtp() {
 
         const data = await res.json();
         if (data.success) {
-            showPopup("OTP sent to your mobile number.", false);
+            showPopup("OTP sent to your mobile number.", true);
         } else {
             showPopup(data.message || "Failed to send OTP.", false);
         }
@@ -97,11 +97,10 @@ loginForm.addEventListener("submit", async function (e) {
     const data = await response.json();
 
     if (data.success) {
-        // 🔁 Redirect to dashboard
         window.location.href = data.redirect;
     } else {
         // Show error
-        document.getElementById('error').innerText = data.message;
+        showPopup(data.message, false);
     }
     }
 });
@@ -152,7 +151,7 @@ async function updatePassword() {
         showPopup("New password must be at least 8 characters long.", false);
         return;
     }
-    else if (!passwordRegex.test(password)) {
+    else if (!passwordRegex.test(newPassword)) {
         showPopup(`Password must contain:
             a upper character [A-Z],
             a lower character [a-z],

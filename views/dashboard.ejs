@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,16 @@
   <link rel="icon" type="image/x-icon" href="/images/icon.ico">
   <link rel="stylesheet" href="/css/dashboard.css" />
 </head>
+
 <body>
-  <h1>Welcome, <%= user.fname %> <%= user.lname %>!</h1>
-  <p>Profession: <%= user.profession %></p>
-  <a href="/logout">Logout</a>
+  <div class="dashboard-container">
+    <h1>Welcome, <%= user.firstname %>
+        <%= user.lastname %> !</h1>
+    <div class="btn-grp">
+      <a href="/" class="btn back-home">Go to Main Page</a>
+      <a href="/auth/logout" class="logout-btn">Logout</a>
+    </div>
+  </div>
 </body>
+
 </html>

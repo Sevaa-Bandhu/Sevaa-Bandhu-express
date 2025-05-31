@@ -23,14 +23,13 @@ router.get('/login', (req, res) => {
 // POST /auth/login
 router.post('/login', async (req, res) => {
     const { mobile, password } = req.body;
-    console.log(req.body);
     try {
-        const user = await User.findOne({mobile: req.body.mobile});
-        if (!user){
-            return res.status(404).json({ success: false, message: 'User not found' });
+        const user = await User.findOne({ mobile: req.body.mobile });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found, please register' });
         }
 
-        const isMatch = (password === user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ success: false, message: 'Incorrect password' });
 
         // Session-based login
@@ -39,7 +38,7 @@ router.post('/login', async (req, res) => {
             name: `${user.firstname} ${user.lastname}`
         };
 
-        return res.status(200).json({ success: true, redirect: '/dashboard' });
+        return res.status(200).json({ success: true, redirect: '/auth/dashboard' });
     } catch (err) {
         console.error('Login error:', err);
         return res.status(500).json({ success: false, message: 'Server error during login' });
@@ -56,13 +55,29 @@ router.post('/send-otp', async (req, res) => {
 
     try {
         const otp = generateOtp();
+        const user = await User.findOne({ mobile: req.body.mobile });
+        if (user){
         otpStore.set(mobile, { otp, expiresAt: Date.now() + 5 * 60 * 1000 });
-
-        await fast2sms.sendMessage({
+        }
+        else{
+            return res.status(500).json({ success: false, message: 'Mobile number not found. Please register!' });
+        }
+        /* await fast2sms.sendMessage({
             authorization: FAST2SMS_API_KEY,
             message: `Your OTP for Sevaa Bandhu password reset is ${otp} (valid 5 minutes).`,
-            numbers: [mobile]
-        });
+            numbers: [mobile],
+            route: 'q'
+        }); */
+
+        if (process.env.USE_MOCK_SMS === 'true') {
+            console.log(`Mock OTP to ${mobile}: ${otp}`);
+        } else {
+            await fast2sms.sendMessage({
+                authorization: process.env.FAST2SMS_API_KEY,
+                message: `Your OTP for Sevaa Bandhu password reset is ${otp} (valid 5 minutes).`,
+                numbers: [mobile]
+            });
+        }
 
         return res.status(200).json({ success: true, message: 'OTP sent successfully' });
     } catch (err) {

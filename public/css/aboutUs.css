@@ -28,7 +28,7 @@ main.main-about-content{
 }
 
 section.container-intro{
-    margin-top: 6%;
+    margin: 2% 0;
     width: 100%;
     font-size: var(--textSize);
     header{

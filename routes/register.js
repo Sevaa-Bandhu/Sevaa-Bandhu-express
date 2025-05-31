@@ -5,6 +5,7 @@ const multer = require("multer");
 const path = require("path");
 const Client = require("../models/Client");
 const Worker = require("../models/Worker");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 const { storage } = require("../config/cloudinary");
@@ -16,21 +17,22 @@ router.post('/register', upload.fields([
     { name: 'certificate', maxCount: 1 }
 ]), async (req, res) => {
     try {
-
-        console.log("BODY:", req.body);
-        console.log("FILES:", req.files);
-        console.log("Role:", req.body.choice);
         const role = req.body.choice;
         const hashedPassword = await bcrypt.hash(req.body.password, 8);
         //password will be stored in User.js schema
 
-        const existing = await Client.findOne({ phone: req.body.phone });
-        if (existing) {
+        if (await User.findOne({ phone: req.body.phone })) {
             return res.json({ success: false, message: "Phone number already exists." });
         }
-        /* delete formData.passwordcheck;
-        delete formData.chk_password;
-        delete formData.otp; */
+        else{
+            const newUser = new User({
+                mobile: req.body.phone,
+                password: hashedPassword,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname
+            });
+            await newUser.save();
+        }
 
         if (role === 'worker') {
             const newWorker = new Worker({
@@ -82,11 +84,8 @@ router.post('/register', upload.fields([
         }
     }
     catch (err) {
-        if (err.code === 11000 && err.keyPattern?.phone) {
-            res.json({ success: false, message: "Phone number already registered." });
-        }
-        else if (err.code === 11000 && err.keyPattern?.aadhar_number) {
-            res.json({ success: false, message: "Aadhar number already registered." });
+        if (err.code === 11000) {
+            res.json({ success: false, message: "Phone number or Aadhar number already registered." });
         }
         else {
             console.error("Registration error:", err);

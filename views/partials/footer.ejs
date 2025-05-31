@@ -1,0 +1,43 @@
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-p+U3f9AaGJyWz5F5UOTJ1cV0NEwQJo7GJrYxx1XYB9V2fTVVhrCPRmuZRmFZZDA0yx+wbpIdZC6UKL5iI3CtHA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="/css/footer.css">
+
+<footer class="footer">
+    <div class="footer-container">
+
+        <!-- Contact Info -->
+        <div class="footer-contact">
+            <p><i class="fas fa-map-marker-alt icon"></i> School of Electronics, DAVV University, Indore, Madhya Pradesh</p>
+            <p><i class="fas fa-envelope icon"></i> SevaaBandhu@gmail.com</p>
+            <p><i class="fas fa-phone-alt icon"></i> +91 9424865699, +91 7828999263</p>
+            <p><i class="fab fa-github icon"></i>
+                <a href="https://github.com/Sevaa-Bandhu/Sevaa-Bandhu.github.io" target="_blank">
+                    github.com/Sevaa-Bandhu
+                </a>
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <% if (user) { %>
+                    <li><a href="/profile">Profile</a></li>
+                <% } %>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/policy">Policy</a></li>
+                <li><a href="/termCondition">Terms & Conditions</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Moved Logo Section Below -->
+    <div class="footer-bottom-logo">
+        <img src="/images/logo.png" alt="Sevaa Bandhu Logo" />
+        <p>Connecting Communities, Empowering Workers</p>
+    </div>
+</footer>

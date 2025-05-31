@@ -1,0 +1,33 @@
+<!-- views/partials/navbar.ejs -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="/css/navbar.css">
+<script defer src="/js/navbar.js"></script>
+
+<nav class="navbar">
+    <div class="logo">
+        <a href="/"><img src="/images/icon.ico" alt="Logo" /></a>
+    </div>
+
+    <button class="hamburger" id="hamburger">&#9776;</button>
+
+    <div class="nav-links" id="nav-links">
+        <a href="/aboutUs">About</a>
+        <a href="/help">Help</a>
+
+        <% if (!user) { %>
+            <a href="/auth/login" class="btn login-btn">Login</a>
+            <a href="/register" class="btn register-btn">Register</a>
+            <% } else { %>
+                <div class="dropdown">
+                    <button class="dropbtn" id="userDropdownBtn">
+                        <i class="fas fa-user user-icon"></i>
+                    </button>
+                    <div class="dropdown-content" id="userDropdownMenu">
+                        <span><%= user?.name %></span>
+                        <a href="/profile">Profile</a>
+                        <a href="/auth/logout">Logout</a>
+                    </div>
+                </div>
+                <% } %>
+    </div>
+</nav>

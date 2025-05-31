@@ -14,79 +14,80 @@
 </head>
 
 <body>
-    <nav id="navbar"></nav>
+    <%- include('partials/navbar') %>
 
-    <h1 id="title">Terms & Conditions</h1>
-    <div class="container">
+        <h1 id="title">Terms & Conditions</h1>
+        <div class="container">
 
-        <h2>1. Introduction</h2>
-        <p>Welcome to <strong>Sevaa Bandhu</strong>. By accessing or using our platform, you agree to comply with our
-            terms. If you disagree with any part of these terms, please discontinue use of the platform.</p>
+            <h2>1. Introduction</h2>
+            <p>Welcome to <strong>Sevaa Bandhu</strong>. By accessing or using our platform, you agree to comply with
+                our
+                terms. If you disagree with any part of these terms, please discontinue use of the platform.</p>
 
-        <h2>2. Definitions</h2>
-        <ul>
-            <li><strong>Platform:</strong> Refers to the Sevaa Bandhu website.</li>
-            <li><strong>User:</strong> Anyone using our platform, including workers and clients.</li>
-            <li><strong>Worker:</strong> Service providers offering their services through the platform.</li>
-            <li><strong>Client:</strong> Individuals or businesses seeking services through the platform.</li>
-        </ul>
+            <h2>2. Definitions</h2>
+            <ul>
+                <li><strong>Platform:</strong> Refers to the Sevaa Bandhu website.</li>
+                <li><strong>User:</strong> Anyone using our platform, including workers and clients.</li>
+                <li><strong>Worker:</strong> Service providers offering their services through the platform.</li>
+                <li><strong>Client:</strong> Individuals or businesses seeking services through the platform.</li>
+            </ul>
 
-        <h2>3. Eligibility</h2>
-        <p>To use our platform, you must:</p>
-        <ul>
-            <li>Be at least 18 years old.</li>
-            <li>Comply with all applicable laws and regulations.</li>
-        </ul>
+            <h2>3. Eligibility</h2>
+            <p>To use our platform, you must:</p>
+            <ul>
+                <li>Be at least 18 years old.</li>
+                <li>Comply with all applicable laws and regulations.</li>
+            </ul>
 
-        <h2>4. Account Registration</h2>
-        <ul>
-            <li>Users must create an account to access services on the platform.</li>
-            <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
-            <li>You agree to provide accurate and complete information during registration.</li>
-        </ul>
+            <h2>4. Account Registration</h2>
+            <ul>
+                <li>Users must create an account to access services on the platform.</li>
+                <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+                <li>You agree to provide accurate and complete information during registration.</li>
+            </ul>
 
-        <h2>5. Service Usage</h2>
-        <ul>
-            <li>The platform connects clients with workers. We are not responsible for the quality, safety, or legality
-                of the
-                services provided by workers.</li>
-            <li>Workers and clients must communicate directly to finalize terms such as pricing, scheduling, and
-                location.
-            </li>
-        </ul>
+            <h2>5. Service Usage</h2>
+            <ul>
+                <li>The platform connects clients with workers. We are not responsible for the quality, safety, or
+                    legality
+                    of the
+                    services provided by workers.</li>
+                <li>Workers and clients must communicate directly to finalize terms such as pricing, scheduling, and
+                    location.
+                </li>
+            </ul>
 
-        <h2>6. Payment</h2>
-        <ul>
-            <li>Payments for services are agreed upon directly between workers and clients.</li>
-            <li>The platform may introduce a payment gateway in the future to facilitate transactions.</li>
-        </ul>
+            <h2>6. Payment</h2>
+            <ul>
+                <li>Payments for services are agreed upon directly between workers and clients.</li>
+                <li>The platform may introduce a payment gateway in the future to facilitate transactions.</li>
+            </ul>
 
-        <h2>7. User Conduct</h2>
-        <ul>
-            <li>Users must act respectfully and professionally.</li>
-            <li>Prohibited activities include harassment, discrimination, fraud, and illegal activities.</li>
-        </ul>
+            <h2>7. User Conduct</h2>
+            <ul>
+                <li>Users must act respectfully and professionally.</li>
+                <li>Prohibited activities include harassment, discrimination, fraud, and illegal activities.</li>
+            </ul>
 
-        <h2>8. Termination</h2>
-        <ul>
-            <li>We reserve the right to terminate or suspend any user account if these terms are violated.</li>
-            <li>Users may delete their accounts at any time.</li>
-        </ul>
+            <h2>8. Termination</h2>
+            <ul>
+                <li>We reserve the right to terminate or suspend any user account if these terms are violated.</li>
+                <li>Users may delete their accounts at any time.</li>
+            </ul>
 
 
-        <h2>9. Liability</h2>
-        <p><strong>Sevaa Bandhu</strong> is not liable for disputes, damages, or losses arising from interactions
-            between
-            workers and clients.</p>
+            <h2>9. Liability</h2>
+            <p><strong>Sevaa Bandhu</strong> is not liable for disputes, damages, or losses arising from interactions
+                between
+                workers and clients.</p>
 
-        <h2>10. Modifications</h2>
-        <p>We reserve the right to update these terms at any time. Continued use of the platform signifies your
-            acceptance
-            of the changes.</p>
-    </div><br>
+            <h2>10. Modifications</h2>
+            <p>We reserve the right to update these terms at any time. Continued use of the platform signifies your
+                acceptance
+                of the changes.</p>
+        </div><br>
 
-    <footer class="footer" id="footer"></footer>
-    <script src="/js/navbarFooter.js"></script>
+        <%- include('partials/footer', { user }) %>
 </body>
 
 </html>

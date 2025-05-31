@@ -24,10 +24,6 @@ mongoose.connect(process.env.MONGODB_URI,)
 .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // Sessions
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -36,6 +32,16 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
 }));
+
+// pass session to all views
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Static files
 app.use('/auth', authRoutes);

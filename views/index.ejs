@@ -19,29 +19,9 @@
             <button type="submit" class="fa fa-search go-search" title="GO"></button>
             <input type="text" minlength="3" placeholder="search by name or locality" class="search-query">
         </div>
-        <div class="navbar">
-            <div class="nav-item" id="logo-menu" href="index">
-                <a href="/"><img src="/images/logo.png" class="logo-img" alt="logo"></a>
-                <span class="fa-solid fa-bars" id="menu"></span>
-            </div>
-            <div class="nav-item log-sign-in" id="log-sign-in">
-                <% if (!user) { %> <button class="login" type="button"
-                        onclick="window.open('/auth/login', '_self')">Login</button> <button class="reg" type="button"
-                        onclick="window.open('/register', '_self')">Register</button>
-                    <% } else { %> <span class="welcome-user">Welcome, <%= user.firstname %> <%= user.lastname %>!</span>
-                    <button class="logout" type="button" onclick="window.location.href='/auth/logout'">Logout</button>
-                        <% } %>
-            </div>
-            <div class="nav-links-container" id="nav-links-container">
-                <a class="nav-item nav-links active-nav-link" id="nav-home" href="/index" target="_self">Home</a>
-                <a class="nav-item nav-links" id="nav-profile" href="/profile" target="_self">Profile</a>
-                <a class="nav-item nav-links" id="nav-help" href="/help" target="_self">Help</a>
-                <a class="nav-item nav-links" id="nav-about" href="/aboutUs" target="_self">About</a>
-            </div>
-        </div>
-
+        <%- include('partials/navbar') %>
     </nav>
-    <br>
+
     <main class="main-content" id="landing-main-content">
         <section class="intro" id="intro">
             <div class="intro-text">
@@ -207,50 +187,7 @@
         </section>
     </main>
 
-    <footer class="footer" id="footer">
-        <div class="footer-container">
-            <div class="contact-foot element notranslate">
-                <p class="address merge">
-                    <i class="fa fa-map-marker"></i>
-                    <span>School of Electronics, DAVV University, Indore, Madhya Pradesh</span>
-                </p>
-                <p class="mail merge">
-                    <i class="fa fa-envelope"></i>
-                    <span>SevaaBandhu@gmail.com</span>
-                </p>
-                <p class="phone merge">
-                    <i class="fa fa-phone"></i>
-                    <span>+91 9424865699, +91 7828999263</span>
-                </p>
-                <p class="github merge">
-                    <i class="fa fa-github"></i>
-                    <span>Github.com/Sevaa-Bandu/Sevaa-Bandhu.github.io</span>
-                </p>
-            </div>
-
-            <div class="logo-tag element">
-                <img src="images/logo.png" alt="logo footer">
-                <p class="tag-foot">Connecting Communities, Empowering Workers</p>
-            </div>
-            <div class="quick-link element">
-                <p class="sub-title">Quick Links</p>
-                <div class="link-container">
-                    <a href="/" id="quick-home" onclick="location.reload()">
-                        Home</a>
-                    <a href="/profile" id="quick-profile" target="_self">
-                        Profile</a>
-                    <a href="/aboutUs" id="quick-about" target="_self">
-                        About Us</a>
-                    <a href="/help" id="quick-help" target="_self">
-                        Help</a>
-                    <a href="/policy" id="quick-Policy" target="_self">
-                        Policy</a>
-                    <a href="/termCondition" id="quick-TandC" target="_self">
-                        Term & Condition</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <%- include('partials/footer') %>
 
     <script src="js/script.js"></script>
     <script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>

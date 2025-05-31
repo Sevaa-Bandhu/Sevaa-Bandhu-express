@@ -14,14 +14,13 @@ body {
 }
 
 #title {
-    margin-top: 6%;
+    margin-top: 1%;
     text-align: center;
     border-bottom: 4px double rgba(219, 84, 97, 0.5);
 }
 
 div.container {
-    margin: 2vh 0;
-    padding: 5%;
+    padding: 10px;
     font-size: 15px;
     padding: 20px 30px;
     border-radius: 8px;
@@ -41,8 +40,8 @@ h2 {
     }
 
     #title {
-        font-size: 17px;
-        margin-top: 20%;
+        font-size: 1.2rem;
+        margin-top: 2%;
     }
 
     h2 {
