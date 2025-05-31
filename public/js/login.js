@@ -62,7 +62,7 @@ toggleLoginPassword.addEventListener("change", () => {
 
 // Login form validation
 const loginForm = document.getElementById("loginForm");
-loginForm.addEventListener("submit", function (e) {
+loginForm.addEventListener("submit", async function (e) {
     const mobile = document.getElementById("loginMobile").value.trim();
     const password = loginPassword.value.trim();
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
@@ -86,6 +86,23 @@ loginForm.addEventListener("submit", function (e) {
             a special character. [e.g @ # $ * ...]`, false);
         e.preventDefault();
         return;
+    }
+    else{
+        const response = await fetch('/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mobile, password })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+        // 🔁 Redirect to dashboard
+        window.location.href = data.redirect;
+    } else {
+        // Show error
+        document.getElementById('error').innerText = data.message;
+    }
     }
 });
 

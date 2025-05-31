@@ -19,6 +19,8 @@
             </a>
             <h2>Welcome Back, <big>Bandhu!</big></h2>
             <p>Your Employment Companion, Every Step of the Way.</p>
+            <br>
+            <p id="error" style="color:red;"></p>
         </div>
 
         <!-- Login Section -->
@@ -32,7 +34,8 @@
 
                 <div class="input-group">
                     <i class="fas fa-key icon"></i>
-                    <input type="password" id="loginPassword" name="password" placeholder="Password" minlength="8" required>
+                    <input type="password" id="loginPassword" name="password" placeholder="Password" minlength="8"
+                        required>
                 </div>
 
                 <div class="options">
@@ -43,7 +46,8 @@
                 </div>
 
                 <button type="submit" class="login-btn">Login</button>
-                <p class="create-account-text">Don't have an Account? <a href="/register" class="link">Create New</a></p>
+                <p class="create-account-text">Don't have an Account? <a href="/register" class="link">Create New</a>
+                </p>
             </form>
         </div>
 
@@ -53,7 +57,8 @@
             <form id="forgotForm">
                 <div class="input-group">
                     <i class="fas fa-phone icon"></i>
-                    <input type="text" id="forgotMobile" name="forgotMobile" placeholder="Enter Mobile No." maxlength="10" required>
+                    <input type="text" id="forgotMobile" name="forgotMobile" placeholder="Enter Mobile No."
+                        maxlength="10" required>
                 </div>
 
                 <button type="button" class="send-otp-btn" onclick="sendOtp()">Send OTP</button>
@@ -74,13 +79,14 @@
             <form id="resetPasswordForm">
                 <div class="input-group">
                     <i class="fas fa-lock icon"></i>
-                    <input type="password" id="newPassword" name="newPassword" placeholder="New Password" minlength="8" required>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="New Password" minlength="8"
+                        required>
                 </div>
 
                 <div class="input-group">
                     <i class="fas fa-lock icon"></i>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" minlength="8"
-                        required>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"
+                        minlength="8" required>
                 </div>
 
                 <button type="button" class="update-btn" onclick="updatePassword()">Update Password</button>

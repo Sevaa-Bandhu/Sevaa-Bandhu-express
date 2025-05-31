@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const users = require('../models/User');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fast2sms = require('fast-two-sms');
@@ -25,12 +25,12 @@ router.post('/login', async (req, res) => {
     const { mobile, password } = req.body;
     console.log(req.body);
     try {
-        const user = await users.findOne({"mobile": req.body.mobile});
+        const user = await User.findOne({mobile: req.body.mobile});
         if (!user){
             return res.status(404).json({ success: false, message: 'User not found' });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = (password === user.password);
         if (!isMatch) return res.status(401).json({ success: false, message: 'Incorrect password' });
 
         // Session-based login
@@ -105,11 +105,13 @@ router.post('/update-password', async (req, res) => {
 
 // GET /auth/dashboard
 router.get('/dashboard', async (req, res) => {
-    if (!req.session.user) return res.redirect('/auth/login');
+    if (!req.session.user)
+        return res.redirect('/auth/login');
 
     try {
         const user = await User.findOne({ mobile: req.session.user.mobile }).lean();
-        if (!user) return res.redirect('/auth/login');
+        if (!user)
+            return res.redirect('/auth/login');
 
         res.render('dashboard', { user });
     } catch (err) {
