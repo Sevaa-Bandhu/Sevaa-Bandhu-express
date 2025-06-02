@@ -1,46 +1,88 @@
-const edit = document.querySelector("#edit-btn");
-const update = document.querySelector("#update-btn");
-const del = document.querySelector("#del-btn");
-const delYes = document.querySelector("#yes-del");
-const delNo = document.querySelector("#no-del");
+// public/js/profile.js
 
-//edit profile details
-edit.addEventListener("click", () => {
-    let inputs = document.querySelector(".user-details").querySelectorAll(".editable");
-    inputs.forEach(input => {
-        edit.style.display = "none";
-        update.style.display = "block";
-        input.removeAttribute("readonly");
-        input.style.border = "1px solid rgb(200, 71, 84)";
+// Show success/error popup
+function showPopup(message, isSuccess = true) {
+    Swal.fire({
+        icon: isSuccess ? 'success' : 'error',
+        title: isSuccess ? 'Success' : 'Error',
+        text: message,
+        timer: 2500,
+        timerProgressBar: true,
+        showConfirmButton: false
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const updateForm = document.getElementById('updateProfileForm');
+    const deleteForm = document.getElementById('deleteForm');
+
+    updateForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(updateForm);
+        const payload = Object.fromEntries(formData.entries());
+
+        // Basic validations
+        if (!payload.firstname.trim() || !payload.lastname.trim() || !payload.address.trim() || !payload.city.trim() || !payload.state.trim() || !payload.region.trim()) {
+            showPopup("Please fill in all required fields.", false);
+            return;
+        }
+
+        if (payload.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+            showPopup("Invalid email format.", false);
+            return;
+        }
+
+        try {
+            const res = await fetch('/profile/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                showPopup(data.message);
+            } else {
+                showPopup(data.message, false);
+            }
+        } catch (err) {
+            console.error("Profile update error:", err);
+            showPopup("Server error while updating profile.", false);
+        }
+    });
+
+    deleteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const confirmation = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Your account will be permanently deleted.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        });
+
+        if (!confirmation.isConfirmed) return;
+
+        try {
+            const res = await fetch('/profile/delete', {
+                method: 'POST'
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                showPopup('Account deleted successfully. Redirecting...', true);
+                setTimeout(() => window.location.href = '/', 2000);
+            } else {
+                showPopup(data.message, false);
+            }
+        } catch (err) {
+            console.error("Delete error:", err);
+            showPopup("Server error while deleting account.", false);
+        }
     });
 });
-
-// copy updated details into database and disable editing
-update.addEventListener("click", () => {
-    let inputs = document.querySelector(".user-details").querySelectorAll(".editable");
-    inputs.forEach(input => {
-        edit.style.display = "block";
-        update.style.display = "none";
-        input.setAttribute("readonly", "true");
-        input.style.border = "none";
-    });
-});
-
-//Pop up confirm section for user
-del.addEventListener("click", () => {
-    let controlBtn = document.querySelector(".user-details").querySelector("#control-op-btn");
-    controlBtn.style.display = "none";
-    let confirmDel = document.querySelector("#confirm-del");
-    confirmDel.style.display = "block";
-});
-
-//collapse pop up section if choice is NO
-delNo.addEventListener("click", () => {
-    let controlBtn = document.querySelector(".user-details").querySelector("#control-op-btn");
-    controlBtn.style.display = "block";
-    let confirmDel = document.querySelector("#confirm-del");
-    confirmDel.style.display = "none";
-});
-
-//If choise is yes, delete user's data and redirect towards login page closing profile page
-//delYes.addEventListener("click", () => {});

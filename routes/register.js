@@ -19,12 +19,11 @@ router.post('/register', upload.fields([
     try {
         const role = req.body.choice;
         const hashedPassword = await bcrypt.hash(req.body.password, 8);
-        //password will be stored in User.js schema
+        //hashed password will be stored in User.js schema
 
         if (await User.findOne({ phone: req.body.phone })) {
             return res.json({ success: false, message: "Phone number already exists." });
         }
-        else{
             const newUser = new User({
                 mobile: req.body.phone,
                 password: hashedPassword,
@@ -32,7 +31,6 @@ router.post('/register', upload.fields([
                 lastname: req.body.lastname
             });
             await newUser.save();
-        }
 
         if (role === 'worker') {
             const newWorker = new Worker({
@@ -59,7 +57,7 @@ router.post('/register', upload.fields([
             await newWorker.save();
             res.json({ success: true, redirect: '/auth/login' });
         }
-        else if(role === "client"){
+        if(role === "client"){
             // Handle client registration
                 console.log("Unser user routing");
 

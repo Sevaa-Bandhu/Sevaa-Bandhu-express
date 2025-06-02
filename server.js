@@ -10,6 +10,7 @@ const authRoutes = require('./controllers/auth');
 const staticRoutes = require('./routes/static');
 const helpRoutes = require('./routes/help');
 const registerRouter = require('./routes/register');
+const profileRoutes = require('./routes/profile');
 
 
 // Load environment variables
@@ -48,6 +49,7 @@ app.use('/auth', authRoutes);
 app.use('/', staticRoutes);
 app.use('/help', helpRoutes);
 app.use('/', registerRouter);
+app.use('/profile', profileRoutes);
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');

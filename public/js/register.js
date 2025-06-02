@@ -1,3 +1,5 @@
+// /js/register.js
+
 // Helper to show popup
 function showPopup(message, isSuccess = true) {
     Swal.fire({
@@ -195,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 //the client data storing should be handled when verify otp button is pressed
 
-                const formData = new FormData(this);
+                const formData = new FormData(form);
                 try {
                     console.log(formData);
                     const response = await fetch('/register', {

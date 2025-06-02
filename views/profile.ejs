@@ -1,145 +1,131 @@
+<!-- views/profile.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | Sevaa Bandhu</title>
     <link rel="icon" type="image/x-icon" href="/images/icon.ico">
-    <link rel="stylesheet" media="screen" href="/css/navbarFooter.css">
-    <link rel="stylesheet" media="screen" href="/css/profile.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Profile | Sevaa Bandhu</title>
-    <script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
+    <link rel="stylesheet" href="/css/profile.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <%- include('partials/navbar') %>
-    <main class="main-content">
+    <div class="profile-container">
+        <div class="profile-sidebar">
+            <img src="/images/avatar-placeholder.png" alt="Profile Picture" class="profile-pic">
+            <h2>
+                <%= user.firstname %>
+                    <%= user.lastname %>
+            </h2>
+            <p>+91 <%= user.mobile %>
+            </p>
+        </div>
 
-        <section class="side-bar">
-            <div class="logo-rate">
-                <img src="/images/avatar.png" alt="user-img" id="user-img">
-                <p class="username" id="user-name">user's name</p>
-                <p class="rating" id="rating">
-                    <br>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star-half-stroke"></i>
-                </p>
-            </div>
-            <br>
-            <div class="user-contact">
-                <p class="contact" id="contact-phone">+91 1010101010</p>
-                <p class="contact" id="contact-email">ExampleName@mail.com</p>
-            </div>
-        </section>
+        <form id="updateProfileForm" action="/profile/update" method="POST">
+            <!-- Personal Detail -->
+            <section class="detail-section">
+                <h3 class="section-title">Personal Detail</h3>
+                <div class="input-pair">
+                    <label>First Name</label>
+                    <input type="text" name="firstname" value="<%= profile.firstname %>" required>
+                </div>
+                <div class="input-pair">
+                    <label>Last Name</label>
+                    <input type="text" name="lastname" value="<%= profile.lastname %>" required>
+                </div>
+                <div class="input-pair">
+                    <label>Birth Date</label>
+                    <input type="text" value="<%= profile.birthdate %>" readonly>
+                </div>
+                <div class="input-pair">
+                    <label>Age</label>
+                    <input type="text" value="<%= profile.age %>" readonly>
+                </div>
+                <div class="input-pair">
+                    <label>Gender</label>
+                    <select name="gender">
+                        <option value="Male" <%=profile.gender==='Male' ? 'selected' : '' %>>Male</option>
+                        <option value="Female" <%=profile.gender==='Female' ? 'selected' : '' %>>Female</option>
+                        <option value="Other" <%=profile.gender==='Other' ? 'selected' : '' %>>Other</option>
+                    </select>
+                </div>
+                <div class="input-pair">
+                    <label>Email</label>
+                    <input type="email" name="email" value="<%= profile.email %>">
+                </div>
+            </section>
 
-        <section class="user-details">
-            <fieldset class="name-dob">
-                <legend class="details-head">Personal Detail</legend>
+            <!-- Identity Detail -->
+            <section class="detail-section">
+                <h3 class="section-title">Identity Detail</h3>
+                <div class="input-pair">
+                    <label>Unique Identity Number</label>
+                    <input type="text" value="<%= profile.aadhar_number %>" readonly>
+                </div>
+                <div class="input-pair">
+                    <label>Registered As</label>
+                    <input type="text" value="<%= profile.role %>" readonly>
+                </div>
+                <div class="input-pair">
+                    <label>Phone Number</label>
+                    <input type="text" value="<%= profile.phone %>" readonly>
+                </div>
+            </section>
 
-                <div>
-                    <label for="fname-per">First Name</label>
-                    <input type="text" id="fname-per" class="personal-dt editable" value="USER First" readonly>
+            <!-- Address Detail -->
+            <section class="detail-section">
+                <h3 class="section-title">Address Detail</h3>
+                <div class="input-pair">
+                    <label>Address</label>
+                    <input type="text" name="address" value="<%= profile.address %>" required>
                 </div>
-                <div>
-                    <label for="lname-per">Last Name</label>
-                    <input type="text" id="lname-per" class="personal-dt editable" value="USER Last" readonly>
+                <div class="input-pair">
+                    <label>City</label>
+                    <input type="text" name="city" value="<%= profile.city %>" required>
                 </div>
-                <div>
-                    <label for="dob-per">Birth Date</label>
-                    <input type="date" id="dob-per" class="personal-dt" value="" readonly>
+                <div class="input-pair">
+                    <label>Region</label>
+                    <input type="text" name="region" value="<%= profile.region %>" required>
                 </div>
-                <div>
-                    <label for="age-per">Age</label>
-                    <input type="number" id="age-per" class="personal-dt" value="00" readonly>
+                <div class="input-pair">
+                    <label>State</label>
+                    <input type="text" name="state" value="<%= profile.state %>" required>
                 </div>
-            </fieldset>
+            </section>
 
-            <fieldset class="identity">
-                <legend class="details-head">Identity Detail</legend>
-                <div>
-                    <label for="identity-per">Unique Identity Number</label>
-                    <input type="number" id="identity-per" class="dob-identity-dt" value="000000009099" readonly>
-                </div>
-                <div>
-                    <label for="joined-per">Registered As</label>
-                    <input type="text" id="joined-per" class="dob-identity-dt" value="Labour" readonly>
-                </div>
-            </fieldset>
+            <% if (role==='worker' ) { %>
+                <!-- Work Skill (For Workers only) -->
+                <section class="detail-section">
+                    <h3 class="section-title">Work Skill</h3>
+                    <div class="input-pair">
+                        <label>Work Field</label>
+                        <input type="text" name="skillset" value="<%= profile.skillset %>">
+                    </div>
+                    <div class="input-pair">
+                        <label>Experience (Years)</label>
+                        <input type="number" name="experience" value="<%= profile.experience %>">
+                    </div>
+                    <div class="input-pair">
+                        <label>Expected Wages (₹)</label>
+                        <input type="number" name="wages" value="<%= profile.wages %>">
+                    </div>
+                </section>
+                <% } %>
 
-            <fieldset class="address">
-                <legend class="details-head">Address Detail</legend>
-                <div>
-                    <label for="street-per">House No.</label>
-                    <input type="text" id="house-per" class="address-dt editable" value="H-xx" readonly>
-                </div>
-                <div>
-                    <label for="street-per">Street/Area</label>
-                    <input type="text" id="area-per" class="address-dt editable" value="New Colony" readonly>
-                </div>
-                <div>
-                    <label for="landmark-per">Landmark</label>
-                    <input type="text" id="landmark-per" class="address-dt editable" value="" readonly>
-                </div>
-                <div>
-                    <label for="city-per">City/Town</label>
-                    <input type="text" id="city-per" class="address-dt editable" value="Indore" readonly>
-                </div>
-                <div>
-                    <label for="landmark-per">Pincode</label>
-                    <input type="number" id="pincode-per" class="address-dt editable" value="452001" readonly>
-                </div>
-                <div>
-                    <label for="state-per">State</label>
-                    <input type="text" id="state-per" class="address-dt editable" value="Madhya Pradesh" readonly>
-                </div>
-            </fieldset>
+                    <!-- Submit & Delete Buttons -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-update">Update Profile</button>
 
-            <fieldset class="skill">
-                <legend class="details-head">Work Skill</legend>
-                <div>
-                <label for="work-fld">Work Field</label>
-                <input type="text" id="work-fld" class="skill-dt editable" value="Electrician" readonly>
-            </div>
-                <div>
-                <label for="experience">Field Experience</label>
-                <input type="number" id="experience" class="skill-dt editable" value="00" readonly>
-            </div>
-            <div>
-                <label for="past-work">Past Projects/Work</label>
-                <input type="text" id="past-work" class="skill-dt editable" value="None" readonly>
-            </div>
-            <div>
-                <label for="wages">Expected Wages (in Rs)</label>
-                <input type="" id="wages" class="skill-dt editable" value="00" readonly>
-            </div>
-            </fieldset>
-            <br>
-
-            <div class="control-op-btn" id="control-op-btn">
-                <button class="edit control-btn" id="edit-btn">Edit Profile</button>
-                <button class="update control-btn" id="update-btn">Update Details</button>
-                <button class="delete control-btn" id="del-btn">Delete Account</button>
-            </div>
-        </section>
-    </main>
-    <br>
-
-    <div class="confirm-del" id="confirm-del">
-        <p class="del-text">
-            We’re Sad to See You Go!<br>
-            Are you Sure you want to permanently delete your <strong>Sevaa Bandhu</strong> account?<br>
-            Once deleted, this action cannot be undone, and all your data will be lost forever.<br>
-            Take a moment to reconsider! If you're certain, click below to proceed.
-        </p>
-        <br>
-        <button class="del-choice" id="yes-del">Yes, Delete My Account</button>
-        <button class="del-choice" id="no-del">No, Keep My Account</button>
+                        <form id="deleteForm" action="/profile/delete" method="POST">
+                            <button type="submit" class="btn-delete">Delete Account</button>
+                        </form>
+                    </div>
+        </form>
     </div>
-    <br>
 
-    <%- include('partials/footer') %>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/profile.js"></script>
 </body>
 
