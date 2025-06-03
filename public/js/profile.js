@@ -1,6 +1,5 @@
 // public/js/profile.js
 
-// Show success/error popup
 function showPopup(message, isSuccess = true) {
     Swal.fire({
         icon: isSuccess ? 'success' : 'error',
@@ -14,75 +13,53 @@ function showPopup(message, isSuccess = true) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const updateForm = document.getElementById('updateProfileForm');
-    const deleteForm = document.getElementById('deleteForm');
+    const editBtn = document.getElementById('editProfileBtn');
+    const updateBtn = document.getElementById('updateProfileBtn');
+    const deleteBtn = document.getElementById('deleteAccountBtn');
+    const deleteConfirmation = document.getElementById('deleteConfirmation');
 
+    // Disable fields by default
+    const fields = updateForm.querySelectorAll('input:not([readonly]), select');
+    fields.forEach(field => field.setAttribute('disabled', true));
+
+    // Enable edit
+    editBtn.addEventListener('click', () => {
+        fields.forEach(field => field.removeAttribute('disabled'));
+        updateBtn.style.display = 'inline-block';
+        editBtn.style.display = 'none';
+    });
+
+    // Submit updated profile
     updateForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         const formData = new FormData(updateForm);
         const payload = Object.fromEntries(formData.entries());
-
-        // Basic validations
-        if (!payload.firstname.trim() || !payload.lastname.trim() || !payload.address.trim() || !payload.city.trim() || !payload.state.trim() || !payload.region.trim()) {
-            showPopup("Please fill in all required fields.", false);
-            return;
-        }
-
-        if (payload.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-            showPopup("Invalid email format.", false);
-            return;
-        }
 
         try {
             const res = await fetch('/profile/update', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-
             const data = await res.json();
             if (data.success) {
                 showPopup(data.message);
+                fields.forEach(field => field.setAttribute('disabled', true));
+                updateBtn.style.display = 'none';
+                editBtn.style.display = 'inline-block';
             } else {
                 showPopup(data.message, false);
             }
         } catch (err) {
-            console.error("Profile update error:", err);
-            showPopup("Server error while updating profile.", false);
+            console.error('Update error:', err);
+            showPopup('Server error while updating profile', false);
         }
     });
 
-    deleteForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const confirmation = await Swal.fire({
-            title: 'Are you sure?',
-            text: 'Your account will be permanently deleted.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-        });
-
-        if (!confirmation.isConfirmed) return;
-
-        try {
-            const res = await fetch('/profile/delete', {
-                method: 'POST'
-            });
-
-            const data = await res.json();
-            if (data.success) {
-                showPopup('Account deleted successfully. Redirecting...', true);
-                setTimeout(() => window.location.href = '/', 2000);
-            } else {
-                showPopup(data.message, false);
-            }
-        } catch (err) {
-            console.error("Delete error:", err);
-            showPopup("Server error while deleting account.", false);
-        }
+    // Show delete confirmation
+    deleteBtn.addEventListener('click', () => {
+        deleteConfirmation.style.display = 'block';
+        updateBtn.style.display = 'none';
+        editBtn.style.display = 'inline-block';
     });
 });

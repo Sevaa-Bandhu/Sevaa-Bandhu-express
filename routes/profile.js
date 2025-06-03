@@ -6,41 +6,49 @@ const Client = require('../models/Client');
 const Worker = require('../models/Worker');
 
 // GET /profile
-router.get('/', async (req, res) => {
-    if (!req.session.user) return res.redirect('/auth/login');
+router.get('/profile', async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/auth/login');
+    }
+
+    const mobile = req.session.user.mobile;
 
     try {
-        const mobile = req.session.user.mobile;
-        const user = await User.findOne({ mobile }).lean();
-        const client = await Client.findOne({ phone: mobile }).lean();
-        const worker = await Worker.findOne({ phone: mobile }).lean();
+        const user = await User.findOne({ mobile });
+        let profile = await Worker.findOne({ phone: mobile });
+        let role = 'worker';
 
-        const profile = worker || client;
-        const role = profile?.role || 'client';
+        if (!profile) {
+            profile = await Client.findOne({ phone: mobile });
+            role = 'client';
+        }
 
-        console.log('Rendering profile with:', profile);
+        if (!profile) {
+            return res.status(404).send("Profile not found");
+        }
+
         res.render('profile', { user, profile, role });
     } catch (err) {
-        console.error("Profile load error:", err);
-        res.status(500).send("Error loading profile");
+        console.error("Error loading profile:", err);
+        res.status(500).send("Server error");
     }
 });
 
 // POST /profile/update
-router.post('/update', async (req, res) => {
-    if (!req.session.user) return res.status(403).json({ success: false, message: "Unauthorized" });
+router.post('/profile/update', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(403).json({ success: false, message: "Unauthorized" });
+    }
+
+    const mobile = req.session.user.mobile;
+    const updates = req.body;
 
     try {
-        const mobile = req.session.user.mobile;
-        const updates = req.body;
-
-        // Update User model
         await User.updateOne({ mobile }, {
             firstname: updates.firstname,
             lastname: updates.lastname
         });
 
-        // Update Client or Worker
         const client = await Client.findOne({ phone: mobile });
         const worker = await Worker.findOne({ phone: mobile });
 
@@ -73,14 +81,16 @@ router.post('/update', async (req, res) => {
 
         res.json({ success: true, message: "Profile updated successfully" });
     } catch (err) {
-        console.error("Profile update error:", err);
+        console.error("Profile update failed:", err);
         res.status(500).json({ success: false, message: "Failed to update profile" });
     }
 });
 
 // POST /profile/delete
-router.post('/delete', async (req, res) => {
-    if (!req.session.user) return res.status(403).json({ success: false, message: "Unauthorized" });
+router.post('/profile/delete', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(403).json({ success: false, message: "Unauthorized" });
+    }
 
     try {
         const mobile = req.session.user.mobile;
@@ -94,7 +104,7 @@ router.post('/delete', async (req, res) => {
             res.json({ success: true });
         });
     } catch (err) {
-        console.error("Account deletion error:", err);
+        console.error("Delete error:", err);
         res.status(500).json({ success: false, message: "Error deleting account" });
     }
 });

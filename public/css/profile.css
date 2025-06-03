@@ -1,3 +1,4 @@
+/* /css/profile.css */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 * {
@@ -19,139 +20,201 @@
 }
 
 body {
-    background-color: #f0f7f6;
     margin: 0;
-    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #eff5f3;
 }
 
 .profile-container {
+    width: 60%;
+    margin-left: 20%;
     display: flex;
     flex-wrap: wrap;
+    padding: 40px;
     gap: 20px;
-    justify-content: center;
-    max-width: 1200px;
-    margin: auto;
 }
 
 .profile-sidebar {
-    flex: 1 1 250px;
-    max-width: 300px;
-    background-color: #121212;
-    color: white;
+    width: 300px;
+    background-color: rgb(14, 14, 14);
+    color: #fff;
+    padding: 30px 15px;
     text-align: center;
-    padding: 20px;
-    border-radius: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
 }
 
-.profile-sidebar .profile-pic {
-    width: 140px;
-    height: 140px;
+.profile-sidebar img.profile-pic {
+    width: 150px;
+    height: 150px;
+    padding: 10px;
     border-radius: 50%;
-    margin-bottom: 10px;
-    border: 3px solid #e76e6e;
-    box-shadow: 0 0 10px #e76e6e;
+    object-fit: cover;
+    border: 3px solid #e15b64;
+    background-color: rgba(31, 31, 31, 0.1);
 }
 
 .profile-sidebar h2 {
+    font-size: 1.4rem;
     margin: 10px 0 5px;
-    font-size: 1.3rem;
-    color: #ffffff;
+}
+
+.profile-sidebar .stars {
+    margin: 10px 0;
+    color: #e15b64;
 }
 
 .profile-sidebar p {
     font-size: 1rem;
-    margin: 5px 0;
-    color: #dcdcdc;
+    margin: 3px 0;
+    word-wrap: break-word;
 }
 
-.profile-details {
-    flex: 2 1 600px;
-    background-color: #dce9e9;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+form {
+    flex: 1;
+    max-width: calc(100% - 300px);
+    color: rgb(39, 39, 39);
 }
 
 .detail-section {
-    margin-bottom: 30px;
-    padding: 15px;
-    background: #e7f1f1;
-    border-radius: 10px;
-    box-shadow: 0 0 4px #999;
+    background-color: #cbe1dc;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.15);
 }
 
 .section-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #c03b3b;
+    font-size: 1.1rem;
+    font-weight: 500;
     text-align: center;
-    margin-bottom: 10px;
+    margin: 8px 32%;
+    background-color: #f4f8f9;
+    color: #c72f44;
+    border: 2px solid #b7c9c5;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .input-pair {
     display: flex;
     flex-direction: column;
+    width: 75%;
     margin-bottom: 12px;
 }
 
 .input-pair label {
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: #333;
+    font-weight: 400;
+    margin-bottom: 5px;
 }
 
 .input-pair input,
 .input-pair select {
     padding: 8px 10px;
-    border-radius: 20px;
-    border: none;
-    background-color: #d5e4e6;
-    font-size: 1rem;
+    border: 1px solid #b7c9c5;
+    background-color: #eff5f3;
+    border-radius: 25px;
+    font-size: 0.95rem;
     outline: none;
 }
 
-.input-pair input[readonly] {
-    background-color: #cfdcdc;
-    color: #555;
+input[readonly],
+select[disabled] {
+    background-color: #eff5f3;
+    border: 1px solid #b7c9c5;
+    cursor: default;
 }
 
 .form-actions {
     display: flex;
-    justify-content: space-around;
-    margin-top: 30px;
+    justify-content: center;
+    gap: 5rem;
+    margin-top: 20px;
 }
 
 .btn-update,
 .btn-delete {
-    padding: 12px 25px;
-    font-size: 1rem;
-    border: 2px solid #c03b3b;
-    background-color: transparent;
+    padding: 8px 20px;
+    border: 2px solid #c72f44;
+    color: #c72f44;
+    background-color: #fff;
     border-radius: 8px;
-    color: #c03b3b;
+    font-size: 0.95rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: 0.2s ease-in;
 }
 
 .btn-update:hover,
 .btn-delete:hover {
-    background-color: #c03b3b;
-    color: #fff;
+    border-radius: 20px;
+    box-shadow: 1px 1px 4px #c72f44;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+.confirm-delete {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #cbe1dc;
+    border-top: 4px solid #e15b64;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+
+.confirm-delete p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+}
+
+.confirm-delete strong {
+    font-weight: bold;
+}
+
+.confirm-delete .btn-danger,
+.confirm-delete .btn-secondary {
+    padding: 6px 16px;
+    margin: 10px 5px 0;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid #c72f44;
+    color: #c72f44;
+    background-color: white;
+}
+
+.confirm-delete .btn-danger:hover,
+.confirm-delete .btn-secondary:hover {
+    background-color: #c72f44;
+    color: white;
+}
+
+@media (max-width: 768px) {
     .profile-container {
         flex-direction: column;
-        align-items: center;
+        padding: 20px;
     }
 
-    .form-actions {
-        flex-direction: column;
-        gap: 15px;
+    .profile-sidebar {
+        width: 100%;
+    }
+
+    form {
+        max-width: 100%;
     }
 
     .input-pair {
         width: 100%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 10px;
     }
 }

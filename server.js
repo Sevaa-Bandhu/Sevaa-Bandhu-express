@@ -49,7 +49,7 @@ app.use('/auth', authRoutes);
 app.use('/', staticRoutes);
 app.use('/help', helpRoutes);
 app.use('/', registerRouter);
-app.use('/profile', profileRoutes);
+app.use('/', profileRoutes);
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
