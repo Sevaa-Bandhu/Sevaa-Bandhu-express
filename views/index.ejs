@@ -133,62 +133,46 @@
 
         <section class="labour-cards-container" id="labour-cards">
             <p class="title">Our Professionals</p>
-            <div class="labour-cards">
+            <br />
 
-                <div class="labour" id="labour">
-                    <p class="img-contain" id="img-contain">
-                        <img src="/images/labour-icon.png" alt="labour image" id="img">
-                    </p>
-                    <div class="details-contain" id="details-contain">
-                        <div class="name" id="name"><strong>Labour Professional</strong></div>
-                        <div class="gender-age" id="gender-age">
-                            <p class="gender-age-element" id="gender">
-                                Male
-                            </p>
-                            <p class="gender-age-element" id="age">
-                                xx
-                            </p>
-                        </div>
-                        <div class="locality" id="locality">
-                            Indore
-                        </div>
-                        <div class="prof-exp" id="prof-exp">
-                            Experience: xx years
-                        </div>
-                        <div class="phone" id="phone">Contact: +911234509874</div>
-                    </div>
-                </div>
+            <div class="worker-container">
+                <% workers.forEach(worker=> { %>
 
-                <div class="labour" id="labour">
-                    <p class="img-contain" id="img-contain">
-                        <img src="/images/labour-icon.png" alt="labour image" id="img">
-                    </p>
-                    <div class="details-contain" id="details-contain">
-                        <div class="name" id="name"><strong>Labour Professional</strong></div>
-                        <div class="gender-age" id="gender-age">
-                            <p class="gender-age-element" id="gender">
-                                Male
+                    <div class="worker-card">
+                        <img src="/images/labour-icon.png" alt="Worker Image" />
+                        <div class="worker-info">
+                            <h3>
+                                <%= worker.firstname %>
+                                    <%= worker.lastname %>
+                            </h3>
+                            <p>
+                                <%= worker.gender %>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <%= worker.age %>
                             </p>
-                            <p class="gender-age-element" id="age">
-                                xx
+                            <p>
+                                <%= worker.city %>
+                            </p>
+                            <p>Experience: <%= worker.experience || 'N/A' %> years</p>
+                            <p>
+                                Contact:
+                                <% if (user) { %>
+                                    +91 <%= worker.phone %>
+                                        <% } else { %>
+                                            +91 XXXXX XXXXX
+                                            <% } %>
                             </p>
                         </div>
-                        <div class="locality" id="locality">
-                            Indore
-                        </div>
-                        <div class="prof-exp" id="prof-exp">
-                            Experience: xx years
-                        </div>
-                        <div class="phone" id="phone">Contact: +911234509874</div>
                     </div>
-                </div>
+
+                    <% }) %>
             </div>
         </section>
     </main>
-
+    <br />
     <%- include('partials/footer') %>
 
-    <script src="js/script.js"></script>
+        <script src="js/script.js"></script>
 </body>
 
 </html>

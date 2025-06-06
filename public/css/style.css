@@ -276,7 +276,7 @@ section.category .container .element:hover,
     box-shadow: 0.5vh 0.5vh 2vh var(--color55);
 }
 
-/* Labour Cards Section */
+/* Labour Cards Section Title*/
 section.labour-cards-container p.title {
     width: 30%;
     margin: auto;
@@ -286,123 +286,63 @@ section.labour-cards-container p.title {
     border-bottom: 3px solid var(--color1);
 }
 
-section.labour-cards-container .labour-cards {
-    margin-top: 2%;
-    padding: 2%;
-    display: grid;
-    grid-template-columns: auto auto;
-    row-gap: 10%;
-    column-gap: 2%;
+.worker-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    padding: 10px;
+}
+
+.worker-card {
+    display: flex;
     align-items: center;
-    align-content: space-evenly;
-
-    .labour {
-        width: 80%;
-        word-break: break-all;
-        padding: min(2vh, 2vw);
-        font-size: larger;
-        color: var(--color55);
-        display: flex;
-        align-items: center;
-        border: 3px solid var(--hover2);
-        border-top-left-radius: min(3vh, 3vw);
-        border-bottom-right-radius: min(3vh, 3vw);
-
-        img {
-            max-width: 100%;
-        }
-    }
+    background-color: #fff;
+    border: 2px solid #f0c040;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-section.labour-cards-container .labour-cards .labour .details-contain {
-    width: 100%;
-    text-align: left;
-
-    .gender-age {
-        display: flex;
-        gap: 15%;
-    }
-
-    .locality {
-        width: 100%;
-        text-align: left;
-    }
+.worker-card img {
+    width: 90px;
+    height: 100px;
+    object-fit: contain;
+    margin-right: 20px;
 }
 
-/* Footer */
-footer {
-    padding: 1%;
-    width: 100%;
-    background: linear-gradient(55deg, rgba(0, 0, 0, 0.9) 59%, rgba(0, 0, 0, 0.95) 40%);
-
-    .footer-container {
-        display: grid;
-        grid-template-columns: 45% 30% auto;
-        gap: 2% 2%;
-        grid-auto-flow: column;
-    }
+.worker-info {
+    display: flex;
+    flex-direction: column;
 }
 
+.worker-info h3 {
+    margin: 5px 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color55);
+}
+
+.worker-info p {
+    margin: 3px 0;
+    font-size: 1rem;
+    color: var(--color55);
+}
 
 /* Media query for screen size < 620px */
 @media screen and (max-width: 620px) {
     nav {
-        background: radial-gradient(circle, rgba(7, 7, 8, 0.95) 0%, rgba(0, 0, 0, 1) 80%);
-
-            .search-query,
-            .go-search {
-                font-size: 2.2vh;
-            }
+        .search-query,
+        .go-search {
+            font-size: 2.2vh;
         }
+    }
 
-        .skiptranslate.goog-te-gadget select {
-            width: 30vw;
-        }
-
-        div.navbar {
-            div#logo-menu {
-                width: 100%;
-                padding: 0;
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-
-                a {
-                    text-decoration: none;
-                    float: left;
-
-                    img.logo-img {
-                        padding: 0 2%;
-                        width: 18vw;
-                        height: 12vw;
-                    }
-                }
-
-                .fa-bars {
-                    width: 50%;
-                    display: inline;
-                    padding: 0 5%;
-                    font-size: 5vw;
-                    text-align: right;
-                    float: right;
-                    color: var(--color3);
-                }
-            }
-
-            .nav-item {
-                width: 100%;
-                text-align: center;
-                display: block;
-                padding: 2% 0;
-            }
-
-            .log-sign-in,
-            div.nav-links-container {
-                width: 100%;
-                display: none;
-            }
-        }
+    .skiptranslate.goog-te-gadget select {
+        width: 30vw;
+    }
 
     section.intro {
         min-height: 500px;
@@ -483,82 +423,15 @@ footer {
         width: 95%;
     }
 
-    section.labour-cards-container .labour-cards {
-        column-gap: 3%;
-
-        .labour {
-            padding: 4px;
-            font-size: 14px;
-            display: block;
-            align-items: center;
-            word-break: break-all;
-
-            img {
-                padding: 0 20%;
-                max-width: 40vw;
-                max-height: 20vh;
-            }
-        }
-    }
-
-    footer .footer-container {
-        padding-top: 10px;
-        display: grid;
-        grid-template-columns: 45% 28% auto;
-        gap: 3%;
-        grid-auto-flow: column;
-    }
-
-    footer .footer-container .logo-tag {
-        margin-top: 10%;
-
-        img {
-            max-width: 80%;
-            translate: 10% 0;
-        }
-
-        .tag-foot {
-            padding: 5px;
-            color: var(--color33);
-            font-size: 9px;
-            border-left-width: 3px;
-            border-bottom-width: 3px;
-            border-bottom-left-radius: 15px;
-        }
-    }
-
-    footer .footer-container .quick-link {
+    section.labour-cards-container .worker-card {
+        flex-direction: column;
         align-items: center;
-
-        .sub-title {
-            text-align: center;
-            font-size: 10px;
-        }
-
-        .link-container a {
-            width: 99%;
-            padding: 5% 10% 2% 10%;
-            font-size: 10px;
-        }
+        text-align: center;
+        width: 90%;
     }
 
-    footer .footer-container .contact-foot {
-        font-size: 9px;
-        text-align: left;
-
-        .merge {
-            display: inline-flex;
-            gap: 3%;
-            line-height: 10px;
-            color: var(--color33);
-
-            span {
-                word-break: break-word;
-            }
-
-            .fa {
-                font-size: 14px;
-            }
-        }
+    .worker-card img {
+        margin: 0 0 10px 0;
     }
+
 }
