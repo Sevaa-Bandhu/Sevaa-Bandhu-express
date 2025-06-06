@@ -60,7 +60,7 @@ router.post('/profile/update', async (req, res) => {
                 gender: updates.gender,
                 address: updates.address,
                 city: updates.city,
-                region: updates.region,
+                pincode: updates.pincode,
                 state: updates.state
             });
         } else if (worker) {
@@ -71,7 +71,7 @@ router.post('/profile/update', async (req, res) => {
                 gender: updates.gender,
                 address: updates.address,
                 city: updates.city,
-                region: updates.region,
+                pincode: updates.pincode,
                 state: updates.state,
                 skillset: updates.skillset,
                 experience: updates.experience,
@@ -92,20 +92,36 @@ router.post('/profile/delete', async (req, res) => {
         return res.status(403).json({ success: false, message: "Unauthorized" });
     }
 
+    const mobile = req.session.user.mobile;
+
     try {
-        const mobile = req.session.user.mobile;
-
+        // Delete from User collection
         await User.deleteOne({ mobile });
-        await Client.deleteOne({ phone: mobile });
-        await Worker.deleteOne({ phone: mobile });
 
-        req.session.destroy(() => {
+        // Try deleting from both collections to be safe
+        const clientDel = await Client.deleteOne({ phone: mobile });
+        const workerDel = await Worker.deleteOne({ phone: mobile });
+
+        const deletedFromAny = clientDel.deletedCount > 0 || workerDel.deletedCount > 0;
+
+        // End session and clear cookie
+        req.session.destroy((err) => {
+            if (err) {
+                console.error("Session destruction error:", err);
+                return res.status(500).json({ success: false, message: "Session error" });
+            }
+
             res.clearCookie("connect.sid");
-            res.json({ success: true });
+
+            if (deletedFromAny) {
+                return res.json({ success: true, message: "Account deleted successfully" });
+            } else {
+                return res.json({ success: false, message: "No matching client/worker record found" });
+            }
         });
     } catch (err) {
-        console.error("Delete error:", err);
-        res.status(500).json({ success: false, message: "Error deleting account" });
+        console.error("Account deletion error:", err);
+        return res.status(500).json({ success: false, message: "Error deleting account" });
     }
 });
 

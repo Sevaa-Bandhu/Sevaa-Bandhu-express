@@ -82,14 +82,6 @@
                     <input type="text" name="address" value="<%= profile.address %>" disabled />
                 </div>
                 <div class="input-pair">
-                    <label>Street/Area</label>
-                    <input type="text" name="region" value="<%= profile.region %>" disabled />
-                </div>
-                <div class="input-pair">
-                    <label>Landmark</label>
-                    <input type="text" name="landmark" value="<%= profile.landmark || '' %>" disabled />
-                </div>
-                <div class="input-pair">
                     <label>City/Town</label>
                     <input type="text" name="city" value="<%= profile.city %>" disabled />
                 </div>
@@ -138,8 +130,8 @@
                 <p><strong>We're Sad to See You Go!</strong></p>
                 <p>Are you Sure you want to permanently delete your <strong>Sevaa Bandhu</strong> account?</p>
                 <p>Once deleted, this action cannot be undone, and all your data will be lost forever.<br>Take a moment to reconsider! If you're certain, click below to proceed.</p>
-                <button type="submit" formaction="/profile/delete" formmethod="POST" class="btn-danger">Yes, Delete My Account</button>
-                <button type="button" class="btn-secondary" onclick="document.getElementById('deleteConfirmation').style.display='none'">No, Keep My Account</button>
+                <button type="submit" formaction="/profile/delete" id="confirmDeleteBtn" formmethod="POST" class="btn-danger">Yes, Delete My Account</button>
+                <button type="button" class="btn-secondary" id="cancelDeleteBtn" onclick="document.getElementById('deleteConfirmation').style.display='none'">No, Keep My Account</button>
             </div>
         </form>
     </div>

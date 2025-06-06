@@ -12,7 +12,7 @@ const clientSchema = new mongoose.Schema({
     address: {type: String,required: true},
     state: {type: String,required: true},
     city: {type: String,required: true},
-    region: {type: String,required: true},
+    pincode: {type: String,required: true},
     role: {type: String,required: true}
 });
 module.exports = mongoose.model("Client", clientSchema);

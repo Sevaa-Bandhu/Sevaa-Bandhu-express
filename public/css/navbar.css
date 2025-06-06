@@ -66,7 +66,7 @@
     padding: 2px;
     position: absolute;
     background-color: white;
-    min-width: 200px;
+    min-width: 220px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     right: 0;
@@ -75,7 +75,7 @@
 
 .dropdown-content a,
 .dropdown-content span {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: teal;
     padding: 10px 16px;
     text-decoration: none;

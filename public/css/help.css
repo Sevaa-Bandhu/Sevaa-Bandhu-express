@@ -51,12 +51,10 @@ body {
 .contact-image {
     margin-top: 60px;
     width: 300px;
-    /* Adjust image size */
     height: auto;
     flex-shrink: 0;
     /* Prevent image from shrinking */
     border-radius: 8px;
-    /* Optional for rounded corners */
 }
 
 .contact-image img {
@@ -133,7 +131,7 @@ body {
     font-weight: 500;
     margin-top: 30px;
     border: none;
-    border-radius: 30px;
+    border-radius: 25px;
     cursor: pointer;
     transition: all 250ms ease;
     background: rgb(130, 106, 251);
@@ -199,15 +197,16 @@ body {
 
     .contact-image {
         width: 100%;
-        /* Image takes full width on small screens */
         max-width: 300px;
-        /* Prevent it from getting too large */
         margin-top: 0px;
-        /* Adds space between form and image */
     }
 
     .form .info {
         width: 100%;
         /* Ensure form inputs take full width */
+    }
+
+    .question, .answer{
+        font-size: 2vh;
     }
 }

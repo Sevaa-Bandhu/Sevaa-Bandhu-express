@@ -26,7 +26,7 @@ body {
 }
 
 .profile-container {
-    width: 60%;
+    width: 80%;
     margin-left: 20%;
     display: flex;
     flex-wrap: wrap;
@@ -35,7 +35,7 @@ body {
 }
 
 .profile-sidebar {
-    width: 300px;
+    width: 30%;
     background-color: rgb(14, 14, 14);
     color: #fff;
     padding: 30px 15px;
@@ -51,7 +51,7 @@ body {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #e15b64;
-    background-color: rgba(31, 31, 31, 0.1);
+    background-color: rgb(218, 177, 177);
 }
 
 .profile-sidebar h2 {
@@ -77,18 +77,20 @@ form {
 }
 
 .detail-section {
+    width: 65%;
     background-color: #cbe1dc;
     padding: 20px;
     border-radius: 12px;
     margin-bottom: 20px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
 .section-title {
+    width: 60%;
     font-size: 1.1rem;
     font-weight: 500;
     text-align: center;
-    margin: 8px 32%;
+    margin: 8px 20%;
     background-color: #f4f8f9;
     color: #c72f44;
     border: 2px solid #b7c9c5;
@@ -98,6 +100,7 @@ form {
 }
 
 .input-group {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -106,7 +109,6 @@ form {
 .input-pair {
     display: flex;
     flex-direction: column;
-    width: 75%;
     margin-bottom: 12px;
 }
 
@@ -134,9 +136,9 @@ select[disabled] {
 
 .form-actions {
     display: flex;
-    justify-content: center;
     gap: 5rem;
     margin-top: 20px;
+    margin-left: 8%;
 }
 
 .btn-update,
@@ -152,20 +154,21 @@ select[disabled] {
     transition: 0.2s ease-in;
 }
 
-.btn-update:hover,
-.btn-delete:hover {
+.btn-update:hover, .btn-update:focus,
+.btn-delete:hover, .btn-delete:focus{
     border-radius: 20px;
     box-shadow: 1px 1px 4px #c72f44;
 }
 
 .confirm-delete {
+    width: 65%;
     margin-top: 20px;
     padding: 20px;
     background-color: #cbe1dc;
     border-top: 4px solid #e15b64;
     border-radius: 6px;
     text-align: center;
-    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 .confirm-delete p {
@@ -179,7 +182,7 @@ select[disabled] {
 
 .confirm-delete .btn-danger,
 .confirm-delete .btn-secondary {
-    padding: 6px 16px;
+    padding: 8px 10px;
     margin: 10px 5px 0;
     font-weight: bold;
     border-radius: 5px;
@@ -187,18 +190,23 @@ select[disabled] {
     border: 2px solid #c72f44;
     color: #c72f44;
     background-color: white;
+    transition: 0.2s all;
 }
 
 .confirm-delete .btn-danger:hover,
-.confirm-delete .btn-secondary:hover {
-    background-color: #c72f44;
-    color: white;
+.confirm-delete .btn-secondary:hover,
+.confirm-delete .btn-danger:focus,
+.confirm-delete .btn-secondary:focus {
+    border-radius: 20px;
+    box-shadow: 1px 1px 4px #c72f44;
 }
 
 @media (max-width: 768px) {
     .profile-container {
         flex-direction: column;
+        margin-left: 10%;
         padding: 20px;
+        width: 80%;
     }
 
     .profile-sidebar {
@@ -208,13 +216,24 @@ select[disabled] {
     form {
         max-width: 100%;
     }
+    .detail-section {
+    width: 100%;
+    }
 
     .input-pair {
         width: 100%;
     }
 
     .form-actions {
+        width: 85%;
         flex-direction: column;
         gap: 10px;
+    }
+
+    .section-title {
+        width: 100%;
+        font-size: 1rem;
+        margin: 8px 0%;
+        padding: 5px;
     }
 }

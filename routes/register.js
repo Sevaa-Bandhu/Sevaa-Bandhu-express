@@ -45,7 +45,7 @@ router.post('/register', upload.fields([
                 address: req.body.address,
                 state: req.body.state,
                 city: req.body.city,
-                region: req.body.region,
+                pincode: req.body.pincode,
                 role: "worker",
                 skillset: req.body.skillset,
                 experience: parseInt(req.body.experience),
@@ -73,7 +73,7 @@ router.post('/register', upload.fields([
                 address: req.body.address,
                 state: req.body.state,
                 city: req.body.city,
-                region: req.body.region,
+                pincode: req.body.pincode,
                 role: "client",
             });
             console.log("New Client added to MongoDB.");

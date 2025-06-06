@@ -1,5 +1,3 @@
-// public/js/profile.js
-
 function showPopup(message, isSuccess = true) {
     Swal.fire({
         icon: isSuccess ? 'success' : 'error',
@@ -17,21 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateBtn = document.getElementById('updateProfileBtn');
     const deleteBtn = document.getElementById('deleteAccountBtn');
     const deleteConfirmation = document.getElementById('deleteConfirmation');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
 
-    // Disable fields by default
-    const fields = updateForm.querySelectorAll('input:not([readonly]), select');
+    // Disable all input fields (except readonly) by default
+    const fields = updateForm.querySelectorAll('input:not([readonly]):not([type="hidden"]), select');
     fields.forEach(field => field.setAttribute('disabled', true));
 
-    // Enable edit
+    // Enable edit mode
     editBtn.addEventListener('click', () => {
         fields.forEach(field => field.removeAttribute('disabled'));
         updateBtn.style.display = 'inline-block';
         editBtn.style.display = 'none';
+        deleteConfirmation.style.display = 'none'; // hide delete box if open
     });
 
-    // Submit updated profile
+    // Submit profile update
     updateForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
         const formData = new FormData(updateForm);
         const payload = Object.fromEntries(formData.entries());
 
@@ -41,12 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
+
             const data = await res.json();
             if (data.success) {
                 showPopup(data.message);
-                fields.forEach(field => field.setAttribute('disabled', true));
-                updateBtn.style.display = 'none';
-                editBtn.style.display = 'inline-block';
+                setTimeout(() => {window.location.reload();}, 2500);
             } else {
                 showPopup(data.message, false);
             }
@@ -56,10 +57,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Show delete confirmation
+    // Show delete confirmation UI
     deleteBtn.addEventListener('click', () => {
         deleteConfirmation.style.display = 'block';
         updateBtn.style.display = 'none';
         editBtn.style.display = 'inline-block';
+        fields.forEach(field => field.setAttribute('disabled', true));
     });
+
+    // Submit delete request
+    confirmDeleteBtn.addEventListener('click', async () => {
+        try {
+            const res = await fetch('/profile/delete', {
+                method: 'POST'
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                showPopup('Account deleted successfully. Redirecting...', true);
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            } else {
+                showPopup(data.message || 'Failed to delete account.', false);
+            }
+        } catch (err) {
+            console.error("Delete error:", err);
+            showPopup("Server error while deleting account", false);
+        }
+    });
+
+    // Cancel delete confirmation
+    if (cancelDeleteBtn) {
+        cancelDeleteBtn.addEventListener('click', () => {
+            deleteConfirmation.style.display = 'none';
+        });
+    }
 });

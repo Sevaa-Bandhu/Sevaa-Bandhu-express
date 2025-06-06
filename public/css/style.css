@@ -40,26 +40,26 @@ body {
 
 /* Support bar top */
 nav .second-nav {
-    padding: min(1vh, 1vw);
+    padding: min(0.5vh, 0.5vw);
     width: 100%;
     background: radial-gradient(circle, rgba(27, 27, 28, 0.9) 0%, rgba(0, 0, 0, 1) 60%);
-    min-height: 45px;
+    min-height: 40px;
 
     .search-query {
         width: 40%;
         margin-right: 1%;
         float: right;
-        font-size: 2.5vh;
+        font-size: 2.2vh;
         text-align: center;
         padding: 4px 8px;
         border: none;
-        border-radius: 3vh;
+        border-radius: 2vh;
         outline: none;
     }
 
     .go-search {
         float: right;
-        font-size: 3vh;
+        font-size: 2.5vh;
         color: var(--color33);
         background-color: transparent;
         padding: 4px 10px;
@@ -128,7 +128,7 @@ section.intro {
     min-height: 75vh;
     position: relative;
     padding: 1% 2%;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url("../images/landing.jpg");
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url("/images/landing.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -142,16 +142,11 @@ section.intro .intro-text {
     background-color: rgba(255, 255, 255, 0.6);
     translate: 15vw 20vh;
     mix-blend-mode: screen;
-    border-left: 1vw solid var(--color55);
+    border-left: 1vw solid var(--color33);
 
     .description {
         font-weight: 800;
-        font-size: 4vh;
-
-        big {
-            font-weight: bold;
-            font-size: max(3.2vw, 6vh);
-        }
+        font-size: 3.5vh;
     }
 }
 
@@ -401,8 +396,8 @@ footer {
 }
 
 
-/* Media query for screen size < 650px */
-@media screen and (max-width: 625px) {
+/* Media query for screen size < 620px */
+@media screen and (max-width: 620px) {
     nav {
         background: radial-gradient(circle, rgba(7, 7, 8, 0.95) 0%, rgba(0, 0, 0, 1) 80%);
 
@@ -460,7 +455,6 @@ footer {
                 display: none;
             }
         }
-    }
 
     section.intro {
         min-height: 500px;

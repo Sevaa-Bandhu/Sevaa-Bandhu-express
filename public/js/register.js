@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let isValid = true;
 
         // Basic required fields
-        const requiredFields = ['firstname', 'lastname', 'phone', 'birthdate', 'aadhar_number', 'gender', 'age', 'address', 'state', 'city', 'region', 'password_fld', 'chk_password'];
+        const requiredFields = ['firstname', 'lastname', 'phone', 'birthdate', 'aadhar_number', 'gender', 'age', 'address', 'state', 'city', 'pincode', 'password_fld', 'chk_password'];
         requiredFields.forEach((ids) => {
             const field = document.getElementById(ids);
             if (field && field.value.trim() === '') {
