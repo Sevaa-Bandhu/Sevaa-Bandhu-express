@@ -40,92 +40,40 @@ body {
 
 /* Support bar top */
 nav .second-nav {
-    padding: min(0.5vh, 0.5vw);
+    padding: 8px 5px 10px 5px;
     width: 100%;
-    background: radial-gradient(circle, rgba(27, 27, 28, 0.9) 0%, rgba(0, 0, 0, 1) 60%);
-    min-height: 40px;
+    background: #aed2d2;
 
     .search-query {
         width: 40%;
-        margin-right: 1%;
-        float: right;
+        margin: auto;
         font-size: 2.2vh;
         text-align: center;
         padding: 4px 8px;
-        border: none;
-        border-radius: 2vh;
+        border: 2px solid teal;
+        border-radius: 3vh;
         outline: none;
     }
 
     .go-search {
-        float: right;
         font-size: 2.5vh;
-        color: var(--color33);
-        background-color: transparent;
-        padding: 4px 10px;
-        border: 3px solid var(--color33);
+        color: teal;
+        padding: 8px 12px;
+        border: 2px solid teal;
         border-radius: 3vh;
+        transition: 0.2s all ease;
     }
 
     .go-search:hover,
     .go-search:focus {
-        background-color: var(--color55);
+        background-color: teal;
+        color: #edeff2;
     }
-}
-
-/*Google translate*/
-#google_translate_element {
-    background-color: transparent;
-    border: none;
-}
-
-iframe.skiptranslate {
-    display: none !important;
-}
-
-.skiptranslate.goog-te-gadget select {
-    position: relative !important;
-    top: 0 !important;
-    position: relative !important;
-    padding: 5px 0 !important;
-    border-radius: 5px !important;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: var(--color4);
-    border: 2px solid var(--color4);
-    outline: none;
-}
-
-.skiptranslate.goog-te-gadget span {
-    display: none !important;
-    font-size: 0;
-}
-
-.goog-logo-link {
-    display: none !important;
-}
-
-.goog-te-gadget {
-    color: transparent !important;
-}
-
-.goog-te-banner-frame {
-    display: none !important;
-    margin-top: 0;
-}
-
-#goog-gt-tt,
-.goog-te-balloon-frame {
-    display: none !important;
-}
-
-.goog-text-highlight {
-    background: none !important;
-    box-shadow: none !important;
 }
 
 /* Introduction section */
 section.intro {
-    min-height: 75vh;
+    min-height: 85vh;
     position: relative;
     padding: 1% 2%;
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url("/images/landing.jpg");

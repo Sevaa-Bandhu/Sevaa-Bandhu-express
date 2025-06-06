@@ -11,6 +11,22 @@
     <button class="hamburger" id="hamburger">&#9776;</button>
 
     <div class="nav-links" id="nav-links">
+        <!-- Google Translate Script Loader (invisible widget) -->
+        <div id="google_translate_element" style="display:none;"></div>
+        <!-- Custom Google Translate Dropdown -->
+        <div class="custom-translate">
+            <select id="languageSwitcher">
+                <option value="" disabled selected>Translate</option>
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                <option value="ml">മലയാളം (Malayalam)</option>
+                <option value="mr">मराठी (Marathi)</option>
+                <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+            </select>
+        </div>
+
         <a href="/aboutUs">About</a>
         <a href="/help">Help</a>
 
@@ -23,7 +39,9 @@
                         <i class="fas fa-user user-icon"></i>
                     </button>
                     <div class="dropdown-content" id="userDropdownMenu">
-                        <span><%= user?.name %></span>
+                        <span>
+                            <%= user?.name %>
+                        </span>
                         <a href="/profile">Profile</a>
                         <a href="/auth/logout">Logout</a>
                     </div>
@@ -31,3 +49,42 @@
                 <% } %>
     </div>
 </nav>
+
+<!-- Google Translate Loader -->
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,kn,ml,mr,pa,ta',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+    }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- Translate via Cookie -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const langSelector = document.getElementById("languageSwitcher");
+
+        langSelector.addEventListener("change", function () {
+            const selectedLang = this.value;
+
+            if (selectedLang) {
+                const newLang = `/en/${selectedLang}`;
+                document.cookie = `googtrans=${newLang}; path=/; domain=${location.hostname}`;
+                location.reload();
+            }
+        });
+
+        // Force-hide Google Translate banner after render
+        const interval = setInterval(() => {
+            const banner = document.querySelector('.goog-te-banner-frame');
+            if (banner) {
+                banner.style.display = 'none';
+                document.body.style.top = '0px';
+                clearInterval(interval);
+            }
+        }, 100);
+    });
+</script>
