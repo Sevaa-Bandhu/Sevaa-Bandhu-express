@@ -130,51 +130,56 @@
         <section class="search-section">
             <h2 class="search-heading">Need the right person for the job? Find real professionals here! 🧑</h2>
             <form id="workerSearchForm">
-                <input type="text" id="workerSearch" placeholder="Search by " class="search-input" autocomplete="off"/>
+                <input type="text" id="workerSearch" placeholder="Search by " class="search-input" autocomplete="off" />
                 <button type="submit" class="search-btn">Search</button>
             </form>
-        </section>
+        </section><br>
 
         <section class="labour-cards-container" id="labour-cards">
             <p class="title">Our Professionals</p>
             <br />
 
             <div class="worker-container">
-                    <% workers.forEach(worker=> { %>
+                <% workers.forEach(worker=> { %>
 
-                        <div class="worker-card" data-skill="<%= worker.skillset.toLowerCase() %>">
-                            <img src="/images/labour-icon.png" alt="Worker Image" />
-                            <div class="worker-info">
-                                <h3>
-                                    <%= worker.firstname %>
-                                        <%= worker.lastname %>
-                                </h3>
-                                <p>
-                                    <%= worker.gender %>
-                                        &nbsp;&nbsp;&nbsp;
-                                        <%= worker.age %>
-                                </p>
-                                <p>
-                                    <b>
-                                        <%= worker.skillset %>
-                                    </b>
-                                </p>
-                                <p>
-                                    City / Village: <%= worker.city %>
-                                </p>
-                                <p>Experience: <%= worker.experience || 'N/A' %> years</p>
-                                <p>
-                                    Contact:
-                                    <% if (user) { %>
-                                        +91 <%= worker.phone %>
-                                            <% } else { %>
-                                                +91 XXXXX XXXXX
-                                                <% } %>
-                                </p>
-                            </div>
+                    <div class="worker-card" data-firstname="<%= worker.firstname.toLowerCase() %>"
+                        data-lastname="<%= worker.lastname.toLowerCase() %>"
+                        data-skill="<%= worker.skillset.toLowerCase() %>" data-experience="<%= worker.experience %>"
+                        data-city="<%= worker.city.toLowerCase() %>" data-pincode="<%= worker.pincode.toLowerCase() %>"
+                        data-state="<%= worker.state.toLowerCase() %>" data-gender="<%= worker.gender.toLowerCase() %>">
+
+                        <img src="/images/labour-icon.png" alt="Worker Image" />
+                        <div class="worker-info">
+                            <h3>
+                                <%= worker.firstname %>
+                                    <%= worker.lastname %>
+                            </h3>
+                            <p>
+                                <%= worker.gender %>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <%= worker.age %>
+                            </p>
+                            <p>
+                                <b>
+                                    <%= worker.skillset %>
+                                </b>
+                            </p>
+                            <p>
+                                City / Village: <%= worker.city %>
+                            </p>
+                            <p>Experience: <%= worker.experience || 'N/A' %> years</p>
+                            <p>
+                                Contact:
+                                <% if (user) { %>
+                                    +91 <%= worker.phone %>
+                                        <% } else { %>
+                                            +91 XXXXX XXXXX
+                                            <% } %>
+                            </p>
                         </div>
+                    </div>
 
-                        <% }) %>
+                    <% }) %>
             </div>
         </section>
     </main>

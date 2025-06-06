@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     typeSuggestion();
 
-    // search from search box
+    // Searching from the search box
     document.getElementById("workerSearchForm").addEventListener("submit", function (e) {
         e.preventDefault();
 
@@ -67,11 +67,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const cards = document.querySelectorAll(".worker-card");
 
         cards.forEach(card => {
-            const skill = card.getAttribute("data-skill");
-            if (!keyword || skill.includes(keyword)) {
-                card.style.display = "flex"; // show matching or all if empty
+            const fields = [
+                card.dataset.firstname,
+                card.dataset.lastname,
+                card.dataset.skill,
+                card.dataset.experience,
+                card.dataset.city,
+                card.dataset.pincode,
+                card.dataset.state,
+                card.dataset.gender
+            ];
+
+            const matchFound = fields.some(field => field && field.includes(keyword));
+
+            if (!keyword || matchFound) {
+                card.style.display = "flex";
             } else {
-                card.style.display = "none"; // hide others
+                card.style.display = "none";
             }
         });
     });
