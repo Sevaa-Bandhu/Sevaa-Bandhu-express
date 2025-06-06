@@ -14,10 +14,6 @@
 
 <body>
     <nav id="navbar">
-        <div class="second-nav" id="second-nav">
-            <input type="text" minlength="3" placeholder="search by name or locality" class="search-query">
-            <button type="submit" class="fa fa-search go-search" title="GO"></button>
-        </div>
         <%- include('partials/navbar') %>
     </nav>
 
@@ -94,84 +90,96 @@
                         <p class="cate-img">
                             <img src="/images/Plumber.png" alt="plumber image">
                         </p>
-                        <p class="fig-capt">Plumber</p>
+                        <button class="filter-btn" data-skill="Plumber">Plumber</button>
                     </div>
                     <div class="element" id="electrician">
                         <p class="cate-img">
                             <img src="/images/Electrician.png" alt="electrician image">
                         </p>
-                        <p class="fig-capt">Electrician</p>
+                        <button class="filter-btn" data-skill="Electrician">Electrician</button>
                     </div>
                     <div class="element" id="mason">
                         <p class="cate-img">
                             <img src="/images/Mason.png" alt="mason image">
                         </p>
-                        <p class="fig-capt">Mason</p>
+                        <button class="filter-btn" data-skill="Mason">Mason</button>
                     </div>
                     <div class="element" id="carpenter">
                         <p class="cate-img">
                             <img src="/images/Carpenter.png" alt="carpenterimage">
                         </p>
-                        <p class="fig-capt">Carpenter</p>
+                        <button class="filter-btn" data-skill="Carpenter">Carpenter</button>
                     </div>
                     <div class="element" id="painter">
                         <p class="cate-img">
                             <img src="/images/Painter.png" alt="painter image">
                         </p>
-                        <p class="fig-capt">Painter</p>
+                        <button class="filter-btn" data-skill="Painter">Painter</button>
                     </div>
-                    <div class="element" id="gardener">
+                    <di class="element" id="gardener">
                         <p class="cate-img">
                             <img src="/images/Gardener.png" alt="gardener image">
                         </p>
-                        <p class="fig-capt">Gardener</p>
-                    </div>
+                        <button class="filter-btn" data-skill="Gardener">Gardener</button>
                 </div>
             </div>
+            </div>
         </section>
-        <br />
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <h2 class="search-heading">Need the right person for the job? Find real professionals here! 🧑</h2>
+            <form id="workerSearchForm">
+                <input type="text" id="workerSearch" placeholder="Search by " class="search-input" autocomplete="off"/>
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </section>
 
         <section class="labour-cards-container" id="labour-cards">
             <p class="title">Our Professionals</p>
             <br />
 
             <div class="worker-container">
-                <% workers.forEach(worker=> { %>
+                    <% workers.forEach(worker=> { %>
 
-                    <div class="worker-card">
-                        <img src="/images/labour-icon.png" alt="Worker Image" />
-                        <div class="worker-info">
-                            <h3>
-                                <%= worker.firstname %>
-                                    <%= worker.lastname %>
-                            </h3>
-                            <p>
-                                <%= worker.gender %>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <%= worker.age %>
-                            </p>
-                            <p>
-                                <%= worker.city %>
-                            </p>
-                            <p>Experience: <%= worker.experience || 'N/A' %> years</p>
-                            <p>
-                                Contact:
-                                <% if (user) { %>
-                                    +91 <%= worker.phone %>
-                                        <% } else { %>
-                                            +91 XXXXX XXXXX
-                                            <% } %>
-                            </p>
+                        <div class="worker-card" data-skill="<%= worker.skillset.toLowerCase() %>">
+                            <img src="/images/labour-icon.png" alt="Worker Image" />
+                            <div class="worker-info">
+                                <h3>
+                                    <%= worker.firstname %>
+                                        <%= worker.lastname %>
+                                </h3>
+                                <p>
+                                    <%= worker.gender %>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <%= worker.age %>
+                                </p>
+                                <p>
+                                    <b>
+                                        <%= worker.skillset %>
+                                    </b>
+                                </p>
+                                <p>
+                                    City / Village: <%= worker.city %>
+                                </p>
+                                <p>Experience: <%= worker.experience || 'N/A' %> years</p>
+                                <p>
+                                    Contact:
+                                    <% if (user) { %>
+                                        +91 <%= worker.phone %>
+                                            <% } else { %>
+                                                +91 XXXXX XXXXX
+                                                <% } %>
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
-                    <% }) %>
+                        <% }) %>
             </div>
         </section>
     </main>
     <br />
     <%- include('partials/footer') %>
-
         <script src="js/script.js"></script>
 </body>
 
