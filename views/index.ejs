@@ -90,37 +90,37 @@
                         <p class="cate-img">
                             <img src="/images/Plumber.png" alt="plumber image">
                         </p>
-                        <button class="filter-btn" data-skill="Plumber">Plumber</button>
+                        <button class="filter-btn" data-skill="plumber">Plumber</button>
                     </div>
                     <div class="element" id="electrician">
                         <p class="cate-img">
                             <img src="/images/Electrician.png" alt="electrician image">
                         </p>
-                        <button class="filter-btn" data-skill="Electrician">Electrician</button>
+                        <button class="filter-btn" data-skill="electrician">Electrician</button>
                     </div>
                     <div class="element" id="mason">
                         <p class="cate-img">
                             <img src="/images/Mason.png" alt="mason image">
                         </p>
-                        <button class="filter-btn" data-skill="Mason">Mason</button>
+                        <button class="filter-btn" data-skill="mason">Mason</button>
                     </div>
                     <div class="element" id="carpenter">
                         <p class="cate-img">
                             <img src="/images/Carpenter.png" alt="carpenterimage">
                         </p>
-                        <button class="filter-btn" data-skill="Carpenter">Carpenter</button>
+                        <button class="filter-btn" data-skill="carpenter">Carpenter</button>
                     </div>
                     <div class="element" id="painter">
                         <p class="cate-img">
                             <img src="/images/Painter.png" alt="painter image">
                         </p>
-                        <button class="filter-btn" data-skill="Painter">Painter</button>
+                        <button class="filter-btn" data-skill="painter">Painter</button>
                     </div>
                     <di class="element" id="gardener">
                         <p class="cate-img">
                             <img src="/images/Gardener.png" alt="gardener image">
                         </p>
-                        <button class="filter-btn" data-skill="Gardener">Gardener</button>
+                        <button class="filter-btn" data-skill="gardener">Gardener</button>
                 </div>
             </div>
             </div>
@@ -130,7 +130,7 @@
         <section class="search-section">
             <h2 class="search-heading">Need the right person for the job? Find real professionals here! 🧑</h2>
             <form id="workerSearchForm">
-                <input type="text" id="workerSearch" placeholder="Search by " class="search-input" autocomplete="off" />
+                <input type="text" id="workerSearch" placeholder="" class="search-input" autocomplete="off" />
                 <button type="submit" class="search-btn">Search</button>
             </form>
         </section><br>
@@ -145,7 +145,7 @@
                     <div class="worker-card" data-firstname="<%= worker.firstname.toLowerCase() %>"
                         data-lastname="<%= worker.lastname.toLowerCase() %>"
                         data-skill="<%= worker.skillset.toLowerCase() %>" data-experience="<%= worker.experience %>"
-                        data-city="<%= worker.city.toLowerCase() %>" data-pincode="<%= worker.pincode.toLowerCase() %>"
+                        data-city="<%= worker.city.toLowerCase() %>" data-pincode="<%= worker.pincode.toLowerCase() || ''%>"
                         data-state="<%= worker.state.toLowerCase() %>" data-gender="<%= worker.gender.toLowerCase() %>">
 
                         <img src="/images/labour-icon.png" alt="Worker Image" />

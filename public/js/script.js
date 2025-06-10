@@ -1,42 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("workerSearch");
+    const searchForm = document.getElementById("workerSearchForm");
     const filterButtons = document.querySelectorAll(".filter-btn");
     const cards = document.querySelectorAll(".worker-card");
 
-    filterButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const skill = btn.dataset.skill;
-
-            // Highlight the selected button
-            filterButtons.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-
-            cards.forEach(card => {
-                if (skill === "all" || card.dataset.skill === skill) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        });
-    });
-
-    const input = document.getElementById("workerSearch");
     const suggestions = [
-        "search by worker name",
-        "search for location",
-        "search required experience",
-        "search for a skill"
+        "Search by worker name",
+        "Search for location",
+        "Search required experience",
+        "Search for a skill"
     ];
 
-    let currentText = '';
-    let suggestionIndex = 0;
-    let charIndex = 0;
-    let typing = true;
+    let suggestionIndex = 0, charIndex = 0, typing = true;
+    let currentText = "";
 
+    // Typing animation for placeholder
     function typeSuggestion() {
         if (typing) {
             if (charIndex < suggestions[suggestionIndex].length) {
-                currentText += suggestions[suggestionIndex].charAt(charIndex);
+                currentText += suggestions[suggestionIndex][charIndex];
                 input.setAttribute("placeholder", currentText);
                 charIndex++;
                 setTimeout(typeSuggestion, 100);
@@ -59,12 +41,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     typeSuggestion();
 
-    // Searching from the search box
-    document.getElementById("workerSearchForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+    // Filter by skill button
+    filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const selectedSkill = btn.dataset.skill.toLowerCase();
 
-        const keyword = document.getElementById("workerSearch").value.trim().toLowerCase();
-        const cards = document.querySelectorAll(".worker-card");
+            // Clear search box
+            input.value = "";
+
+            // Highlight active filter
+            filterButtons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            cards.forEach(card => {
+                const cardSkill = card.dataset.skill.toLowerCase();
+                if (selectedSkill === "all" || cardSkill === selectedSkill) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    });
+
+    // Filter by search
+    searchForm.addEventListener("submit", e => {
+        e.preventDefault();
+        const keyword = input.value.trim().toLowerCase();
+
+        // Remove active skill filter
+        filterButtons.forEach(b => b.classList.remove("active"));
 
         cards.forEach(card => {
             const fields = [
@@ -80,11 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const matchFound = fields.some(field => field && field.includes(keyword));
 
-            if (!keyword || matchFound) {
-                card.style.display = "flex";
-            } else {
-                card.style.display = "none";
-            }
+            card.style.display = matchFound ? "flex" : "none";
         });
     });
 });

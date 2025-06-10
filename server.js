@@ -11,6 +11,7 @@ const staticRoutes = require('./routes/static');
 const helpRoutes = require('./routes/help');
 const registerRouter = require('./routes/register');
 const profileRoutes = require('./routes/profile');
+const adminRoutes = require('./routes/admin');
 
 
 // Load environment variables
@@ -50,6 +51,8 @@ app.use('/', staticRoutes);
 app.use('/help', helpRoutes);
 app.use('/', registerRouter);
 app.use('/', profileRoutes);
+app.use('/admin', adminRoutes);
+
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" type="image/x-icon" href="/images/icon.ico">
+    <link rel="stylesheet" href="/css/adminLogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Admin Login | Sevaa Bandhu</title>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="left-section">
+            <a href="/" title="Home">
+            <img src="/images/icon.ico" alt="Logo" />
+            </a>
+            <h1>Welcome Back, Admin!</h1>
+            <p>Your Sevaa Bandhu Dashboard Awaits.</p>
+        </div>
+
+        <div class="right-section">
+            <h2>Admin Login</h2>
+            <hr />
+
+            <% if (error) { %>
+                <p class="error-message">
+                    <%= error %>
+                </p>
+                <% } %>
+
+                    <form action="/admin/login" method="POST">
+                        <div class="input-group">
+                            <i class="fas fa-user icon"></i>
+                            <input type="text" name="username" placeholder="Mobile no." required maxlength="10"/>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-key icon"></i>
+                            <input type="password" name="password" placeholder="Password" required minlength="8"/>
+                        </div>
+
+                        <button type="submit" class="login-btn">Login</button>
+                    </form>
+
+                    <div class="bottom-link">
+                        <p>Not admin? <a href="/auth/login">Go to User/Worker Login</a></p>
+                    </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
