@@ -15,7 +15,7 @@
     <div class="login-container">
         <div class="left-section">
             <a href="/" title="Home">
-            <img src="/images/icon.ico" alt="Logo" />
+                <img src="/images/icon.ico" alt="Logo" />
             </a>
             <h1>Welcome Back, Admin!</h1>
             <p>Your Sevaa Bandhu Dashboard Awaits.</p>
@@ -25,31 +25,32 @@
             <h2>Admin Login</h2>
             <hr />
 
-            <% if (error) { %>
-                <p class="error-message">
-                    <%= error %>
-                </p>
-                <% } %>
+            <form action="/admin/login" method="POST" id="adminLoginForm" autocomplete="on">
+                <div class="input-group">
+                    <i class="fas fa-user icon"></i>
+                    <input type="text" name="mobile" placeholder="Mobile no." id="adminMobile" required
+                        maxlength="10" />
+                </div>
 
-                    <form action="/admin/login" method="POST" id="adminLoginForm">
-                        <div class="input-group">
-                            <i class="fas fa-user icon"></i>
-                            <input type="text" name="mobile" placeholder="Mobile no." id="adminMobile" required maxlength="10"/>
-                        </div>
+                <div class="input-group">
+                    <i class="fas fa-key icon"></i>
+                    <input type="password" name="password" placeholder="Password" id="adminPassword" required
+                        minlength="8" />
+                </div>
 
-                        <div class="input-group">
-                            <i class="fas fa-key icon"></i>
-                            <input type="password" name="password" placeholder="Password" id="adminPassword" required minlength="8"/>
-                        </div>
-
-                        <div class="options">
+                <div class="options">
                     <label>
                         <input type="checkbox" id="toggleLoginPassword"> Show Password
                     </label>
                 </div>
 
-                        <button type="submit" class="login-btn">Login</button>
-                    </form>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <!-- Backend error from Express shown via JS -->
+            <% if (error) { %>
+                <span id="serverError" data-error="<%= error %>" style="display:none;"></span>
+                <% } %>
 
                     <div class="bottom-link">
                         <p>Not admin? <a href="/auth/login">Go to User/Worker Login</a></p>
@@ -58,5 +59,7 @@
     </div>
 
     <script src="/js/adminLogin.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+
 </html>

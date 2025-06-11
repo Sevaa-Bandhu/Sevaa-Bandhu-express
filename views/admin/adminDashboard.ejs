@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Sevaa Bandhu</title>
+    <link rel="stylesheet" href="/css/adminDashboard.css">
+    <link rel="icon" type="image/x-icon" href="/images/icon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Top Navbar for Mobile -->
+        <div class="topbar-mobile">
+            <p class="logo-section">
+                <img src="/images/icon.ico" alt="Logo" class="topbar-logo" />
+            </p>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-user-shield"></i> Admin Panel</h2>
+                <div class="admin-info">
+                    <p><strong>Name :</strong>
+                        <%= admin.name %>
+                    </p>
+                    <p><strong>Mobile :</strong>
+                        <%= admin.mobile %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Admin Controls -->
+            <div class="section">
+                <h3>Admin Controls</h3>
+                <a href="#" class="nav-link"><i class="fas fa-id-badge"></i> Admin Profile</a>
+                <a href="#" class="nav-link"><i class="fas fa-users"></i> View All Admin</a>
+                <a href="#" class="nav-link"><i class="fas fa-user-plus"></i> Register Admin</a>
+            </div>
+
+            <!-- Worker Management -->
+            <div class="section">
+                <h3>Worker Management</h3>
+                <a href="#" class="nav-link" id="viewWorkersBtn"><i class="fas fa-users"></i> View All Workers</a>
+                <a href="#" class="nav-link"><i class="fas fa-search"></i> Search / Filter Workers</a>
+                <a href="#" class="nav-link"><i class="fas fa-user-edit"></i> Edit / Delete Worker</a>
+                <a href="#" class="nav-link"><i class="fas fa-file-alt"></i> View Documents</a>
+            </div>
+
+            <!-- Client Management -->
+            <div class="section">
+                <h3>Client Management</h3>
+                <a href="#" class="nav-link" id="viewClientsBtn"><i class="fas fa-users"></i> View All Clients</a>
+                <a href="#" class="nav-link"><i class="fas fa-search"></i> Search / Filter Clients</a>
+                <a href="#" class="nav-link"><i class="fas fa-user-edit"></i> Edit / Delete Client</a>
+            </div>
+
+            <!-- Logout -->
+            <div class="section">
+                <a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <h1>Dashboard Overview</h1>
+
+            <div class="dashboard-overview">
+                <div class="card stats-card blue">
+                    <div class="card-icon">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Total Admins</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>
+                            <%= totalAdmins %>
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="card stats-card green">
+                    <div class="card-icon">
+                        <i class="fas fa-users-cog"></i>
+                        <span>Total Workers</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>
+                            <%= totalWorkers %>
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="card stats-card orange">
+                    <div class="card-icon">
+                        <i class="fas fa-user"></i>
+                        <span>Total Clients</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>
+                            <%= totalClients %>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie Chart Section for Workers -->
+            <section class="chart-section">
+                <h3>Worker Category Distribution</h3>
+                <canvas id="workerPieChart" data-categories='<%- JSON.stringify(workerCategories) %>'></canvas>
+            </section>
+
+            <section id="adminContent" class="dynamic-section">
+                <!-- Dynamic content from JS will be injected here -->
+            </section>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/adminDashboard.js" defer></script>
+</body>
+
+</html>

@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const Worker = require('../models/Worker');
+const Client = require('../models/Client');
 const Admin = require('../models/Admin');
 
 // Middleware to protect admin routes
@@ -26,19 +28,19 @@ router.post('/login', async (req, res) => {
             return res.render('admin/adminLogin', { error: 'Admin not found' });
         }
 
-        const isMatch = await bcrypt.compare(password, admin.password);
+        // const isMatch = await bcrypt.compare(password, admin.password);
+        const isMatch = (password === admin.password);
         if (!isMatch) {
             return res.render('admin/adminLogin', { error: 'Incorrect password' });
         }
 
         req.session.admin = {
-            id: admin._id,
             name: admin.name,
             mobile: admin.mobile
         };
+        console.log('Admin session:', req.session.admin);
         return res.redirect('/admin/dashboard');
     } catch (err) {
-        console.error('Admin login error:', err);
         return res.render('admin/adminLogin', { error: 'Login failed' });
     }
 });
@@ -73,19 +75,41 @@ router.post('/register', async (req, res) => {
 });
 
 // GET: Admin Dashboard (Protected)
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', async (req, res) => {
     if (!req.session.admin) {
         return res.redirect('/admin/login');
     }
+    try {
+        const totalAdmins = await Admin.countDocuments();
+        const totalWorkers = await Worker.countDocuments();
+        const totalClients = await Client.countDocuments();
+        const workers = await Worker.find({});
+        const workerCategories = {};
 
-    res.render('admin/adminDashboard', { admin: req.session.admin });
+        workers.forEach(worker => {
+            const skill = worker.skillset || 'Unspecified';
+            workerCategories[skill] = (workerCategories[skill] || 0) + 1;
+        });
+
+
+        res.render('admin/adminDashboard', {
+            admin: req.session.admin,
+            totalAdmins,
+            totalWorkers,
+            totalClients,
+            workerCategories
+        });
+    } catch (error) {
+        console.error("Dashboard error:", error);
+        res.status(500).send("Server Error");
+    }
 });
 
 // GET /admin/logout
 router.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.clearCookie('connect.sid');
-        res.redirect('/admin/login');
+        res.redirect('/admin/adminLogin');
     });
 });
 
