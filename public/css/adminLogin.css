@@ -119,6 +119,16 @@ hr {
     color: rgb(39, 39, 39);
 }
 
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    color: rgb(39, 39, 39);
+    margin-bottom: 20px;
+    accent-color: rgb(13, 146, 167);
+}
+
 .login-btn {
     background-color: #0e5f70;
     color: #fff;

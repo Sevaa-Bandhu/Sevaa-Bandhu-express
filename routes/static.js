@@ -26,5 +26,9 @@ router.get('/termCondition', (req, res) => res.render('termCondition'));
 router.get('/register', (req, res) => {
     res.render('register', { error: null });
 });
+// GET /admin/login
+router.get('/adminLogin', (req, res) => {
+    res.render('admin/adminLogin', { error: null });
+});
 
 module.exports = router;
