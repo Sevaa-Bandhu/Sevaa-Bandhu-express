@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="/css/_editUserForm.css">
+
+<div class="edit-user-form-container">
+    <h3>Edit / Delete <%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %> Details</h3>
+
+    <form id="editUserForm">
+        <div class="form-grid">
+            <input type="hidden" name="id" value="<%= user._id %>" />
+            <div>
+                <label>First Name</label>
+                <input type="text" name="firstname" value="<%= user.firstname %>" readonly required />
+            </div>
+            <div>
+                <label>Last Name</label>
+                <input type="text" name="lastname" value="<%= user.lastname %>" readonly required />
+            </div>
+            <div>
+                <label>Gender</label>
+                <input type="text" name="gender" value="<%= user.gender %>" readonly />
+            </div>
+            <div>
+                <label>Birthdate</label>
+                <input type="text" name="birthdate" value="<%= user.birthdate %>" readonly />
+            </div>
+            <div>
+                <label>Age</label>
+                <input type="number" name="age" value="<%= user.age %>" readonly />
+            </div>
+            <div>
+                <label>Phone</label>
+                <input type="text" name="phone" value="<%= user.phone %>" readonly />
+            </div>
+            <div>
+                <label>Aadhar Number</label>
+                <input type="text" name="aadhar_number" value="<%= user.aadhar_number %>" readonly />
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" name="email" value="<%= user.email %>" readonly />
+            </div>
+            <div>
+                <label>City</label>
+                <input type="text" name="city" value="<%= user.city %>" readonly />
+            </div>
+            <div>
+                <label>State</label>
+                <input type="text" name="state" value="<%= user.state %>" readonly />
+            </div>
+            <div>
+                <label>Region</label>
+                <input type="text" name="region" value="<%= user.region %>" readonly />
+            </div>
+            <div>
+                <label>Address</label>
+                <textarea name="address" rows="2" readonly><%= user.address %></textarea>
+            </div>
+            <div>
+                <label>Role</label>
+                <input type="text" value="<%= user.role %>" readonly />
+            </div>
+
+            <% if (user.role === 'worker') { %>
+                <div>
+                    <label>Skill</label>
+                    <input type="text" name="skill" value="<%= user.skill %>" readonly />
+                </div>
+                <div>
+                    <label>Certificate</label><br/>
+                    <a href="/uploads/<%= user.certificate %>" target="_blank">View Certificate</a>
+                </div>
+                <div>
+                    <label>User Photo</label><br/>
+                    <img src="/uploads/<%= user.userphoto %>" width="80" />
+                </div>
+            <% } %>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" id="editToggleBtn">Edit</button>
+            <button type="submit">Update</button>
+            <button type="button" id="deleteBtn">Delete</button>
+        </div>
+    </form>
+</div>
