@@ -129,99 +129,35 @@ router.get('/api/admins', async (req, res) => {
     res.json(admins);
 });
 
-// GET /admin/edit-user-form (renders the blank form with search input only)
-router.get('/edit-user-form', (req, res) => {
-    res.render('partials/_editUserForm'); // This partial only shows search bar (no user prefilled yet)
+// Load search form dynamically
+router.get('/search-form/:role', (req, res) => {
+    const { role } = req.params;
+    if (!['worker', 'client'].includes(role)) return res.status(400).send('Invalid role');
+    return res.render('partials/searchUserForm', { role });
 });
 
-// Get /admin/search-user fetches and displays result
-router.get('/search-user', async (req, res) => {
-    const { key } = req.query;
-    const user = await Worker.findOne({ $or: [{ phone: key }, { aadhar_number: key }] }) ||
-        await Client.findOne({ $or: [{ phone: key }, { aadhar_number: key }] });
-
-    if (!user)
-        return res.send("<p>No user found.</p>");
-    res.render('partials/_editUserForm', { user }); // the actual prefilled form
-});
-
-// GET: Edit User by Phone or Aadhar
-router.get('/edit-user', ensureAdmin, async (req, res) => {
-    const { key } = req.query;
-    if (!key) return res.status(400).send('Missing query key.');
-
-    try {
-        let user = await Worker.findOne({ $or: [{ phone: key }, { aadhar_number: key }] });
-        if (!user) {
-            user = await Client.findOne({ $or: [{ phone: key }, { aadhar_number: key }] });
-        }
-
-        if (!user) return res.status(404).send('<p style="color:red;">User not found.</p>');
-
-        res.render('admin/partials/_editUserForm', { user });
-    } catch (err) {
-        console.error('Edit-user fetch error:', err);
-        res.status(500).send('Server error while fetching user.');
+// Handle search query
+router.get('/search-users', async (req, res) => {
+    const { role, q } = req.query;
+    if (!q || !['worker', 'client'].includes(role)) {
+        return res.send('<p>No results found.</p>');
     }
-});
 
-// POST: Update User
-router.post('/update-user', ensureAdmin, async (req, res) => {
-    const {
-        id, firstname, lastname, gender, birthdate, age,
-        phone, aadhar_number, email, city, state, pincode,
-        address, role, skillset, experience, wages
-    } = req.body;
+    const Model = role === 'worker' ? require('../models/Worker') : require('../models/Client');
+    const regex = new RegExp(q, 'i');
 
-    try {
-        await User.updateOne({ mobile: phone }, { firstname, lastname });
+    const results = await Model.find({
+        $or: [
+            { firstname: regex },
+            { lastname: regex },
+            { phone: regex },
+            { aadhar_number: regex },
+            { city: regex },
+            { skillset: regex }  // will be undefined for clients but doesn’t error
+        ]
+    });
 
-        if (role === 'worker') {
-            await Worker.updateOne({ _id: id }, {
-                firstname, lastname, gender, birthdate, age, phone,
-                aadhar_number, email, city, state, pincode, address,
-                skillset, experience, wages
-            });
-        } else if (role === 'client') {
-            await Client.updateOne({ _id: id }, {
-                firstname, lastname, gender, birthdate, age, phone,
-                aadhar_number, email, city, state, pincode, address
-            });
-        }
-
-        res.json({ success: true, message: 'User updated successfully.' });
-    } catch (err) {
-        console.error('Update user error:', err);
-        res.status(500).json({ success: false, message: 'Failed to update user.' });
-    }
-});
-
-// DELETE: Delete User
-router.delete('/delete-user/:id', ensureAdmin, async (req, res) => {
-    const { id } = req.params;
-    try {
-        const worker = await Worker.findById(id);
-        const client = await Client.findById(id);
-
-        if (!worker && !client) {
-            return res.status(404).json({ success: false, message: 'User not found.' });
-        }
-
-        if (worker) {
-            await Worker.deleteOne({ _id: id });
-            await User.deleteOne({ mobile: worker.phone });
-        }
-
-        if (client) {
-            await Client.deleteOne({ _id: id });
-            await User.deleteOne({ mobile: client.phone });
-        }
-
-        res.json({ success: true, message: 'User deleted successfully.' });
-    } catch (err) {
-        console.error('Delete user error:', err);
-        res.status(500).json({ success: false, message: 'Error deleting user.' });
-    }
+    return res.render('partials/_searchResultsTable', { users: results, role });
 });
 
 module.exports = router;

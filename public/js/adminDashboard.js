@@ -148,20 +148,35 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-    // edit / delete user or worker section
-    document.getElementById('openEditUser').addEventListener('click', async (e) => {
-    e.preventDefault();
+    const adminContent = document.getElementById('adminContent');
 
-    try {
-        const res = await fetch('/admin/edit-user-form'); // Server route to serve the full form
+    const loadSearchForm = async (role) => {
+        const res = await fetch(`/admin/search-form/${role}`);
         const html = await res.text();
-        document.getElementById('adminContent').innerHTML = html;
-        document.getElementById('adminContent').scrollIntoView({ behavior: 'smooth' });
+        adminContent.innerHTML = html;
+        attachSearchFormSubmit();
+    };
 
-    } catch (err) {
-        console.error("Error loading form:", err);
-        document.getElementById('adminContent').innerHTML = "<p>Error loading the form. Try again later.</p>";
-    }
-});
+    const attachSearchFormSubmit = () => {
+        const form = document.getElementById('searchForm');
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const keyword = form.keyword.value.trim();
+            const role = form.getAttribute('data-role');
+
+            if (!keyword || !role) return;
+
+            const response = await fetch(`/admin/search-users?role=${role}&q=${encodeURIComponent(keyword)}`);
+            const resultHTML = await response.text();
+            adminContent.innerHTML = resultHTML;
+            adminContent.scrollIntoView({ behavior: 'smooth' });
+        });
+    };
+
+    // Button event listeners
+    document.getElementById('searchWorkerBtn')?.addEventListener('click', () => loadSearchForm('worker'));
+    document.getElementById('searchClientBtn')?.addEventListener('click', () => loadSearchForm('client'));
 
 });

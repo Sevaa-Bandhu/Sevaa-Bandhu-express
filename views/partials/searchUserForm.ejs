@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="/css/searchUserForm.css">
+<script src="/js/searchUsers.js" defer></script>
+
+<div class="user-search-form-container">
+    <h3>Search / Filter <%= role==='client' ? 'Clients' : 'Workers' %>
+    </h3>
+
+    <form id="searchForm"  data-role="<%= role %>" class="search-form">
+        <input type="text" name="keyword" id="userSearchInput" placeholder="Search by name, phone, aadhar, city..." required />
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="userSearchResults" class="result-table-container">
+        <!-- search results table will be injected here -->
+    </div>
+</div>

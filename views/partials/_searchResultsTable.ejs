@@ -1,0 +1,32 @@
+<table>
+    <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Phone</th>
+            <th>Aadhar</th>
+            <th>City</th>
+            <% if (role === 'worker') { %>
+                <th>Skill</th>
+            <% } %>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (users.length === 0) { %>
+            <tr><td colspan="6">No records found.</td></tr>
+        <% } else { %>
+            <% users.forEach(u => { %>
+                <tr>
+                    <td><%= u.firstname %></td>
+                    <td><%= u.lastname %></td>
+                    <td><%= u.phone %></td>
+                    <td><%= u.aadhar_number %></td>
+                    <td><%= u.city %></td>
+                    <% if (role === 'worker') { %>
+                        <td><%= u.skillset %></td>
+                    <% } %>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>
