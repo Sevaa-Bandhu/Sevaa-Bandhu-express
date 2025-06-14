@@ -148,5 +148,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
+    // edit / delete user or worker section
+    document.getElementById('openEditUser').addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    try {
+        const res = await fetch('/admin/edit-user-form'); // Server route to serve the full form
+        const html = await res.text();
+        document.getElementById('adminContent').innerHTML = html;
+        document.getElementById('adminContent').scrollIntoView({ behavior: 'smooth' });
+
+    } catch (err) {
+        console.error("Error loading form:", err);
+        document.getElementById('adminContent').innerHTML = "<p>Error loading the form. Try again later.</p>";
+    }
+});
 
 });
