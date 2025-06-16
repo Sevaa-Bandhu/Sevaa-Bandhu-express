@@ -11,10 +11,17 @@ function ensureAdmin(req, res, next) {
     if (req.session && req.session.admin) {
         return next();
     }
-    return res.redirect('admin/login');
+    return res.redirect('/admin/login');
 }
 
-// POST /admin/login
+// =================== AUTH ROUTES =================== //
+
+// GET: Admin Login Page
+router.get('/login', (req, res) => {
+    res.render('admin/adminLogin', { error: null });
+});
+
+// POST: Admin Login
 router.post('/login', async (req, res) => {
     const { mobile, password } = req.body;
 
@@ -28,8 +35,7 @@ router.post('/login', async (req, res) => {
             return res.render('admin/adminLogin', { error: 'Admin not found' });
         }
 
-        // const isMatch = await bcrypt.compare(password, admin.password);
-        const isMatch = (password === admin.password);
+        const isMatch = await bcrypt.compare(password, admin.password);
         if (!isMatch) {
             return res.render('admin/adminLogin', { error: 'Incorrect password' });
         }
@@ -38,19 +44,56 @@ router.post('/login', async (req, res) => {
             name: admin.name,
             mobile: admin.mobile
         };
-        console.log('Admin session:', req.session.admin);
+
         return res.redirect('/admin/dashboard');
     } catch (err) {
+        console.error('Login error:', err);
         return res.render('admin/adminLogin', { error: 'Login failed' });
     }
 });
 
-// GET /admin/register (optional - only if you allow admin registration via form)
+// GET: Admin Logout
+router.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.clearCookie('connect.sid');
+        res.redirect('/admin/login');
+    });
+});
+
+// =================== DASHBOARD =================== //
+
+router.get('/dashboard', ensureAdmin, async (req, res) => {
+    try {
+        const totalAdmins = await Admin.countDocuments();
+        const totalWorkers = await Worker.countDocuments();
+        const totalClients = await Client.countDocuments();
+        const workers = await Worker.find();
+
+        const workerCategories = {};
+        workers.forEach(worker => {
+            const skill = worker.skillset || 'Unspecified';
+            workerCategories[skill] = (workerCategories[skill] || 0) + 1;
+        });
+
+        res.render('admin/adminDashboard', {
+            admin: req.session.admin,
+            totalAdmins,
+            totalWorkers,
+            totalClients,
+            workerCategories
+        });
+    } catch (error) {
+        console.error("Dashboard error:", error);
+        res.status(500).send("Server Error");
+    }
+});
+
+// =================== REGISTRATION =================== //
+
 router.get('/register', (req, res) => {
     res.render('adminRegister', { error: null });
 });
 
-// POST /admin/register
 router.post('/register', async (req, res) => {
     const { name, mobile, aadhar, gender, dob, email, address, password } = req.body;
 
@@ -74,76 +117,58 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// GET: Admin Dashboard (Protected)
-router.get('/dashboard', async (req, res) => {
-    if (!req.session.admin) {
-        return res.redirect('/admin/login');
-    }
-    try {
-        const totalAdmins = await Admin.countDocuments();
-        const totalWorkers = await Worker.countDocuments();
-        const totalClients = await Client.countDocuments();
-        const workers = await Worker.find({});
-        const workerCategories = {};
+// =================== API ROUTES (with Pagination) =================== //
 
-        workers.forEach(worker => {
-            const skill = worker.skillset || 'Unspecified';
-            workerCategories[skill] = (workerCategories[skill] || 0) + 1;
-        });
+const paginate = async (Model, page, limit) => {
+    const skip = (page - 1) * limit;
+    const total = await Model.countDocuments();
+    const results = await Model.find().skip(skip).limit(limit);
+    return { results, total };
+};
 
-
-        res.render('admin/adminDashboard', {
-            admin: req.session.admin,
-            totalAdmins,
-            totalWorkers,
-            totalClients,
-            workerCategories
-        });
-    } catch (error) {
-        console.error("Dashboard error:", error);
-        res.status(500).send("Server Error");
-    }
-});
-
-// GET /admin/logout
-router.get('/logout', (req, res) => {
-    req.session.destroy(() => {
-        res.clearCookie('connect.sid');
-        res.redirect('/admin/adminLogin');
-    });
-});
-
-// Dynamic content loading
+// GET /admin/api/workers?page=1
 router.get('/api/workers', async (req, res) => {
-    const workers = await Worker.find({});
-    res.json(workers);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const { results, total } = await paginate(Worker, page, limit);
+    res.json({ data: results, total });
 });
 
+// GET /admin/api/clients?page=1
 router.get('/api/clients', async (req, res) => {
-    const clients = await Client.find({});
-    res.json(clients);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const { results, total } = await paginate(Client, page, limit);
+    res.json({ data: results, total });
 });
 
+// GET /admin/api/admins?page=1
 router.get('/api/admins', async (req, res) => {
-    const admins = await Admin.find({});
-    res.json(admins);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const { results, total } = await paginate(Admin, page, limit);
+    res.json({ data: results, total });
 });
 
-// Load search form dynamically
+// =================== SEARCH FUNCTIONALITY =================== //
+
+// Serve search form dynamically
 router.get('/search-form/:role', (req, res) => {
     const { role } = req.params;
-    if (!['worker', 'client'].includes(role)) return res.status(400).send('Invalid role');
-    return res.render('partials/searchUserForm', { role });
+    if (!['worker', 'client'].includes(role)) {
+        return res.status(400).send('Invalid role');
+    }
+    res.render('partials/searchUserForm', { role });
 });
 
-// Handle search query
+// Handle search logic
 router.get('/search-users', async (req, res) => {
     const { role, q } = req.query;
     if (!q || !['worker', 'client'].includes(role)) {
         return res.send('<p>No results found.</p>');
     }
 
-    const Model = role === 'worker' ? require('../models/Worker') : require('../models/Client');
+    const Model = role === 'worker' ? Worker : Client;
     const regex = new RegExp(q, 'i');
 
     const results = await Model.find({
@@ -153,11 +178,72 @@ router.get('/search-users', async (req, res) => {
             { phone: regex },
             { aadhar_number: regex },
             { city: regex },
-            { skillset: regex }  // will be undefined for clients but doesn’t error
+            { pincode: regex },
+            { address: regex },
+            { skillset: regex } // This is ignored for Client
         ]
     });
 
-    return res.render('partials/_searchResultsTable', { users: results, role });
+    res.render('partials/_searchResultsTable', { users: results, role });
 });
+
+// =================== EDIT / DELETE FUNCTIONALITY =================== //
+
+// Show Edit Form (empty on load)
+router.get('/edit/:role', (req, res) => {
+    const { role } = req.params;
+    if (!['worker', 'client'].includes(role)) return res.status(400).send('Invalid role');
+    res.render('partials/editUserForm', { role, user: null });
+});
+
+// GET: Fetch user data for editing
+router.get('/edit-fetch', async (req, res) => {
+    const { role, keyword } = req.query;
+    if (!role || !keyword || !['worker', 'client'].includes(role)) {
+        return res.status(400).json({ message: 'Invalid request' });
+    }
+
+    const Model = role === 'worker' ? require('../models/Worker') : require('../models/Client');
+
+    try {
+        const user = await Model.findOne({
+            $or: [
+                { aadhar_number: keyword },
+                { phone: keyword }
+            ]
+        });
+
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        return res.status(200).json(user);
+    } catch (err) {
+        console.error('Fetch Error:', err);
+        return res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+// Search & Return Form With Data
+router.get('/edit/:role/search', async (req, res) => {
+    const { role } = req.params;
+    const { keyword } = req.query;
+
+    if (!keyword || !['worker', 'client'].includes(role)) {
+        return res.status(400).send('Invalid request');
+    }
+
+    const Model = role === 'worker' ? require('../models/Worker') : require('../models/Client');
+
+    const user = await Model.findOne({
+        $or: [
+            { aadhar_number: keyword },
+            { phone: keyword }
+        ]
+    });
+
+    if (!user) return res.send('<p>User not found</p>');
+
+    res.render('partials/editUserForm', { role, user });
+});
+
 
 module.exports = router;

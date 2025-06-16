@@ -1,32 +1,103 @@
-<table>
-    <thead>
-        <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Phone</th>
-            <th>Aadhar</th>
-            <th>City</th>
-            <% if (role === 'worker') { %>
-                <th>Skill</th>
-            <% } %>
-        </tr>
-    </thead>
-    <tbody>
-        <% if (users.length === 0) { %>
-            <tr><td colspan="6">No records found.</td></tr>
-        <% } else { %>
-            <% users.forEach(u => { %>
-                <tr>
-                    <td><%= u.firstname %></td>
-                    <td><%= u.lastname %></td>
-                    <td><%= u.phone %></td>
-                    <td><%= u.aadhar_number %></td>
-                    <td><%= u.city %></td>
-                    <% if (role === 'worker') { %>
-                        <td><%= u.skillset %></td>
-                    <% } %>
-                </tr>
-            <% }) %>
+<style>
+    .results-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .results-table th,
+    .results-table td {
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .results-table th {
+        background-color: #066471;
+        color: white;
+        font-size: 15px;
+    }
+
+    .results-table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .results-table td:hover {
+        background-color: #e6f7f9;
+    }
+
+    @media (max-width: 620px) {
+
+        .result-table th,
+        .result-table td {
+            font-size: 12px;
+            padding: 10px;
+        }
+    }
+</style>
+
+<% if (users.length===0) { %>
+    <p class="no-results">No matching users found.</p>
+    <% } else { %>
+        <div class="table-container">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Aadhar</th>
+                        <th>City / Pincode</th>
+                        <% if (role==='worker' ) { %>
+                            <th>Skill</th>
+                            <th>Experience</th>
+                            <% } %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user=> { %>
+                        <tr>
+                            <td>
+                                <%= user.firstname %>
+                            </td>
+                            <td>
+                                <%= user.lastname %>
+                            </td>
+                            <td>
+                                <%= user.gender %>
+                            </td>
+                            <td>
+                                <%= user.age %>
+                            </td>
+                            <td>
+                                <%= user.phone %>
+                            </td>
+                            <td>
+                                <%= user.email %>
+                            </td>
+                            <td>
+                                <%= user.aadhar_number %>
+                            </td>
+                            <td>
+                                <%= user.city %>, <%= user.pincode %>
+                            </td>
+                            <% if (role==='worker' ) { %>
+                                <td>
+                                    <%= user.skillset %>
+                                </td>
+                                <td>
+                                    <%= user.experience %> years
+                                </td>
+                                <% } %>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+        </div>
         <% } %>
-    </tbody>
-</table>

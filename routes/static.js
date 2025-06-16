@@ -30,5 +30,4 @@ router.get('/register', (req, res) => {
 router.get('/adminLogin', (req, res) => {
     res.render('admin/adminLogin', { error: null });
 });
-
 module.exports = router;

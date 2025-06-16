@@ -265,6 +265,27 @@ body {
     background-color: #f2f2f2;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.page-btn {
+    background-color: #0D92A7;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.page-btn.active,
+.page-btn:hover {
+    background-color: #066471;
+}
+
 @media (max-width: 620px) {
     .dashboard-container {
         flex-direction: column;

@@ -1,17 +1,19 @@
-// js/adminLogin.js
 document.addEventListener('DOMContentLoaded', () => {
-    // Toggle menu on small screens
+    // ✅ Capitalize helper
+    function capitalize(str) {
+        if (!str) return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // ✅ Toggle menu for mobile
     const toggle = document.getElementById('menuToggle');
     const sidebar = document.querySelector('.sidebar');
+    toggle.addEventListener('click', () => sidebar.classList.toggle('active'));
 
-    toggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
-
-    // Pie chart
     const canvas = document.getElementById('workerPieChart');
     const ctx = canvas.getContext('2d');
 
+    // ✅ Pie Chart
     const dataAttr = canvas.getAttribute('data-categories');
     const data = JSON.parse(dataAttr || '{}');
     const labels = Object.keys(data);
@@ -44,112 +46,121 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText("No data available", 100, 150);
     }
 
-    // Dynamic content loading
+    const adminContent = document.getElementById('adminContent');
+
+    function scrollToContent() {
+        if (adminContent) adminContent.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ✅ Renders HTML Table
     function renderTable(data, type) {
-        if (!data.length) return '<p>No records found.</p>';
+        if (!data.length) return `<p>No records found.</p>`;
 
         let headers = '';
         let rows = '';
 
         if (type === 'Workers') {
-            headers = `
-            <tr><th>#</th><th>Full Name</th><th>Birth Date</th><th>Age</th><th>Gender</th><th>Aadhar No.</th><th>Skill</th><th>City / Pincode</th><th>Phone</th></tr>
-        `;
+            headers = `<tr><th>#</th><th>Full Name</th><th>Birth Date</th><th>Age</th><th>Gender</th><th>Aadhar No.</th><th>Skill</th><th>City / Pincode</th><th>Phone</th></tr>`;
             rows = data.map((w, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${w.firstname} ${w.lastname}</td>
-                <td>${w.birthdate}</td>
-                <td>${w.age}</td>
-                <td>${w.gender}</td>
-                <td>${w.aadhar_number}</td>
-                <td>${w.skillset || 'N/A'}</td>
-                <td>${w.city}, ${w.pincode}</td>
-                <td>+91 ${w.phone}</td>
-            </tr>
-        `).join('');
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${w.firstname} ${w.lastname}</td>
+                    <td>${w.birthdate}</td>
+                    <td>${w.age}</td>
+                    <td>${w.gender}</td>
+                    <td>${w.aadhar_number}</td>
+                    <td>${w.skillset || 'N/A'}</td>
+                    <td>${w.city}, ${w.pincode}</td>
+                    <td>+91 ${w.phone}</td>
+                </tr>
+            `).join('');
         } else if (type === 'Clients') {
-            headers = `
-            <tr><th>#</th><th>Full Name</th><th>Birth Date</th><th>Age</th><th>Gender</th><th>Aadhar No.</th><th>Email</th><th>City / Pincode</th><th>Phone</th></tr>
-        `;
+            headers = `<tr><th>#</th><th>Full Name</th><th>Birth Date</th><th>Age</th><th>Gender</th><th>Aadhar No.</th><th>Email</th><th>City / Pincode</th><th>Phone</th></tr>`;
             rows = data.map((c, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${c.firstname} ${c.lastname}</td>
-                <td>${c.birthdate}</td>
-                <td>${c.age}</td>
-                <td>${c.gender}</td>
-                <td>${c.aadhar_number}</td>
-                <td>${c.email || 'N/A'}</td>
-                <td>${c.city}, ${c.pincode}</td>
-                <td>+91 ${c.phone}</td>
-            </tr>
-        `).join('');
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${c.firstname} ${c.lastname}</td>
+                    <td>${c.birthdate}</td>
+                    <td>${c.age}</td>
+                    <td>${c.gender}</td>
+                    <td>${c.aadhar_number}</td>
+                    <td>${c.email || 'N/A'}</td>
+                    <td>${c.city}, ${c.pincode}</td>
+                    <td>+91 ${c.phone}</td>
+                </tr>
+            `).join('');
         } else if (type === 'Admins') {
-            headers = `
-            <tr><th>#</th><th>Name</th><th>Birth Date</th><th>Gender</th><th>Mobile</th><th>Aadhar</th><th>Email</th><th>City / Pincode</th></tr>
-        `;
+            headers = `<tr><th>#</th><th>Name</th><th>Birth Date</th><th>Gender</th><th>Mobile</th><th>Aadhar</th><th>Email</th><th>City / Pincode</th></tr>`;
             rows = data.map((a, i) => `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${a.name}</td>
-                <td>${a.birthdate}</td>
-                <td>${a.gender}</td>
-                <td>${a.mobile}</td>
-                <td>${a.aadhar_number}</td>
-                <td>${a.email}</td>
-                <td>${a.city}, ${a.pincode}</td>
-            </tr>
-        `).join('');
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${a.name}</td>
+                    <td>${a.birthdate}</td>
+                    <td>${a.gender}</td>
+                    <td>${a.mobile}</td>
+                    <td>${a.aadhar_number}</td>
+                    <td>${a.email}</td>
+                    <td>${a.city}, ${a.pincode}</td>
+                </tr>
+            `).join('');
         }
 
         return `
-        <div class="table-wrapper">
-        <h2>${type} Details</h2>
-            <table class="styled-table">
-                <thead>${headers}</thead>
-                <tbody>${rows}</tbody>
-            </table>
-        </div>
-    `;
+            <div class="table-wrapper">
+                <h2>${type} Details</h2>
+                <table class="styled-table">
+                    <thead>${headers}</thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>
+        `;
     }
 
-    // Smooth scrolling
-    function scrollToContent() {
-        const section = document.getElementById('adminContent');
-        if (section) section.scrollIntoView({ behavior: 'smooth' });
+    // ✅ Pagination
+    function renderPagination(total, currentPage, type) {
+        const totalPages = Math.ceil(total / 10);
+        if (totalPages <= 1) return '';
+
+        let buttons = '';
+        for (let i = 1; i <= totalPages; i++) {
+            buttons += `<button class="page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}" data-type="${type}">${i}</button>`;
+        }
+
+        return `<div class="pagination">${buttons}</div>`;
     }
 
-    // Event listener for view all types
-    document.querySelector('#viewAllWorkersBtn').addEventListener('click', () => {
-        fetch('/admin/api/workers')
+    function loadAndRender(type, page = 1) {
+        const singular = type.toLowerCase().replace(/s$/, ''); // removes trailing 's' if exists
+
+        fetch(`/admin/api/${singular}s?page=${page}`)
             .then(res => res.json())
-            .then(data => {
-                document.getElementById('adminContent').innerHTML = renderTable(data, 'Workers');
+            .then(({ data, total }) => {
+                const table = renderTable(data, capitalize(type));
+                const pagination = renderPagination(total, page, capitalize(type));
+                adminContent.innerHTML = table + pagination;
                 scrollToContent();
+            })
+            .catch(err => {
+                adminContent.innerHTML = `<p>Error loading data.</p>`;
+                console.error(err);
             });
+    }
+
+    // ✅ Handle pagination click
+    adminContent.addEventListener('click', (e) => {
+        if (e.target.classList.contains('page-btn')) {
+            const page = parseInt(e.target.dataset.page);
+            const type = e.target.dataset.type;
+            loadAndRender(type, page);
+        }
     });
 
-    document.querySelector('#viewAllClientsBtn').addEventListener('click', () => {
-        fetch('/admin/api/clients')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('adminContent').innerHTML = renderTable(data, 'Clients');
-                scrollToContent();
-            });
-    });
+    // ✅ View all buttons
+    document.getElementById('viewAllWorkersBtn')?.addEventListener('click', () => loadAndRender('Workers', 1));
+    document.getElementById('viewAllClientsBtn')?.addEventListener('click', () => loadAndRender('Clients', 1));
+    document.getElementById('viewAllAdminsBtn')?.addEventListener('click', () => loadAndRender('Admins', 1));
 
-    document.querySelector('#viewAllAdminsBtn').addEventListener('click', () => {
-        fetch('/admin/api/admins')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('adminContent').innerHTML = renderTable(data, 'Admins');
-                scrollToContent();
-            });
-    });
-
-    const adminContent = document.getElementById('adminContent');
-
+    // ✅ Search dynamic form
     const loadSearchForm = async (role) => {
         const res = await fetch(`/admin/search-form/${role}`);
         const html = await res.text();
@@ -165,18 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const keyword = form.keyword.value.trim();
             const role = form.getAttribute('data-role');
-
             if (!keyword || !role) return;
 
             const response = await fetch(`/admin/search-users?role=${role}&q=${encodeURIComponent(keyword)}`);
             const resultHTML = await response.text();
             adminContent.innerHTML = resultHTML;
-            adminContent.scrollIntoView({ behavior: 'smooth' });
+            scrollToContent();
         });
     };
 
-    // Button event listeners
     document.getElementById('searchWorkerBtn')?.addEventListener('click', () => loadSearchForm('worker'));
     document.getElementById('searchClientBtn')?.addEventListener('click', () => loadSearchForm('client'));
+
+    // Load Edit Form for Worker
+    document.querySelector('#openEditWorker')?.addEventListener('click', async () => {
+        const res = await fetch('/admin/edit/worker');
+        const html = await res.text();
+        document.getElementById('adminContent').innerHTML = html;
+    });
+    // Load Edit Form for Client
+    document.querySelector('#openEditClient')?.addEventListener('click', async () => {
+        const res = await fetch('/admin/edit/client');
+        const html = await res.text();
+        document.getElementById('adminContent').innerHTML = html;
+    });
 
 });
