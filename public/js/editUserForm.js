@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("✅ editUserForm.js loaded");
+    
     const searchForm = document.getElementById('searchUserForm');
     const userForm = document.getElementById('editUserForm');
     const updateBtn = document.getElementById('updateBtn');
@@ -14,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = userForm.querySelector(`[name="${name}"]`);
             if (el) el.value = value || '';
         };
-
         set('id', user._id);
         set('firstname', user.firstname);
         set('lastname', user.lastname);

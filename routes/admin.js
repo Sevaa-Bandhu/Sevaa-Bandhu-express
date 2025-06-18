@@ -198,6 +198,8 @@ router.get('/edit/:role', (req, res) => {
 // GET: Fetch user data for editing
 router.get('/edit-fetch', async (req, res) => {
     const { role, keyword } = req.query;
+    console.log("Admin.js ", role, keyword);
+    
     if (!role || !keyword || !['worker', 'client'].includes(role)) {
         return res.status(400).json({ message: 'Invalid request' });
     }
