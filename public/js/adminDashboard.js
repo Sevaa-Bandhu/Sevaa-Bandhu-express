@@ -188,17 +188,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('searchWorkerBtn')?.addEventListener('click', () => loadSearchForm('worker'));
     document.getElementById('searchClientBtn')?.addEventListener('click', () => loadSearchForm('client'));
 
-    // Load Edit Form for Worker
-    document.querySelector('#openEditWorker')?.addEventListener('click', async () => {
-        const res = await fetch('/admin/edit/worker');
+    document.getElementById('openEditWorker')?.addEventListener('click', async () => {
+        const res = await fetch(`/admin/edit/worker`);
         const html = await res.text();
         document.getElementById('adminContent').innerHTML = html;
+        const script = document.createElement('script');
+        script.src = '/js/editUserForm.js';
+        script.defer = true;
+        document.body.appendChild(script);
     });
+
     // Load Edit Form for Client
     document.querySelector('#openEditClient')?.addEventListener('click', async () => {
         const res = await fetch('/admin/edit/client');
         const html = await res.text();
         document.getElementById('adminContent').innerHTML = html;
+        const script = document.createElement('script');
+        script.src = '/js/editUserForm.js';
+        script.defer = true;
+        document.body.appendChild(script);
     });
 
 });

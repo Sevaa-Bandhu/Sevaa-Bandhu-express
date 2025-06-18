@@ -31,12 +31,11 @@ router.post('/login', async (req, res) => {
 
     try {
         const admin = await Admin.findOne({ mobile });
+        const isMatch = await bcrypt.compare(password, admin.password);
         if (!admin) {
             return res.render('admin/adminLogin', { error: 'Admin not found' });
         }
-
-        const isMatch = await bcrypt.compare(password, admin.password);
-        if (!isMatch) {
+        else if(!isMatch) {
             return res.render('admin/adminLogin', { error: 'Incorrect password' });
         }
 
@@ -221,29 +220,5 @@ router.get('/edit-fetch', async (req, res) => {
         return res.status(500).json({ message: 'Server Error' });
     }
 });
-
-// Search & Return Form With Data
-router.get('/edit/:role/search', async (req, res) => {
-    const { role } = req.params;
-    const { keyword } = req.query;
-
-    if (!keyword || !['worker', 'client'].includes(role)) {
-        return res.status(400).send('Invalid request');
-    }
-
-    const Model = role === 'worker' ? require('../models/Worker') : require('../models/Client');
-
-    const user = await Model.findOne({
-        $or: [
-            { aadhar_number: keyword },
-            { phone: keyword }
-        ]
-    });
-
-    if (!user) return res.send('<p>User not found</p>');
-
-    res.render('partials/editUserForm', { role, user });
-});
-
 
 module.exports = router;
