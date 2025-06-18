@@ -20,7 +20,7 @@ const workerSchema = new mongoose.Schema({
   experience: { type: Number, required: true },
   wages: { type: Number},
   certificate: { type: String, required: true },
-  userphoto: { type: String, required: true }
+  userphoto: { type: String }
 });
 
 module.exports = mongoose.model("Worker", workerSchema);
