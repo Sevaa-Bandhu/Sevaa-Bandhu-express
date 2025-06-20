@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
         if (!admin) {
             return res.render('admin/adminLogin', { error: 'Admin not found' });
         }
-        else if(!isMatch) {
+        else if (!isMatch) {
             return res.render('admin/adminLogin', { error: 'Incorrect password' });
         }
 
@@ -89,30 +89,43 @@ router.get('/dashboard', ensureAdmin, async (req, res) => {
 
 // =================== REGISTRATION =================== //
 
-router.get('/register', (req, res) => {
-    res.render('adminRegister', { error: null });
+router.get('/register-form', (req, res) => {
+    res.render('partials/adminRegisterForm');
 });
 
 router.post('/register', async (req, res) => {
-    const { name, mobile, aadhar, gender, dob, email, address, password } = req.body;
+    console.log("🔐 Admin Registration Payload:", req.body);
+    const {
+        name, password, mobile, email, birthdate,
+        aadhar_number, gender, address, city, pincode
+    } = req.body;
 
     try {
-        const existingAdmin = await Admin.findOne({ mobile });
-        if (existingAdmin) {
-            return res.status(400).json({ success: false, message: 'Mobile already registered.' });
+        const exists = await Admin.findOne({ $or: [{ mobile }, { email }, { aadhar_number }] });
+        if (exists) {
+            return res.status(400).json({ success: false, message: 'Admin already exists with provided details.' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newAdmin = new Admin({
-            name, mobile, aadhar, gender, dob, email, address,
-            password: hashedPassword
+
+        const admin = new Admin({
+            name,
+            password: hashedPassword,
+            mobile,
+            email,
+            birthdate,
+            aadhar_number,
+            gender,
+            address,
+            city,
+            pincode
         });
 
-        await newAdmin.save();
-        return res.status(201).json({ success: true, message: 'Admin registered successfully.' });
-    } catch (err) {
-        console.error('Admin registration error:', err);
-        return res.status(500).json({ success: false, message: 'Server error' });
+        await admin.save();
+        res.status(201).json({ success: true, message: 'Admin registered successfully.' });
+    } catch (error) {
+        console.error('Register error:', error);
+        res.status(500).json({ success: false, message: 'Server error. Try again later.' });
     }
 });
 
@@ -199,7 +212,7 @@ router.get('/edit/:role', (req, res) => {
 router.get('/edit-fetch', async (req, res) => {
     const { role, keyword } = req.query;
     console.log("Admin.js ", role, keyword);
-    
+
     if (!role || !keyword || !['worker', 'client'].includes(role)) {
         return res.status(400).json({ message: 'Invalid request' });
     }
@@ -220,6 +233,28 @@ router.get('/edit-fetch', async (req, res) => {
     } catch (err) {
         console.error('Fetch Error:', err);
         return res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+// =================== VIEW WORKER'S DOCUMENTS FUNCTIONALITY =================== //
+router.get('/api/worker-docs', async (req, res) => {
+    const { keyword } = req.query;
+    if (!keyword) return res.status(400).json({ message: 'Keyword required' });
+
+    try {
+        const worker = await Worker.findOne({
+            $or: [
+                { phone: keyword },
+                { aadhar_number: keyword }
+            ]
+        });
+
+        if (!worker) return res.status(404).json({ message: 'Worker not found' });
+
+        return res.status(200).json(worker);
+    } catch (error) {
+        console.error('Worker Docs Error:', error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
 

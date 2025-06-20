@@ -42,7 +42,7 @@
                 <a href="#" class="nav-link"><i class="fas fa-id-badge"></i> Admin Profile</a>
                 <a href="#ViewAdmins" class="nav-link" id="viewAllAdminsBtn"><i class="fas fa-users"></i> View All
                     Admin</a>
-                <a href="#" class="nav-link"><i class="fas fa-user-plus"></i> Register Admin</a>
+                <a href="#registerAdmin" class="nav-link" id="registerAdminBtn"><i class="fas fa-user-plus"></i> Register Admin</a>
             </div>
 
             <!-- Worker Management -->
@@ -52,8 +52,9 @@
                     <i class="fas fa-users"></i> View All Workers</a>
                 <a href="#searchWorker" class="nav-link" id="searchWorkerBtn">
                     <i class="fas fa-search"></i> Search / Filter Workers</a>
-                <a href="#editDeleteWorker" class="nav-link" id="openEditWorker"><i class="fas fa-user-edit"></i> Edit / Delete Worker</a>
-                <a href="#" class="nav-link"><i class="fas fa-file-alt"></i> View Documents</a>
+                <a href="#editDeleteWorker" class="nav-link" id="openEditWorker"><i class="fas fa-user-edit"></i> Edit /
+                    Delete Worker</a>
+                <a href="#viewDocs" class="nav-link" id="viewDocumentsBtn"><i class="fas fa-file-alt"></i> View Documents</a>
             </div>
 
             <!-- Client Management -->
@@ -63,7 +64,8 @@
                     Clients</a>
                 <a href="#searchClient" class="nav-link" id="searchClientBtn">
                     <i class="fas fa-search"></i> Search / Filter Clients</a>
-                <a href="#editDeleteClient" class="nav-link" id="openEditClient"><i class="fas fa-user-edit"></i> Edit / Delete Client</a>
+                <a href="#editDeleteClient" class="nav-link" id="openEditClient"><i class="fas fa-user-edit"></i> Edit /
+                    Delete Client</a>
             </div>
 
             <!-- Logout -->
@@ -120,17 +122,34 @@
                 <canvas id="workerPieChart" data-categories='<%- JSON.stringify(workerCategories) %>'></canvas>
             </section>
 
-            <div id="adminContent" class="result-section">
+            <section id="adminContent" class="result-section">
                 <!-- Dynamic content from JS will be injected here -->
-                </section>
-                <br>
+            </section>
+
+            <!-- View Documents Modal -->
+            <div id="viewDocsModal" class="modal-overlay" style="display: none;">
+                <div class="modal-box">
+                    <span class="modal-close" id="closeViewDocs">&times;</span>
+                    <h2>View Worker Documents</h2>
+
+                    <form id="viewDocsForm">
+                        <input type="text" id="docSearchInput" placeholder="Enter Aadhar or Phone number" required />
+                        <button type="submit">Search</button>
+                    </form>
+
+                    <div id="docResult" class="doc-result">
+                        <!-- Result will appear here -->
+                    </div>
+                </div>
+            </div>
+
 
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/adminDashboard.js" defer></script>
-    
+
 </body>
 
 </html>

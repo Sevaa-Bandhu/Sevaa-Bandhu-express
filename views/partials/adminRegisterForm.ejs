@@ -1,0 +1,142 @@
+<link rel="stylesheet" href="/css/adminRegister.css">
+
+<div class="admin-register-form-container">
+    <h2>Register New Admin</h2>
+
+    <p id="adminRegisterMsg"></p>
+
+    <form id="adminRegisterForm">
+        <div class="form-grid">
+
+            <div>
+                <label>Name</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div>
+                <label>Mobile Number</label>
+                <input type="text" name="mobile" maxlength="10" required>
+            </div>
+
+            <div>
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div>
+                <label>Birthdate</label>
+                <input type="date" name="birthdate" required>
+            </div>
+
+            <div>
+                <label>Aadhar Number</label>
+                <input type="text" name="aadhar_number" maxlength="12" required>
+            </div>
+
+            <div>
+                <label>Gender</label>
+                <select name="gender" required>
+                    <option value="">Select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Address</label>
+                <textarea name="address" rows="2" required></textarea>
+            </div>
+
+            <div>
+                <label>City</label>
+                <input type="text" name="city" required>
+            </div>
+
+            <div>
+                <label>Pincode</label>
+                <input type="text" name="pincode" maxlength="6" required>
+            </div>
+
+            <div>
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit">Register</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('adminRegisterForm');
+        const msg = document.getElementById('adminRegisterMsg');
+
+        // Password validation function
+        function isStrongPassword(password) {
+            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+        }
+
+        // Age validation function
+        function isValidAge(birthdate) {
+            const dob = new Date(birthdate);
+            const ageDifMs = Date.now() - dob.getTime();
+            const ageDate = new Date(ageDifMs);
+            const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+            return age >= 18;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            msg.textContent = '';
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Client-side validation
+            if (!/^\d{10}$/.test(data.mobile)) {
+                msg.textContent = "Mobile number must be 10 digits.";
+                msg.style.color = 'red';
+                return;
+            }
+
+            if (!/^\d{12}$/.test(data.aadhar_number)) {
+                msg.textContent = "Aadhar number must be 12 digits.";
+                msg.style.color = 'red';
+                return;
+            }
+
+            if (!isStrongPassword(data.password)) {
+                msg.textContent = "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.";
+                msg.style.color = 'red';
+                return;
+            }
+
+            if (!isValidAge(data.birthdate)) {
+                msg.textContent = "Admin must be at least 18 years old.";
+                msg.style.color = 'red';
+                return;
+            }
+
+            // Send to server
+            try {
+                const res = await fetch('/admin/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+                msg.textContent = result.message;
+                msg.style.color = result.success ? 'green' : 'red';
+                if (result.success) form.reset();
+            } catch (err) {
+                msg.textContent = 'Registration failed. Try again.';
+                msg.style.color = 'red';
+                console.error(err);
+            }
+        });
+    });
+</script>
