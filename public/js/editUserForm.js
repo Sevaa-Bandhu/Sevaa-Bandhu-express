@@ -1,133 +1,119 @@
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("✅ editUserForm.js loaded");
-    
+function attachEditFormLogic() {
+    window.openDocumentPopup = function (aadhar) {
+        const modal = document.getElementById('viewDocsModal');
+        const input = document.getElementById('docSearchInput');
+        const form = document.getElementById('viewDocsForm');
+
+        if (!modal || !input || !form) return;
+
+        modal.style.display = 'flex';
+        input.value = aadhar;
+        form.dispatchEvent(new Event('submit'));
+    };
+
+    // Show Admin Message toast popup
+    function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    toast.textContent = message;
+    toast.className = `toast ${type} show`;
+
+    setTimeout(() => {
+        toast.className = toast.className.replace('show', '');
+    }, 3000);
+}
+
     const searchForm = document.getElementById('searchUserForm');
     const userForm = document.getElementById('editUserForm');
+    const docContainer = document.getElementById('docLinkContainer');
+
+    if (!searchForm || !userForm) return;
+
     const updateBtn = document.getElementById('updateBtn');
     const editBtn = document.getElementById('editToggleBtn');
     const deleteBtn = document.getElementById('deleteBtn');
 
-    if (!searchForm || !userForm) return;
-
-    function populateForm(user, role) {
-        userForm.reset();
-
-        const set = (name, value) => {
-            const el = userForm.querySelector(`[name="${name}"]`);
-            if (el) el.value = value || '';
-        };
-        set('id', user._id);
-        set('firstname', user.firstname);
-        set('lastname', user.lastname);
-        set('gender', user.gender);
-        set('birthdate', user.birthdate);
-        set('age', user.age);
-        set('phone', user.phone);
-        set('aadhar_number', user.aadhar_number);
-        set('email', user.email);
-        set('city', user.city);
-        set('state', user.state);
-        set('pincode', user.pincode);
-        set('address', user.address);
-        set('role', user.role);
-
-        if (role === 'worker') {
-            set('skillset', user.skillset);
-            set('experience', user.experience);
-            set('wages', user.wages);
-
-            const certLink = userForm.querySelector('a[href^="/uploads"], a[href^="http"]');
-            if (certLink && user.certificate) {
-                certLink.href = user.certificate;
-                certLink.textContent = 'View Certificate';
-            }
-
-            const photo = userForm.querySelector('img');
-            if (photo && user.userphoto) {
-                photo.src = user.userphoto;
-            }
-        }
-
-        // Make all fields readonly initially (except ID and role)
-        [...userForm.elements].forEach(el => {
-            if (el.name && !['role', 'id'].includes(el.name)) {
-                el.setAttribute('readonly', true);
-            }
-        });
-
-        updateBtn.style.display = 'none';
-    }
-
     searchForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log("Onsubmit");
+        const keyword = searchForm.keyword.value.trim();
+        const role = searchForm.dataset.role;
 
-        const keywordInput = searchForm.querySelector('[name="keyword"]');
-        const keyword = keywordInput.value.trim();
-        const role = searchForm.getAttribute('data-role');
-
-        if (!keyword || !role) return;
         try {
             const res = await fetch(`/admin/edit-fetch?role=${role}&keyword=${encodeURIComponent(keyword)}`);
-            if (!res.ok) {
-                alert("User not found.");
-                userForm.reset(); // clear form
-                return;
+            const data = await res.json();
+            if (!data || !data._id)
+                return showToast("User not found", 'error');
+
+            // Populate form fields
+            Object.entries(data).forEach(([key, value]) => {
+                // If key is _id, populate hidden 'id' input
+                if (key === '_id') {
+                    const idField = userForm.querySelector('[name="id"]');
+                    if (idField) idField.value = value;
+                } else {
+                    const field = userForm.querySelector(`[name="${key}"]`);
+                    if (field) field.value = value;
+                }
+            });
+
+            // Make all fields readonly again
+            [...userForm.elements].forEach(el => {
+                if (!['role', 'id'].includes(el.name)) el.setAttribute('readonly', true);
+            });
+
+            updateBtn.style.display = 'none';
+
+            // ✅ Insert View Documents Button
+            if (role === 'worker' && data.aadhar_number) {
+                docContainer.innerHTML = `
+                    <label>Documents</label><br>
+                    <button type="button" class="doc-btn" onclick="openDocumentPopup('${data.aadhar_number}')">
+                        View Uploaded Documents
+                    </button>
+                `;
+            } else {
+                docContainer.innerHTML = '';
             }
 
-            const user = await res.json();
-            populateForm(user, role);
         } catch (err) {
-            console.error("Fetch Error:", err);
+            showToast('Fetch failed', 'error');
+            console.error(err);
         }
     });
 
     editBtn?.addEventListener('click', () => {
         [...userForm.elements].forEach(el => {
-            if (el.name && !['role', 'id'].includes(el.name)) {
-                el.removeAttribute('readonly');
-            }
+            if (!['role', 'id'].includes(el.name)) el.removeAttribute('readonly');
         });
         updateBtn.style.display = 'inline-block';
     });
 
     userForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData(userForm);
-        const payload = Object.fromEntries(formData.entries());
-
-        try {
-            const res = await fetch('/admin/update-user', {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await res.json();
-            alert(result.message);
-        } catch (err) {
-            console.error("Update failed", err);
-        }
+        const payload = Object.fromEntries(new FormData(userForm).entries());
+        const res = await fetch('/admin/update-user', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        showToast(result.message, result.success ? 'success' : 'error');
     });
 
     deleteBtn?.addEventListener('click', async () => {
-        if (!confirm("Are you sure you want to delete this user?")) return;
+        if (!confirm("Are you sure?")) return;
+        const id = userForm.id.value;
+        const role = userForm.role.value;
 
-        const role = userForm.querySelector('[name="role"]').value;
-        const id = userForm.querySelector('[name="id"]').value;
+        const res = await fetch('/admin/delete-user', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, role })
+        });
 
-        try {
-            const res = await fetch('/admin/delete-user', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, role })
-            });
-
-            const result = await res.json();
-            alert(result.message);
-            userForm.reset(); // form stays visible but is cleared
-        } catch (err) {
-            console.error("Delete failed", err);
-        }
+        const result = await res.json();
+        showToast(result.message, result.success ? 'success' : 'error');
+        userForm.reset();
     });
-});
+}

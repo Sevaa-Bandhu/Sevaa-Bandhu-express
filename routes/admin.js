@@ -93,21 +93,23 @@ router.get('/register-form', (req, res) => {
     res.render('partials/adminRegisterForm');
 });
 
+// Handle registration
 router.post('/register', async (req, res) => {
-    console.log("🔐 Admin Registration Payload:", req.body);
     const {
         name, password, mobile, email, birthdate,
         aadhar_number, gender, address, city, pincode
     } = req.body;
 
     try {
+        // Check duplicates
         const exists = await Admin.findOne({ $or: [{ mobile }, { email }, { aadhar_number }] });
         if (exists) {
-            return res.status(400).json({ success: false, message: 'Admin already exists with provided details.' });
+            return res.status(400).json({ success: false, message: "Admin already exists." });
         }
 
+        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
-
+        // Save admin
         const admin = new Admin({
             name,
             password: hashedPassword,
@@ -120,12 +122,12 @@ router.post('/register', async (req, res) => {
             city,
             pincode
         });
-
         await admin.save();
-        res.status(201).json({ success: true, message: 'Admin registered successfully.' });
-    } catch (error) {
-        console.error('Register error:', error);
-        res.status(500).json({ success: false, message: 'Server error. Try again later.' });
+        return res.status(201).json({ success: true, message: "Admin registered successfully." });
+
+    } catch (err) {
+        console.error("Admin registration error:", err);
+        return res.status(500).json({ success: false, message: "Server error." });
     }
 });
 
@@ -217,7 +219,7 @@ router.get('/edit-fetch', async (req, res) => {
         return res.status(400).json({ message: 'Invalid request' });
     }
 
-    const Model = role === 'worker' ? require('../models/Worker') : require('../models/Client');
+    const Model = role === 'worker' ? Worker : Client;
 
     try {
         const user = await Model.findOne({
@@ -235,6 +237,43 @@ router.get('/edit-fetch', async (req, res) => {
         return res.status(500).json({ message: 'Server Error' });
     }
 });
+
+// Update user
+router.patch('/update-user', async (req, res) => {
+    const { id, role, ...updateData } = req.body;
+    if (!id || !role || !['worker', 'client'].includes(role)) {
+        return res.status(400).json({ message: 'Missing ID or Role' });
+    }
+
+    const Model = role === 'worker' ? Worker : Client;
+    try {
+        const updated = await Model.findByIdAndUpdate(id, updateData, { new: true });
+        if (!updated) return res.status(404).json({ message: 'User not found' });
+
+        res.json({ message: 'User updated successfully.' });
+    } catch (err) {
+        console.error("Update Error:", err);
+        res.status(500).json({ message: 'Update failed.' });
+    }
+});
+
+// Delete user
+router.delete('/delete-user', async (req, res) => {
+    const { id, role } = req.body;
+    if (!id || !role || !['worker', 'client'].includes(role)) {
+        return res.status(400).json({ message: 'Invalid delete request' });
+    }
+
+    const Model = role === 'worker' ? require('../models/Worker') : require('../models/Client');
+    try {
+        await Model.findByIdAndDelete(id);
+        return res.json({ success: true, message: 'User deleted successfully' });
+    } catch (err) {
+        console.error('Delete error:', err);
+        return res.status(500).json({ success: false, message: 'Delete failed' });
+    }
+});
+
 
 // =================== VIEW WORKER'S DOCUMENTS FUNCTIONALITY =================== //
 router.get('/api/worker-docs', async (req, res) => {

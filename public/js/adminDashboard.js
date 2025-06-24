@@ -196,7 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const script = document.createElement('script');
         script.src = '/js/editUserForm.js';
         script.defer = true;
+        script.onload = () => { attachEditFormLogic(); } // 🟢 manually initialize
         document.body.appendChild(script);
+        scrollToContent();
     });
 
     // Load Edit Form for Client
@@ -207,7 +209,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const script = document.createElement('script');
         script.src = '/js/editUserForm.js';
         script.defer = true;
+        script.onload = () => { attachEditFormLogic(); } // 🟢 manually initialize
         document.body.appendChild(script);
+        scrollToContent();
     });
 
     // VIEW DOCUMENTS POPUP
@@ -238,27 +242,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             docResult.innerHTML = `
-      <p><strong>Name:</strong> ${data.firstname} ${data.lastname}</p>
-      <p><strong>Aadhar Number:</strong> ${data.aadhar_number}</p>
-      <p><strong>Certificate:</strong><br>
-        ${data.certificate ? `<a href="${data.certificate}" target="_blank">View Certificate</a>` : 'N/A'}
-      </p>
-      <p><strong>User Photo:</strong><br>
-        ${data.userphoto ? `<img src="${data.userphoto}" alt="User Photo">` : 'N/A'}
-      </p>
-    `;
+        <p><strong>Name:</strong> ${data.firstname} ${data.lastname}</p>
+        <p><strong>Aadhar Number:</strong> ${data.aadhar_number}</p>
+        <p><strong>Certificate:</strong><br>
+            ${data.certificate ? `<a href="${data.certificate}" target="_blank">View Certificate</a>` : 'N/A'}
+        </p>
+        <p><strong>User Photo:</strong><br>
+            ${data.userphoto ? `<img src="${data.userphoto}" alt="User Photo">` : 'N/A'}
+        </p>
+        `;
         } catch (err) {
             docResult.innerHTML = `<p style="color: red;">Worker not found or error occurred.</p>`;
         }
     });
 
-    // New Admin registration
+    // Admin Registeration functionality
     document.getElementById('registerAdminBtn')?.addEventListener('click', async () => {
         const res = await fetch('/admin/register-form');
         const html = await res.text();
         document.getElementById('adminContent').innerHTML = html;
-        scrollToContent();
+
+        // Avoid adding the script multiple times
+    if (!document.querySelector('script[src="/js/adminRegister.js"]')) {
+        const script = document.createElement('script');
+        script.src = '/js/adminRegister.js';
+        script.defer = true;
+        document.body.appendChild(script);
+    }
     });
-
-
 });

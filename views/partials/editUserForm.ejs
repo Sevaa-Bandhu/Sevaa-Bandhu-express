@@ -2,7 +2,8 @@
 <script src="/js/editUserForm.js" defer></script>
 
 <div class="edit-user-form-container">
-    <h3>Edit / Delete <%= role.charAt(0).toUpperCase() + role.slice(1) %></h3>
+    <h3>Edit / Delete <%= role.charAt(0).toUpperCase() + role.slice(1) %>
+    </h3>
 
     <!-- Search Bar -->
     <form id="searchUserForm" data-role="<%= role %>">
@@ -26,16 +27,21 @@
             <div><label>City</label><input type="text" name="city" readonly /></div>
             <div><label>State</label><input type="text" name="state" readonly /></div>
             <div><label>Pincode</label><input type="text" name="pincode" readonly /></div>
+            <div><label>Role</label><input type="text" name="role" id="role" value="<%= role %>" readonly /></div>
             <div><label>Address</label><textarea name="address" rows="2" readonly></textarea></div>
-            <div><label>Role</label><input type="text" name="role" readonly /></div>
 
-            <% if (role === 'worker') { %>
-            <div><label>Skillset</label><input type="text" name="skillset" readonly /></div>
-            <div><label>Experience</label><input type="text" name="experience" readonly /></div>
-            <div><label>Wages</label><input type="text" name="wages" readonly /></div>
-            <div><label>Certificate</label><br /><a id="certLink" href="#" target="_blank">View</a></div>
-            <div><label>Photo</label><br /><img id="photoPreview" src="#" width="80" /></div>
-            <% } %>
+            <% if (role==='worker' ) { %>
+                <div><label>Skillset</label>
+                    <input type="text" name="skillset" readonly />
+                </div>
+                <div><label>Experience</label>
+                    <input type="text" name="experience" readonly />
+                </div>
+                <div><label>Wages</label>
+                    <input type="text" name="wages" readonly />
+                </div>
+                    <div id="docLinkContainer" class="doc-link-section"></div>
+                        <% } %>
         </div>
 
         <div class="form-actions">

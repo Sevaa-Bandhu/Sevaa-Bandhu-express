@@ -377,6 +377,38 @@ body {
     }
 }
 
+/* Toast Styles */
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 16px;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 30px;
+    font-size: 16px;
+    transition: all 0.4s ease;
+}
+
+.toast.show {
+    visibility: visible;
+    bottom: 50px;
+    opacity: 1;
+}
+
+.toast.success {
+    background-color: #28a745;
+}
+
+.toast.error {
+    background-color: #dc3545;
+}
+
 @media (max-width: 620px) {
     .dashboard-container {
         flex-direction: column;

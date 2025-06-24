@@ -13,13 +13,11 @@ const registerRouter = require('./routes/register');
 const profileRoutes = require('./routes/profile');
 const adminRoutes = require('./routes/admin');
 
-
 // Load environment variables
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI,)
@@ -34,6 +32,11 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
     cookie: { maxAge: 1000 * 60 * 60 * 12} // 12 hours
 }));
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // pass session to all views
 app.use((req, res, next) => {
@@ -53,11 +56,6 @@ app.use('/', registerRouter);
 app.use('/', profileRoutes);
 app.use('/admin', adminRoutes);
 
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-
 // load dynamic data from MongoDB
 app.get('/', async (req, res) => {
   const user = req.session.user || null;
@@ -65,4 +63,3 @@ app.get('/', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
-
