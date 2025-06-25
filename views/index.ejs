@@ -145,7 +145,8 @@
                     <div class="worker-card" data-firstname="<%= worker.firstname.toLowerCase() %>"
                         data-lastname="<%= worker.lastname.toLowerCase() %>"
                         data-skill="<%= worker.skillset.toLowerCase() %>" data-experience="<%= worker.experience %>"
-                        data-city="<%= worker.city.toLowerCase() %>" data-pincode="<%= worker.pincode.toLowerCase() || ''%>"
+                        data-city="<%= worker.city.toLowerCase() %>"
+                        data-pincode="<%= worker.pincode.toLowerCase() || ''%>"
                         data-state="<%= worker.state.toLowerCase() %>" data-gender="<%= worker.gender.toLowerCase() %>">
 
                         <img src="/images/labour-icon.png" alt="Worker Image" />
@@ -178,8 +179,11 @@
                             </p>
                         </div>
                     </div>
-
                     <% }) %>
+            </div>
+
+            <div class="pagination" id="paginationControls">
+                <!-- Pagination buttons will be generated dynamically -->
             </div>
         </section>
     </main>

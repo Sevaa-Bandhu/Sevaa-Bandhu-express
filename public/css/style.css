@@ -279,11 +279,20 @@ button.filter-btn:focus {
     transition: 0.3s ease-in-out;
     animation: pulse 2s infinite;
 }
+
 /* subtle animation */
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(211, 66, 90, 0.3); }
-  70% { box-shadow: 0 0 0 10px rgba(211, 66, 90, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(211, 66, 90, 0); }
+    0% {
+        box-shadow: 0 0 0 0 rgba(211, 66, 90, 0.3);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(211, 66, 90, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(211, 66, 90, 0);
+    }
 }
 
 .search-input:focus {
@@ -363,6 +372,33 @@ section.labour-cards-container p.title {
     margin: 3px 0;
     font-size: 1rem;
     color: var(--color55);
+}
+
+/* Pagination for worker cards */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #066471;
+    color: #f8f8f8;
+    border: none;
+    padding: 8px 15px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.pagination button.active {
+    background-color: #066471;
+    color: #f8f8f8;
+}
+
+.pagination button:hover {
+    background-color: #05434b;
+    color: #f8f8f8;
 }
 
 /* Media query for screen size < 620px */

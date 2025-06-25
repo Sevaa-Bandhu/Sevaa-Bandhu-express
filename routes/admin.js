@@ -326,6 +326,44 @@ router.get('/api/worker-docs', async (req, res) => {
 });
 
 // =================== Profile =================== //
+// View Admin Profile
+router.get('/profile', ensureAdmin, async (req, res) => {
+    try {
+        const admin = await Admin.findOne({ mobile: req.session.admin.mobile });
+        res.render('partials/adminProfile', { admin });
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
+});
+
+// ✔️ Profile update
+router.patch('/api/update-profile', ensureAdmin, async (req, res) => {
+    try {
+        const upd = await Admin.findOneAndUpdate(
+            { mobile: req.session.admin.mobile },
+            { address: req.body.address, city: req.body.city, pincode: req.body.pincode },
+            { new: true }
+        );
+        res.json({ success: true, message: 'Profile updated.' });
+    } catch {
+        res.json({ success: false, message: 'Failed to update.' });
+    }
+});
+
+// ✔️ Change password
+router.patch('/api/change-password', ensureAdmin, async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+    const admin = await Admin.findOne({ mobile: req.session.admin.mobile });
+    if (!admin) return res.json({ success: false, message: 'Unauthorized.' });
+
+    const match = await bcrypt.compare(currentPassword, admin.password);
+    if (!match) return res.json({ success: false, message: 'Incorrect current password.' });
+
+    const hash = await bcrypt.hash(newPassword, 10);
+    admin.password = hash;
+    await admin.save();
+    res.json({ success: true, message: 'Password changed.' });
+});
 
 
 module.exports = router;

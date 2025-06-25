@@ -2,55 +2,76 @@
 <script src="/js/adminProfile.js" defer></script>
 
 <div class="admin-profile-container">
-    <h2>My Profile</h2>
-
+    <h2>
+        <%= admin.name %>'s Profile
+    </h2>
     <form id="adminProfileForm">
-        <label>Name</label>
-        <input type="text" name="name" value="<%= admin.name %>" required>
-
-        <label>Mobile</label>
-        <input type="text" value="<%= admin.mobile %>" readonly>
-
-        <label>Email</label>
-        <input type="email" value="<%= admin.email %>" readonly>
-
-        <label>Aadhar</label>
-        <input type="text" value="<%= admin.aadhar_number %>" readonly>
-
-        <label>Gender</label>
-        <input type="text" value="<%= admin.gender %>" readonly>
-
-        <label>Birthdate</label>
-        <input type="text" value="<%= admin.birthdate %>" readonly>
-
-        <label>Address</label>
-        <textarea name="address" rows="2"><%= admin.address %></textarea>
-
-        <label>City</label>
-        <input type="text" name="city" value="<%= admin.city %>">
-
-        <label>Pincode</label>
-        <input type="text" name="pincode" value="<%= admin.pincode %>">
-
-        <button type="submit">Update Profile</button>
+        <div class="form-grid">
+            <div><label>Name</label><br />
+                <input type="text" name="name" value="<%= admin.name %>" required>
+            </div>
+            <div><label>Mobile</label><br />
+                <input type="text" value="<%= admin.mobile %>" readonly>
+            </div>
+            <div><label>Email</label><br />
+                <input type="email" value="<%= admin.email %>" readonly>
+            </div>
+            <div><label>Aadhar</label><br />
+                <input type="text" value="<%= admin.aadhar_number %>" readonly>
+            </div>
+            <div><label>Gender</label><br />
+                <input type="text" value="<%= admin.gender %>" readonly>
+            </div>
+            <div><label>Birthdate</label><br />
+                <input type="text" value="<%= admin.birthdate %>" readonly>
+            </div>
+            <div><label>Address</label><br />
+                <textarea name="address" rows="2"><%= admin.address %></textarea>
+            </div>
+            <div><label>City</label><br />
+                <input type="text" name="city" value="<%= admin.city %>">
+            </div>
+            <div><label>Pincode</label><br />
+                <input type="text" name="pincode" value="<%= admin.pincode %>">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit">Update Profile</button>
+        </div>
+        <p id="adminProfileMsg"></p>
     </form>
 
-    <button id="openPasswordModal" class="change-pass-btn">Change Password</button>
-
-    <p id="adminProfileMsg"></p>
-</div>
-
-<!-- Password Change Modal -->
-<div id="passwordModal" class="modal-overlay">
-    <div class="modal">
+    <!-- Change Password Section -->
+    <div class="password-section">
         <h3>Change Password</h3>
-        <form id="changePasswordForm">
-            <input type="password" name="currentPassword" placeholder="Current Password" required>
-            <input type="password" name="newPassword" placeholder="New Password" required>
-            <input type="password" name="confirmNewPassword" placeholder="Confirm New Password" required>
-            <button type="submit">Update Password</button>
-            <button type="button" id="cancelPasswordModal">Cancel</button>
+        <form id="changePasswordForm" class="form-grid">
+
+            <div>
+                <label>Current Password</label>
+                <input type="password" name="currentPassword" required>
+            </div>
+
+            <div>
+                <label>New Password</label>
+                <input type="password" name="newPassword" required>
+            </div>
+
+            <div>
+                <label>Confirm New Password</label>
+                <input type="password" name="confirmNewPassword" id="confirmNewPassword" required>
+            </div>
+
+            <div class="show-password-row">
+                <input type="checkbox" id="togglePassword">
+                <label for="togglePassword">Show Password</label>
+            </div>
+
+            <div class="form-actions" style="grid-column: span 2;">
+                <button type="submit">Update Password</button>
+            </div>
+
+            <p id="passwordMsg" style="grid-column: span 2;"></p>
         </form>
-        <p id="passwordMsg"></p>
     </div>
+
 </div>

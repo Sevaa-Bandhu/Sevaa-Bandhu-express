@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+.admin-profile-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.admin-profile-container h2 {
+    text-align: center;
+    color: #0b4a6b;
+    margin-bottom: 25px;
+}
+
+/* Profile & Password Forms */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.form-grid label {
+    font-size: 15px;
+    font-weight: 500;
+    color: #0b4a6b;
+}
+
+.form-grid input,
+.form-grid textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+textarea {
+    min-height: 60px;
+}
+
+.form-actions {
+    grid-column: span 2;
+    text-align: center;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    background-color: #0b4a6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-actions button:hover {
+    background-color: #066471;
+}
+
+#adminProfileMsg,
+#passwordMsg {
+    grid-column: span 2;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+    display: none;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+/* Password Section */
+.password-section {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.password-section h3 {
+    text-align: left;
+    color: #0b4a6b;
+    margin-bottom: 20px;
+}
+
+.password-section form label {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.show-password-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #053b50;
+    padding-left: 5px;
+}
+
+
+.show-password-row label {
+    font-size: 14px;
+    color: #053b50;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+
+
+@media (max-width: 650px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

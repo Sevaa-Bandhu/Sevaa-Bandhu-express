@@ -271,4 +271,21 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollToContent();
     }
     });
+
+    // Admin Profile functionality
+    document.getElementById('viewAdminProfile')?.addEventListener('click', async () => {
+    try {
+        const res = await fetch('/admin/profile');
+        const html = await res.text();
+        document.getElementById('adminContent').innerHTML = html;
+
+        const script = document.createElement('script');
+        script.src = '/js/adminProfile.js';
+        script.defer = true;
+        document.body.appendChild(script);
+        scrollToContent();
+    } catch (err) {
+        console.error("Failed to load admin profile", err);
+    }
+});
 });

@@ -2,7 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("workerSearch");
     const searchForm = document.getElementById("workerSearchForm");
     const filterButtons = document.querySelectorAll(".filter-btn");
-    const cards = document.querySelectorAll(".worker-card");
+    const cards = Array.from(document.querySelectorAll(".worker-card"));
+    const workerContainer = document.querySelector('.worker-container');
+    const pagination = document.getElementById('paginationControls');
 
     const suggestions = [
         "Search by worker name",
@@ -13,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let suggestionIndex = 0, charIndex = 0, typing = true;
     let currentText = "";
+    let currentPage = 1;
+    const cardsPerPage = 12;
 
     // Typing animation for placeholder
     function typeSuggestion() {
@@ -41,38 +45,60 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     typeSuggestion();
 
-    // Filter by skill button
+    // Display cards for current page
+    function displayPage(page, data = cards) {
+        const start = (page - 1) * cardsPerPage;
+        const end = start + cardsPerPage;
+
+        cards.forEach(card => card.style.display = 'none');
+        data.slice(start, end).forEach(card => card.style.display = 'flex');
+
+        renderPagination(data.length, page, data);
+    }
+
+    // Render pagination buttons
+    function renderPagination(totalItems, currentPage, data) {
+        const totalPages = Math.ceil(totalItems / cardsPerPage);
+        pagination.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement("button");
+            btn.textContent = i;
+            btn.className = i === currentPage ? "active" : "";
+            btn.addEventListener("click", () => {
+                currentPage = i;
+                displayPage(currentPage, data);
+            });
+            pagination.appendChild(btn);
+        }
+    }
+
+    // Skill filter button click
     filterButtons.forEach(btn => {
         btn.addEventListener("click", () => {
             const selectedSkill = btn.dataset.skill.toLowerCase();
 
-            // Clear search box
             input.value = "";
-
-            // Highlight active filter
             filterButtons.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
 
-            cards.forEach(card => {
-                const cardSkill = card.dataset.skill.toLowerCase();
-                if (selectedSkill === "all" || cardSkill === selectedSkill) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
+            const filtered = cards.filter(card =>
+                selectedSkill === "all" || card.dataset.skill === selectedSkill
+            );
+
+            currentPage = 1;
+            displayPage(currentPage, filtered);
         });
     });
 
-    // Filter by search
+    // Search form submission
     searchForm.addEventListener("submit", e => {
         e.preventDefault();
         const keyword = input.value.trim().toLowerCase();
 
-        // Remove active skill filter
         filterButtons.forEach(b => b.classList.remove("active"));
 
-        cards.forEach(card => {
+        const filtered = cards.filter(card => {
             const fields = [
                 card.dataset.firstname,
                 card.dataset.lastname,
@@ -84,9 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.dataset.gender
             ];
 
-            const matchFound = fields.some(field => field && field.includes(keyword));
-
-            card.style.display = matchFound ? "flex" : "none";
+            return fields.some(field => field && field.includes(keyword));
         });
+
+        currentPage = 1;
+        displayPage(currentPage, filtered);
     });
+
+    // Initial display of all cards
+    displayPage(currentPage, cards);
 });
