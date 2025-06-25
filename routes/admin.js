@@ -1,6 +1,7 @@
 // routes/admin.js
 const express = require('express');
 const router = express.Router();
+const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const Worker = require('../models/Worker');
 const Client = require('../models/Client');
@@ -87,8 +88,35 @@ router.get('/dashboard', ensureAdmin, async (req, res) => {
     }
 });
 
-// =================== REGISTRATION =================== //
+// ===================== Send OTP =====================//
+router.post('/send-otp', async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ success: false, message: "Email required" });
 
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            }
+        });
+
+        await transporter.sendMail({
+            from: `"Admin Panel" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "Admin Registration OTP",
+            text: `Your OTP For New Admin Registration is: ${otp}`
+        });
+        res.json({ success: true, otp }); // Only return OTP in dev mode
+    } catch (err) {
+        console.error("OTP Error:", err);
+        res.status(500).json({ success: false, message: "Failed to send OTP" });
+    }
+});
+
+// =================== REGISTRATION =================== //
 router.get('/register-form', (req, res) => {
     res.render('partials/adminRegisterForm');
 });
@@ -296,5 +324,8 @@ router.get('/api/worker-docs', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+// =================== Profile =================== //
+
 
 module.exports = router;

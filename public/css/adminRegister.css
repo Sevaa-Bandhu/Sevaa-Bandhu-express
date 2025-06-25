@@ -1,11 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
 .admin-register-form-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 30px auto;
     padding: 25px;
     border-radius: 10px;
     background-color: #f8f9fa;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
 }
 
 .admin-register-form-container h2 {
@@ -19,7 +21,7 @@
     text-align: center;
     margin-bottom: 15px;
     font-size: 15px;
-    transition: opacity 0.4s ease;
+    transition: all 0.3s ease;
 }
 
 form#adminRegisterForm {
@@ -30,7 +32,7 @@ form#adminRegisterForm {
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 20px;
+    gap: 25px;
 }
 
 .form-grid div {
@@ -47,12 +49,13 @@ form#adminRegisterForm {
 .form-grid input,
 .form-grid select,
 .form-grid textarea {
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 14px;
+    outline: none;
+    font-size: 15px;
     background-color: #fff;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .form-grid input:focus,
@@ -70,27 +73,30 @@ textarea {
     display: flex;
     justify-content: center;
     margin-top: 25px;
+    gap: 50px;
 }
 
-.form-actions button {
-    padding: 12px 25px;
+.form-actions button{
+    padding: 10px 20px;
     background-color: #007bff;
     border: none;
     color: white;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 15px;
     border-radius: 5px;
+    outline: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.form-actions button:hover {
+.form-actions button:hover{
     background-color: #0056b3;
 }
 
 @media (max-width: 600px) {
     .form-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
     }
 
     .admin-register-form-container {
@@ -99,5 +105,6 @@ textarea {
 
     .form-actions {
         flex-direction: column;
+        gap: 10px;
     }
 }

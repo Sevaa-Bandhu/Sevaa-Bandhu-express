@@ -268,6 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
         script.src = '/js/adminRegister.js';
         script.defer = true;
         document.body.appendChild(script);
+        scrollToContent();
     }
     });
 });
