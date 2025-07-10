@@ -69,11 +69,23 @@
 
         langSelector.addEventListener("change", function () {
             const selectedLang = this.value;
+            if (!selectedLang) return;
 
-            if (selectedLang) {
-                const newLang = `/en/${selectedLang}`;
-                document.cookie = `googtrans=${newLang}; path=/; domain=${location.hostname}`;
-                location.reload();
+            const newLang = `/en/${selectedLang}`;
+            document.cookie = `googtrans=${newLang}; path=/; domain=${location.hostname}`;
+
+            // Try reloading translate if iframe already loaded
+            if (typeof google !== 'undefined' && google.translate && google.translate.TranslateElement) {
+                const gtFrame = document.querySelector('.goog-te-banner-frame');
+                const translateEl = document.querySelector('.goog-te-combo');
+                if (translateEl) {
+                    translateEl.value = selectedLang;
+                    translateEl.dispatchEvent(new Event('change'));
+                } else {
+                    location.reload(); // fallback
+                }
+            } else {
+                location.reload(); // fallback for first load
             }
         });
 

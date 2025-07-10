@@ -189,7 +189,7 @@ body {
 
     .form-section {
         width: 100%;
-        padding: 10px;
+        padding: 10px 20px;
     }
 
     .input-group {
@@ -219,11 +219,7 @@ body {
         align-items: flex-start;
     }
 
-    .create-account-text {
-        font-size: 13px;
-    }
-
-    .create-account-text a.link {
-        font-size: 13px;
+    .create-account-text, .admin-redirect {
+        font-size: 14px;
     }
 }

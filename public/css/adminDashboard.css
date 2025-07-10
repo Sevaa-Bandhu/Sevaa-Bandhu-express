@@ -288,6 +288,7 @@ body {
 
 /* Modal overlay */
 .modal-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -416,6 +417,7 @@ body {
 
     .topbar-mobile {
         display: flex;
+        overflow-y: auto;
     }
 
     .sidebar {
